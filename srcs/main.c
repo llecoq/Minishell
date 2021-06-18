@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/18 15:26:17 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/18 17:30:29 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	main(int argc, char **argv, char **env)
 	if (argc == 1 && argv)                             // besoin de argv ?
 	{
 		store_environment(&shell, env);
-		prompt(&shell);
+		while (1)
+			prompt(&shell);
 	}
 	else
 		dprintf(1, "minishell : too many arguments\n");    // à changer
