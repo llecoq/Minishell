@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2021/06/18 15:26:09 by llecoq           ###   ########.fr       */
-=======
-/*   Updated: 2021/06/18 15:32:09 by abonnel          ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2021/06/18 15:47:14 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +46,18 @@ typedef int t_bool;
 ** utils
 */
 
-void		*ft_malloc(int size);
+void		*malloc_shell(t_shell *shell, int size);
 void		prompt(t_shell *shell);
 void		del(void *content);
 void		clear_memory(t_shell *shell);
+void		error(t_shell *shell, int error_type);
 
 /*
 ** parsing
 */
 
-int	store_environment(t_shell *shell, char **env);
-int	store_environment_tab(t_shell *shell, t_list *path, int len);
+int			store_environment(t_shell *shell, char **env);
+int			store_environment_tab(t_shell *shell, t_list *path, int len);
 t_token 	**tokenize(t_shell *shell, char **input);
-void		error_type(t_shell *shell, int error_type);
 
 #endif

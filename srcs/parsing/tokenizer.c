@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 15:25:45 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/18 15:47:34 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token	**tokenize(t_shell *shell, char **input)
 	cmd_array = NULL;
 	nb_of_cmds = count_commands(*input);
 	dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
-	cmd_array = ft_malloc(sizeof(t_token) * nb_of_cmds);
+	cmd_array = malloc_shell(shell, sizeof(t_token) * nb_of_cmds);
 	(void)shell;
 	return (cmd_array);
 }

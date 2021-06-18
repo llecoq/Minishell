@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	error_type(t_shell *shell, int error_type)
+void	error(t_shell *shell, int error_type)
 {
 	if (error_type == 0) //syscall errors
 		printf("%s\n", strerror(errno));
@@ -28,6 +28,6 @@ void	error_type(t_shell *shell, int error_type)
 	// 	dprintf(1, "");
 	// else if (error_type == 6)
 	// 	dprintf(1, "");
-	clean_memory(d);
+	clear_memory(shell);
 	//exit()??
 }

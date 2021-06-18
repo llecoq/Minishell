@@ -6,19 +6,17 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 14:08:02 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 14:56:21 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 15:46:13 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	*ft_malloc(int size)
+int	ft_malloc(void *ptr, int size)
 {
-	void	*ptr;
-	
 	ptr = malloc(size);
 	if (!ptr)
-		error(t_shell, 0);
+		return (0);
 	else
-		return (ptr);
+		return (1);
 }
