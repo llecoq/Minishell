@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   ft_free_set_null.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 13:49:03 by abonnel          ###   ########.fr       */
+/*   Created: 2021/06/18 13:27:24 by abonnel           #+#    #+#             */
+/*   Updated: 2021/06/18 13:28:20 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	tokenize(t_shell *shell, char *input)
+void	free_set_null(void **ptr)
 {
-	(void)shell;
-	if (!input)
-	{
-		free_set_null(&input);
-		return;
-	}
-
+	free(*ptr);
+	*ptr = NULL;
 }

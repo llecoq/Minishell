@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 15:19:21 by abonnel           #+#    #+#             */
-/*   Updated: 2021/05/06 13:18:03 by abonnel          ###   ########lyon.fr   */
+/*   Updated: 2021/06/18 13:28:57 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ int				hexa_len(unsigned long long nb);
 char			*ft_itoabase(unsigned long long nb, char *base);
 int				ft_malloc(void *ptr, int size);
 void			free_split(char **split);
+void			free_set_null(void **ptr);
 
 #endif
