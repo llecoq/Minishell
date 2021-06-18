@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/18 10:15:27 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 11:18:18 by abonnel          ###   ########.fr       */
+/*   Created: 2020/11/24 08:42:34 by abonnel           #+#    #+#             */
+/*   Updated: 2021/03/29 14:26:39 by abonnel          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-// t_cmd_array	**tokenize();
-
-int main()
+char	*ft_strrchr(const char *s, int c)
 {
-	printf("ici");
+	int			length;
+
+	length = 0;
+	while (s[length])
+		length++;
+	while (length >= 0)
+	{
+		if (s[length] == c)
+			return ((char *)s + length);
+		length--;
+	}
+	return (0);
 }

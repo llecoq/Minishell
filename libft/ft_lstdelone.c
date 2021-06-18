@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/18 10:15:27 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 11:18:18 by abonnel          ###   ########.fr       */
+/*   Created: 2020/12/01 10:45:01 by abonnel           #+#    #+#             */
+/*   Updated: 2021/03/29 14:03:16 by abonnel          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-// t_cmd_array	**tokenize();
-
-int main()
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	printf("ici");
+	if (!lst)
+		return ;
+	(*del)(lst->content);
+	free(lst);
 }

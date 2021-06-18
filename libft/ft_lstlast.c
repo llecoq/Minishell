@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/18 10:15:27 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 11:18:18 by abonnel          ###   ########.fr       */
+/*   Created: 2020/12/01 10:15:36 by abonnel           #+#    #+#             */
+/*   Updated: 2021/03/29 14:03:23 by abonnel          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-// t_cmd_array	**tokenize();
-
-int main()
+t_list	*ft_lstlast(t_list *lst)
 {
-	printf("ici");
+	if (lst)
+		while (lst->next)
+			lst = lst->next;
+	return (lst);
 }

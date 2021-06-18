@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/18 10:15:27 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 11:18:18 by abonnel          ###   ########.fr       */
+/*   Created: 2020/11/30 12:40:00 by abonnel           #+#    #+#             */
+/*   Updated: 2021/03/29 14:21:20 by abonnel          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-// t_cmd_array	**tokenize();
-
-int main()
+void	ft_putstr_fd(char *s, int fd)
 {
-	printf("ici");
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
 }

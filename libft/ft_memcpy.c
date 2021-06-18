@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/18 10:15:27 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 11:18:18 by abonnel          ###   ########.fr       */
+/*   Created: 2020/11/25 17:35:08 by abonnel           #+#    #+#             */
+/*   Updated: 2021/03/29 14:20:48 by abonnel          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-// t_cmd_array	**tokenize();
-
-int main()
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	printf("ici");
+	size_t		i;
+
+	i = 0;
+	if (!dst && !src)
+		return (dst);
+	while (i < n)
+	{
+		((char *)dst)[i] = ((char *)src)[i];
+		i++;
+	}
+	return (dst);
 }
