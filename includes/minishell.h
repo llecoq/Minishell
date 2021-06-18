@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/18 15:54:37 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 16:10:33 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void		*malloc_sh(t_shell *shell, int size);
 void		prompt(t_shell *shell);
 void		del(void *content);
 void		clear_memory(t_shell *shell);
+void		error_quit(t_shell *shell, int error_type);
 void		error(t_shell *shell, int error_type);
 
 /*

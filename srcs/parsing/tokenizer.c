@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 15:47:34 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 16:12:31 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ static int	count_commands(const char *input)
 	return (nb_of_cmds);
 }
 
+// void	split_into_tokens(t_token **cmd_array, const char *input)
+// {
+	
+// }
+
 t_token	**tokenize(t_shell *shell, char **input)
 {
 	int		nb_of_cmds;
@@ -44,10 +49,9 @@ t_token	**tokenize(t_shell *shell, char **input)
 	}
 	cmd_array = NULL;
 	nb_of_cmds = count_commands(*input);
-	dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
-	cmd_array = malloc_shell(shell, sizeof(t_token) * nb_of_cmds);
-	(void)shell;
+	// dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
+	cmd_array = malloc_sh(shell, sizeof(t_token) * nb_of_cmds);
+	//split_into_tokens(cmd_array, *input);
+	free(input);
 	return (cmd_array);
 }
-//creer fonction void *ft_malloc(int size);
-//qui fait appel a error
