@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/18 14:58:55 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 15:26:09 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,28 @@ typedef struct 	s_token
 typedef struct	s_shell
 {
 	char	*input; // readline
+	char	**env;
 	t_token **cmd_array;
 	t_list	*path;
 }				t_shell;
 
 typedef int t_bool;
 
-void		prompt(t_shell *shell);
-t_token 	**tokenize(t_shell *shell, char **input);
-
 /*
 ** utils
 */
 
 void		*ft_malloc(int size);
+void		prompt(t_shell *shell);
+void		del(void *content);
+void		clear_memory(t_shell *shell);
+
+/*
+** parsing
+*/
+
+int	store_environment(t_shell *shell, char **env);
+int	store_environment_tab(t_shell *shell, t_list *path, int len);
+t_token 	**tokenize(t_shell *shell, char **input);
 
 #endif

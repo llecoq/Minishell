@@ -6,20 +6,11 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/18 13:28:36 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/18 15:26:17 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	store_environment(t_shell *shell, char **env)
-{
-	while (*env)
-	{
-		ft_lstadd_back(&shell->path, ft_lstnew(*env));
-		env++;
-	}
-}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -32,5 +23,6 @@ int	main(int argc, char **argv, char **env)
 	}
 	else
 		dprintf(1, "minishell : too many arguments\n");    // à changer
+	clear_memory(&shell);
 	return 0;
 }

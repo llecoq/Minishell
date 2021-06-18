@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   del.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/01 10:45:01 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 15:05:03 by llecoq           ###   ########.fr       */
+/*   Created: 2021/06/18 14:10:53 by llecoq            #+#    #+#             */
+/*   Updated: 2021/06/18 15:06:51 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+void	del(void *content)
 {
-	if (!lst)
-		return ;
-	(*del)(lst->content);
-	free(lst);
+	char	*line;
+
+	line = (char *)content;
+	free(line);
+	line = NULL;
 }
