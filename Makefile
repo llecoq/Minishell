@@ -6,7 +6,7 @@
 #    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/18 15:46:37 by abonnel          ###   ########.fr        #
+#    Updated: 2021/06/18 15:54:44 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ SRCS_FILES	=	main.c\
 				parsing/tokenizer.c\
 				parsing/store_environment.c\
 				utils/prompt.c\
-				utils/malloc_shell.c\
+				utils/malloc_sh.c\
 				utils/clear_memory.c\
 				utils/del.c\
 				utils/error.c\
