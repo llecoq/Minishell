@@ -6,11 +6,11 @@
 #    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/18 13:54:17 by abonnel          ###   ########.fr        #
+#    Updated: 2021/06/18 14:58:49 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS_FILES	= parsing/tokenizer.c main.c utils/prompt.c
+SRCS_FILES	= parsing/tokenizer.c main.c utils/prompt.c utils/ft_malloc.c
 
 SRCSPATH= srcs/
 

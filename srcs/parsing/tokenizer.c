@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 14:43:51 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 14:58:06 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,19 @@ static int	count_commands(const char *input)
 t_token	**tokenize(t_shell *shell, char **input)
 {
 	int		nb_of_cmds;
+	t_token **cmd_array;
 
 	if (*input[0] == '\0')//if no input we receive a \0, no a \n
 	{
 		free_set_null((void **)input);
-		return;
+		return NULL;
 	}
+	cmd_array = NULL;
 	nb_of_cmds = count_commands(*input);
 	dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
-	
+	cmd_array = ft_malloc(sizeof(t_token) * nb_of_cmds);
 	(void)shell;
+	return (cmd_array);
 }
+//creer fonction void *ft_malloc(int size);
+//qui fait appel a error

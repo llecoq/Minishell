@@ -6,7 +6,7 @@
 #    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 10:45:55 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/18 13:28:48 by abonnel          ###   ########.fr        #
+#    Updated: 2021/06/18 14:53:06 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS	= ft_isalpha.c ft_toupper.c ft_tolower.c ft_isdigit.c ft_isalnum.c \
 		  ft_memchr.c ft_memcmp.c ft_strdup.c ft_calloc.c ft_substr.c \
 		  ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c \
 		  ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
-		  hexa_len.c ft_itoabase.c ft_malloc.c\
+		  hexa_len.c ft_itoabase.c \
 		  ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 		  ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
 		  ft_lstmap.c ft_split_free.c ft_free_set_null.c

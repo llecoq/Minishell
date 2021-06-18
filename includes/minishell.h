@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/18 14:44:04 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 14:58:55 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,11 @@ typedef int t_bool;
 
 void		prompt(t_shell *shell);
 t_token 	**tokenize(t_shell *shell, char **input);
+
+/*
+** utils
+*/
+
+void		*ft_malloc(int size);
 
 #endif
