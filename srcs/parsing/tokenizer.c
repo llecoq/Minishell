@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 16:12:31 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 16:25:06 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,22 @@ static int	count_commands(const char *input)
 	return (nb_of_cmds);
 }
 
-// void	split_into_tokens(t_token **cmd_array, const char *input)
-// {
-	
-// }
+void	split_into_tokens(t_token **cmd_array, const char *input)
+{
+	int		i;
+
+	i = 0;
+	while (input[i])
+	{
+		//add node
+		//count_char() between ' ', " and '
+		//malloc str
+		//copy string
+		
+		//cmd_array[i] = split_one_command(input);
+		i++;
+	}
+}
 
 t_token	**tokenize(t_shell *shell, char **input)
 {
@@ -50,8 +62,9 @@ t_token	**tokenize(t_shell *shell, char **input)
 	cmd_array = NULL;
 	nb_of_cmds = count_commands(*input);
 	// dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
-	cmd_array = malloc_sh(shell, sizeof(t_token) * nb_of_cmds);
-	//split_into_tokens(cmd_array, *input);
+	cmd_array = malloc_sh(shell, sizeof(t_token) * nb_of_cmds + 1);
+	cmd_array[nb_of_cmds] = NULL;
+	split_into_tokens(cmd_array, *input);
 	free(input);
 	return (cmd_array);
 }

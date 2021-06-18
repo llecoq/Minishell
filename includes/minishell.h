@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/18 16:10:33 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 16:28:53 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct	s_shell
 {
 	char	*input; // readline
 	char	**env;
-	t_token **cmd_array;
+	t_token **cmd_array; //last index is set to NULL;
 	t_list	*path;
 }				t_shell;
 
@@ -46,7 +46,7 @@ typedef int t_bool;
 ** utils
 */
 
-void		*malloc_sh(t_shell *shell, int size);
+void		*calloc_sh(t_shell *shell, int size);
 void		prompt(t_shell *shell);
 void		del(void *content);
 void		clear_memory(t_shell *shell);
