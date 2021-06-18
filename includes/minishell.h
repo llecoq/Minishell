@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/18 10:39:11 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/18 10:45:32 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct	s_path
 	char			*path;
 	struct s_token	*next;
 }				t_path;
-
 
 typedef struct	s_shell
 {
