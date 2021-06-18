@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/18 14:35:13 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 14:44:04 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ typedef struct 	s_token
 typedef struct	s_shell
 {
 	char	*input; // readline
-	t_token **s_cmd_array;
+	t_token **cmd_array;
 	t_list	*path;
 }				t_shell;
 
 typedef int t_bool;
 
-void	prompt(t_shell *shell);
-void	tokenize(t_shell *shell, char **input);
+void		prompt(t_shell *shell);
+t_token 	**tokenize(t_shell *shell, char **input);
 
 #endif

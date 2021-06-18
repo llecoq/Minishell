@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 14:36:33 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 14:43:51 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	count_commands(const char *input)
 	return (nb_of_cmds);
 }
 
-void	tokenize(t_shell *shell, char **input)
+t_token	**tokenize(t_shell *shell, char **input)
 {
 	int		nb_of_cmds;
 
@@ -42,5 +42,7 @@ void	tokenize(t_shell *shell, char **input)
 		return;
 	}
 	nb_of_cmds = count_commands(*input);
+	dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
+	
 	(void)shell;
 }
