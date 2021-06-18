@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/18 11:36:25 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 13:32:45 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <sys/errno.h>
 # include <stdlib.h>
+# include "../libft/libft.h"
 
 typedef struct 	s_token
 {
@@ -31,20 +32,13 @@ typedef struct 	s_token
 	struct s_token	*next;
 }				t_token;
 
-typedef struct	s_path
-{
-	char			*path;
-	struct s_token	*next;
-}				t_path;
-
 typedef struct	s_shell
 {
 	char	*input; // readline
 	t_token **s_cmd_array;
-	t_path	*path;
+	t_list	*path;
 }				t_shell;
 
-int main();
-void	hihi(void);
+void	prompt(t_shell *shell);
 
 #endif
