@@ -3,15 +3,21 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
+#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/18 15:25:22 by llecoq           ###   ########.fr        #
+#    Updated: 2021/06/18 15:33:42 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS_FILES	=	parsing/tokenizer.c main.c utils/prompt.c utils/ft_malloc.c\
-				utils/clear_memory.c utils/del.c parsing/store_environment.c\
+SRCS_FILES	= 	main.c \
+				parsing/tokenizer.c \
+				parsing/store_environment.c \
+				utils/prompt.c \
+				utils/ft_malloc.c \
+				utils/error.c
+				utils/clear_memory.c \
+				utils/del.c
 
 SRCSPATH= srcs/
 
