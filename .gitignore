@@ -1,2 +1,4 @@
 minishell
 .objs
+srcs/main_test_ariane.c
+a.out

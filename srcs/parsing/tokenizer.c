@@ -6,19 +6,41 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 13:53:56 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 14:36:33 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
-void	tokenize(t_shell *shell, char *input)
+static int	count_commands(const char *input)
 {
-	(void)shell;
-	if (!input)//if no input we receive a \0, no a \n
+	int		i;
+	int		nb_of_cmds;
+
+	i = 0;
+	nb_of_cmds = 1;
+	while (input[i])
 	{
-		free_set_null((void **)&input);
+		if (input[i] == '|' || input[i] == '>')
+		{
+			nb_of_cmds++;
+			if (input[i] == '>' && input[i + 1] == '>')
+				i++;
+		}
+		i++;
+	}
+	return (nb_of_cmds);
+}
+
+void	tokenize(t_shell *shell, char **input)
+{
+	int		nb_of_cmds;
+
+	if (*input[0] == '\0')//if no input we receive a \0, no a \n
+	{
+		free_set_null((void **)input);
 		return;
 	}
-
+	nb_of_cmds = count_commands(*input);
+	(void)shell;
 }
