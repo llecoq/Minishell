@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 16:25:06 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/18 16:32:44 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	split_into_tokens(t_token **cmd_array, const char *input)
 {
 	int		i;
 
+	(void)cmd_array;
 	i = 0;
 	while (input[i])
 	{
@@ -62,7 +63,7 @@ t_token	**tokenize(t_shell *shell, char **input)
 	cmd_array = NULL;
 	nb_of_cmds = count_commands(*input);
 	// dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
-	cmd_array = malloc_sh(shell, sizeof(t_token) * nb_of_cmds + 1);
+	cmd_array = calloc_sh(shell, sizeof(t_token) * nb_of_cmds + 1);
 	cmd_array[nb_of_cmds] = NULL;
 	split_into_tokens(cmd_array, *input);
 	free(input);
