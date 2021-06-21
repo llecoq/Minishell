@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
+#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/18 17:32:38 by llecoq           ###   ########.fr        #
+#    Updated: 2021/06/21 11:30:37 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS_FILES	=	main.c\
 				utils/clear_memory.c\
 				utils/del.c\
 				utils/error.c\
+				utils/token_list_functions.c
 				
 
 SRCSPATH= srcs/

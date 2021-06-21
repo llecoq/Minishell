@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/18 18:19:01 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/21 11:57:12 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,15 @@ void		error(t_shell *shell, int error_type);
 
 int			store_environment(t_shell *shell, char **env);
 int			store_environment_tab(t_shell *shell, t_list *path, int len);
-t_token 	**tokenize(t_shell *shell, char **input);
+t_token 	**tokenize(t_shell *shell, const char *input);
+
+/*
+ ** token_list_functions.c  
+ */
+
+t_token		*return_tail_token(t_token *token_lst);
+void		add_token_tail(t_token **head, t_token *new_token);
+t_token		*create_new_token(int token_len, t_shell *shell);
+
 
 #endif
