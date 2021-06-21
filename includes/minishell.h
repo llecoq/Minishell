@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/21 18:49:49 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/21 18:54:30 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void		error(t_shell *shell, int error_type);
 */
 
 int			store_environment(t_shell *shell, char **env);
-int			store_environment_tab(t_shell *shell, t_list *path, int len);
+void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 t_token 	**tokenize(t_shell *shell, const char *input);
 
 /*
