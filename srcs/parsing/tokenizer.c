@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/22 10:57:35 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/22 11:04:28 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,32 +68,30 @@ int	count_token_len(int i, const char *input)
 	return (i - start);
 }
 
-/*
-static void	split_into_tokens(t_token **cmd_array, const char *input, t_shell *shell)
-{
-	int		i;
-	int		j;
-	int		token_len;
 
-	i = 0;
-	j = 0;
-	while (input[i])
-	{
-		//SEULE ERREUR POSSIBLE : ne pas trouver le " ou ' suivant
-		//dans ce cas tout free y compris input
-		//renvoyer -1 a token_len
-		//token_len = count_char(start = i) between ' ', " and ', if > >> ou | rester sur ce char
-		token_len = count_token_len(i, input);
-		// if (token_len == -1)
-		// 	error();
-		//add_token_tail 
-		//copy string(start = i, end = token_len + i)
-		//i += token_len
-		//if input[i] = > ou >> ou | alors j++;
-	}
-	(void)cmd_array;
-	(void)shell;
-}*/
+// static void	split_into_tokens(t_token **cmd_array, const char *input, t_shell *shell)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		token_len;
+
+// 	i = 0;
+// 	j = 0;
+// 	while (input[i])
+// 	{
+// 		//SEULE ERREUR POSSIBLE : ne pas trouver le " ou ' suivant
+// 		//dans ce cas tout free y compris input
+// 		//renvoyer -1 a token_len
+// 		//token_len = count_char(start = i) between ' ', " and ', if > >> ou | rester sur ce char
+// 		token_len = count_token_len(i, input);
+// 		// if (token_len == -1)
+// 		// 	error();
+// 		//add_token_tail 
+// 		//copy string(start = i, end = token_len + i)
+// 		//i += token_len
+// 		//if input[i] = > ou >> ou | alors j++;
+// 	}
+// }
 
 t_token	**tokenize(t_shell *shell, const char *input)
 {

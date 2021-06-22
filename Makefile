@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
+#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/22 10:57:57 by abonnel          ###   ########.fr        #
+#    Updated: 2021/06/22 12:54:49 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,8 @@ DIR		=	.objs/parsing\
 $(OBJSPATH)%.o:		$(SRCSPATH)%.c includes/minishell.h libft/libft.h libft/libft.a
 			@mkdir -p $(OBJ_PATH) $(DIR)
 			$(CC) $(CFLAGS) -c $< -o $@ -I includes/ -I libft/ 
+
+
 #verify that libft include works no relink
 
 all:		previous $(NAME)

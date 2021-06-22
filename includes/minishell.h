@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/22 10:56:58 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/22 12:10:52 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <string.h>
 # include <sys/errno.h>
 # include <stdlib.h>
+# include <term.h>
+# include <curses.h>
 # include "../libft/libft.h"
 
 #define RESET   "\033[0m"
@@ -94,8 +96,8 @@ int	is_redirection(const char *str, int i);
 int	is_quote(const char c);
 
 /*
- ** token_list_functions.c  
- */
+** token_list_functions.c  
+*/
 
 t_token		*return_tail_token(t_token *token_lst);
 void		add_token_tail(t_token **head, t_token *new_token);
