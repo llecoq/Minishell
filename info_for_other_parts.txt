@@ -1,7 +1,19 @@
+MAIN -----------------------------------------
+create function initialize shell to put everything to NULL
+
 PARSER ----------------------------------------
 in case command is only spaces, in real bash it IS a command
 it does not return an error & you can search it through history
 so I did create a cmd_array for it
+
+-----------
+Check if after a redirection or pipe there is no next command
+bash-3.2$ ls -la | wc >
+bash: syntax error near unexpected token `newline'
+
+bash-3.2$ ls -la | wc |
+> bash: syntax error: unexpected end of file
+-------------
 
 EVALUATOR -------------------------------------
 

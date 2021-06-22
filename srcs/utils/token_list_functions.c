@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/22 11:34:25 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/22 17:07:05 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,30 @@ t_token	*create_new_token(char *token, t_shell *shell)
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!(new_token))
 		error_quit(shell, 0);
-	new_token->word = (char *)calloc(ft_strlen(token), sizeof(char));
+	new_token->word = ft_strdup(token);
 	if (!(new_token->word))
-		error_quit(shell, 0);
-	new_token->word = token;
+	 	error_quit(shell, 0);
 	new_token->next = NULL;
 	return (new_token);
-} // VERIFY THAT OUTSIDE OF THIS FUNCTION new_token->word is set
+}
+
+void	print_cmd_array(t_token **cmd_array)
+{
+	int				i;
+	int				x;
+	t_token			*cpy;
+
+	i = 0;
+	while (cmd_array[i])
+	{
+		cpy = cmd_array[i];
+		x = 0;
+		while (cpy)
+		{
+			dprintf(1, "cmd_array[%d], token n*%d = %s\n", i, x, cpy->word);
+			cpy = cpy->next;
+			x++;
+		}
+		i++;
+	}
+}

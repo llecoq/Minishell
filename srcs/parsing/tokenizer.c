@@ -6,13 +6,13 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/22 13:26:30 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/22 17:10:58 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h" //switch back to minishell.h only
 
-static int	count_commands(const char *input, t_shell *shell)
+static int	count_commands(const char *input)
 {
 	int		i;
 	int		nb_of_cmds;
@@ -22,28 +22,29 @@ static int	count_commands(const char *input, t_shell *shell)
 	nb_of_cmds = 1;
 	while (input[i])
 	{
-		if (is_redirection(input, i)) //input[i] == '|' || input[i] == '>')
+		if (is_redirection(input, i))
 		{
 			nb_of_cmds++;
 			if (is_redirection(input, i) == APPEND)
 				i++;
 		}
-		else if (is_quote(input[i])) //if quote looks for closing one
+		else if (is_quote(input[i]))
 		{
 			closing_quote = input[i];
 			i++;
 			while (input[i] != closing_quote && input[i])
 				i++;
 			if (!input[i])
-				error(shell, 1);
+				return (NO_CLOSING_QUOTE);
 		}
 		i++;
 	}
 	return (nb_of_cmds);
 }
 
-//We include the space after the closing quote except if it is the last token
-//We do that bc behaviour will differ : if there is no space between two quoted
+//We include the space char after the closing quote except if it is the 
+//last token. We do that bc behaviour will differ : 
+//if there is no space between two quoted
 //tokens then there will not be space between them when printed
 static char	*create_quoted_token(int i, const char *input, t_shell *shell)
 {
@@ -82,6 +83,7 @@ static char	*create_redirection_token(int i, const char *input, t_shell *shell)
 {
 	char	*token;
 	
+	token = NULL;
 	if (is_redirection(input, i) == PIPE)
 	{
 		token = calloc_sh(shell, 2);
@@ -116,7 +118,7 @@ static char	*return_token(int start, const char *input, t_shell *shell)
 	return (token);
 }
 
-static void	split_into_tokens(t_token **cmd_array, const char *input, t_shell *shell)
+static void	split_into_tokens(int nb_of_cmds, const char *input, t_shell *shell)
 {
 	int		i;
 	int		j;
@@ -124,38 +126,43 @@ static void	split_into_tokens(t_token **cmd_array, const char *input, t_shell *s
 
 	i = 0;
 	j = 0;
+	shell->cmd_array = calloc_sh(shell, sizeof(t_token) * nb_of_cmds + 1);
 	while (input[i])
 	{
 		while (input[i] == ' ' && input[i])
 			i++;
+		if (!input[i] && i != 0)
+			break;
 		token = return_token(i, input, shell);
-		dprintf(1, "token = %s|\n", token);
-		//add_token_tail(cmd_array[], create_new_token(token, shell))
-		i += ft_strlen(token);//verifier qu'on arrive bien juste APRES token
-		//if is_redirection(token_tail->word[0]), j++;
+		//dprintf(1, "token = %s|\n", token);
+		add_token_tail(&shell->cmd_array[j], create_new_token(token, shell));
+		i += ft_strlen(token);
+		if (is_redirection(return_tail_token(shell->cmd_array[j])->word, 0))
+			j++;
 		free_set_null((void **)&token);
 	}
-	(void)cmd_array;
-	(void)shell;
 }
 
-t_token	**tokenize(t_shell *shell, const char *input)
+//last cmd_array is set to NULL
+void	tokenize(t_shell *shell, const char *input)
 {
 	int		nb_of_cmds;
-	t_token **cmd_array;
 
-	if (input[0] == '\0')//if no input we receive a \0, not a \n
-		return NULL;
-	cmd_array = NULL;
-	nb_of_cmds = count_commands(input, shell);
+	if (input[0] == '\0')
+		return ;
+	nb_of_cmds = count_commands(input);
+	if (nb_of_cmds == NO_CLOSING_QUOTE)
+	{
+		error(shell, NO_CLOSING_QUOTE);
+		return ;
+	}
 	dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
-	//cmd + 1 so that last one is set to NULL
-	cmd_array = calloc_sh(shell, sizeof(t_token) * nb_of_cmds + 1);
-	//dprintf(1, "sizeof(token *) = %d sizeof(token) = %d\n", sizeof(t_token *), sizeof(t_token));
-	
-	split_into_tokens(cmd_array, input, shell);
+	split_into_tokens(nb_of_cmds, input, shell);
 	
 	//Free_set_null(input) in parent function bc input is const here
 	//&& only one free for null input or else
-	return (cmd_array);
+	//in mother function if cmd_array == NULL, go back to prompt
+	
+	print_cmd_array(shell->cmd_array); // A SUPPRIMER
+	//dprintf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);//verify that is null
 }

@@ -36,7 +36,7 @@ void	error(t_shell *shell, int error_type)
 {
 	if (error_type == 0) //syscall errors
 		printf("%s\n", strerror(errno));
-	else if (error_type == 1)
+	else if (error_type == NO_CLOSING_QUOTE)
 		dprintf(1, "minishell: unexpected EOF while looking for matching `''\n\
 		minishell: syntax error: unexpected end of file"); //!!alignement printf
 	// else if (error_type == 2)

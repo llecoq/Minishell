@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/22 13:24:16 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/22 17:05:55 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ enum	e_quotes
 	DBLE_QUOTE = 2,
 };
 
+enum	e_errors
+{
+	NO_CLOSING_QUOTE = -1,
+};
+
 
 /*
 ** UTILS ----------------------------------------------------------------
@@ -103,6 +108,7 @@ int			finished_by_spaces(const char *str);
 t_token		*return_tail_token(t_token *token_lst);
 void		add_token_tail(t_token **head, t_token *new_token);
 t_token		*create_new_token(char *token, t_shell *shell);
+void		print_cmd_array(t_token **cmd_array);
 
 /*
 ** ---------------------------------------------------------------- UTILS
@@ -114,7 +120,7 @@ t_token		*create_new_token(char *token, t_shell *shell);
 
 int			store_environment(t_shell *shell, char **env);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
-t_token 	**tokenize(t_shell *shell, const char *input);
+void		tokenize(t_shell *shell, const char *input);
 
 
 
