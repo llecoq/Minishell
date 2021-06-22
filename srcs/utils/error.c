@@ -36,8 +36,9 @@ void	error(t_shell *shell, int error_type)
 {
 	if (error_type == 0) //syscall errors
 		printf("%s\n", strerror(errno));
-	// else if (error_type == 1)
-	// 	dprintf(1, "");
+	else if (error_type == 1)
+		dprintf(1, "minishell: unexpected EOF while looking for matching `''\n\
+		minishell: syntax error: unexpected end of file"); //!!alignement printf
 	// else if (error_type == 2)
 	// 	dprintf(1, "");
 	// else if (error_type == 3)
@@ -48,5 +49,6 @@ void	error(t_shell *shell, int error_type)
 	// 	dprintf(1, "");
 	// else if (error_type == 6)
 	// 	dprintf(1, "");
+	dprintf(1, "\n");
 	clear_memory(shell);
 }

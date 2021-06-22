@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/21 18:54:30 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/22 10:56:58 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,22 @@ typedef struct	s_shell
 
 typedef int t_bool;
 
+enum	e_redirections
+{
+	PIPE = 1,
+	REDIR = 2,
+	APPEND = 3,
+};
+
+enum	e_quotes
+{
+	SINGLE_QUOTE = 1,
+	DBLE_QUOTE = 2,
+};
+
+
 /*
-** utils
+** UTILS ----------------------------------------------------------------
 */
 
 void		*calloc_sh(t_shell *shell, int size);
@@ -73,12 +87,11 @@ void		error_quit(t_shell *shell, int error_type);
 void		error(t_shell *shell, int error_type);
 
 /*
-** parsing
-*/
+ ** char_detection.c  
+ */
 
-int			store_environment(t_shell *shell, char **env);
-void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
-t_token 	**tokenize(t_shell *shell, const char *input);
+int	is_redirection(const char *str, int i);
+int	is_quote(const char c);
 
 /*
  ** token_list_functions.c  
@@ -87,6 +100,22 @@ t_token 	**tokenize(t_shell *shell, const char *input);
 t_token		*return_tail_token(t_token *token_lst);
 void		add_token_tail(t_token **head, t_token *new_token);
 t_token		*create_new_token(int token_len, t_shell *shell);
+
+/*
+** ---------------------------------------------------------------- UTILS
+*/
+
+/*
+** parsing
+*/
+
+int			store_environment(t_shell *shell, char **env);
+void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
+t_token 	**tokenize(t_shell *shell, const char *input);
+
+
+
+
 
 
 #endif

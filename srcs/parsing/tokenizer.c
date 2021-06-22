@@ -3,29 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/21 18:55:27 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/22 10:57:35 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h" //switch back to minishell.h only
 
-static int	count_commands(const char *input)
+static int	count_commands(const char *input, t_shell *shell)
 {
 	int		i;
 	int		nb_of_cmds;
+	char	closing_quote;
 
 	i = 0;
 	nb_of_cmds = 1;
 	while (input[i])
 	{
-		if (input[i] == '|' || input[i] == '>')
+		if (is_redirection(input, i)) //input[i] == '|' || input[i] == '>')
 		{
 			nb_of_cmds++;
-			if (input[i] == '>' && input[i + 1] == '>')
+			if (is_redirection(input, i) == APPEND)
 				i++;
+		}
+		else if (input[i] == '"' || input[i] == '\'') //if quote looks for closing one
+		{
+			closing_quote = input[i];
+			i++;
+			while (input[i] != closing_quote && input[i])
+				i++;
+			if (!input[i])
+				error(shell, 1);
 		}
 		i++;
 	}
@@ -58,7 +68,7 @@ int	count_token_len(int i, const char *input)
 	return (i - start);
 }
 
-
+/*
 static void	split_into_tokens(t_token **cmd_array, const char *input, t_shell *shell)
 {
 	int		i;
@@ -81,7 +91,9 @@ static void	split_into_tokens(t_token **cmd_array, const char *input, t_shell *s
 		//i += token_len
 		//if input[i] = > ou >> ou | alors j++;
 	}
-}
+	(void)cmd_array;
+	(void)shell;
+}*/
 
 t_token	**tokenize(t_shell *shell, const char *input)
 {
@@ -91,8 +103,8 @@ t_token	**tokenize(t_shell *shell, const char *input)
 	if (input[0] == '\0')//if no input we receive a \0, not a \n
 		return NULL;
 	cmd_array = NULL;
-	nb_of_cmds = count_commands(input);
-	// dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
+	nb_of_cmds = count_commands(input, shell);
+	dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
 	//cmd + 1 so that last one is set to NULL
 	cmd_array = calloc_sh(shell, sizeof(t_token) * nb_of_cmds + 1);
 	//dprintf(1, "sizeof(token *) = %d sizeof(token) = %d\n", sizeof(t_token *), sizeof(t_token));
