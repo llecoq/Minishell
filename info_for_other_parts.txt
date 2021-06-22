@@ -1,0 +1,10 @@
+PARSER ----------------------------------------
+in case command is only spaces, in real bash it IS a command
+it does not return an error & you can search it through history
+so I did create a cmd_array for it
+
+EVALUATOR -------------------------------------
+
+
+ECHO ----------------------------------------
+si echo "" il faudra print un espace

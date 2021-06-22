@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/22 11:04:28 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/22 13:26:30 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	count_commands(const char *input, t_shell *shell)
 			if (is_redirection(input, i) == APPEND)
 				i++;
 		}
-		else if (input[i] == '"' || input[i] == '\'') //if quote looks for closing one
+		else if (is_quote(input[i])) //if quote looks for closing one
 		{
 			closing_quote = input[i];
 			i++;
@@ -42,56 +42,102 @@ static int	count_commands(const char *input, t_shell *shell)
 	return (nb_of_cmds);
 }
 
-int	count_token_len(int i, const char *input)
+//We include the space after the closing quote except if it is the last token
+//We do that bc behaviour will differ : if there is no space between two quoted
+//tokens then there will not be space between them when printed
+static char	*create_quoted_token(int i, const char *input, t_shell *shell)
 {
 	int		start;
-	
+	char	closing_quote;
+	char	*token;
+
 	start = i;
-	//si on debute sur " ou '
-	if ((input[i] == '"' || input[i] == 39) && i == start)
-	{
-		while (input[i] != '"' && input[i] != 39 && input[i])
-			i++;
-		if (!input[i])
-			return (-1); //error, didn't find closing " or '
-		else
-			return (i - start);
-	}
-	while (input[i])
-	{
-		//!! a corriger, si on commence sur un des char stoppants 
-		//alors on ne va pas avancer ++ ! au cas particulier >>
-		if (input[i] == ' ' || input[i] == '>' || input[i] == '|' || input[i] == '"' || input[i] == 39) //create enum for those chars
-			break;
+	closing_quote = input[i];
+	i++;
+	while (input[i] != closing_quote && input[i])
 		i++;
-	}
-	return (i - start);
+	//if !input[i] --> ne devrait pas arriver
+	if (!(finished_by_spaces(input + i + 1)) && input[i + 1] == ' ')
+		i++;
+	token = (char *)calloc_sh(shell, sizeof(char) * (i - start + 2));
+	ft_strlcpy(token, input + start, i - start + 2);
+	return (token);
 }
 
+static char	*create_word_token(int i, const char *input, t_shell *shell)
+{
+	int		start;
+	char	*token;
+	
+	start = i;
+	// dprintf(1, "input[start] == %c\n", input[start]);
+	while (!(is_quote(input[i]) || is_redirection(input, i) || input[i] == ' ') && input[i])
+		i++;
+	token = (char *)calloc_sh(shell, sizeof(char) * (i - start + 1));
+	ft_strlcpy(token, input + start, i - start + 1);
+	return (token);
+}
 
-// static void	split_into_tokens(t_token **cmd_array, const char *input, t_shell *shell)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		token_len;
+static char	*create_redirection_token(int i, const char *input, t_shell *shell)
+{
+	char	*token;
+	
+	if (is_redirection(input, i) == PIPE)
+	{
+		token = calloc_sh(shell, 2);
+		token[0] = '|';
+	}
+	else if (is_redirection(input, i) == APPEND)
+	{
+		token = calloc_sh(shell, 3);
+		token[0] = '>';
+		token[1] = '>';
+	}
+	else if (is_redirection(input, i) == REDIR)
+	{
+		token = calloc_sh(shell, 2);
+		token[0] = '>';
+	}
+	return (token);	
+}
 
-// 	i = 0;
-// 	j = 0;
-// 	while (input[i])
-// 	{
-// 		//SEULE ERREUR POSSIBLE : ne pas trouver le " ou ' suivant
-// 		//dans ce cas tout free y compris input
-// 		//renvoyer -1 a token_len
-// 		//token_len = count_char(start = i) between ' ', " and ', if > >> ou | rester sur ce char
-// 		token_len = count_token_len(i, input);
-// 		// if (token_len == -1)
-// 		// 	error();
-// 		//add_token_tail 
-// 		//copy string(start = i, end = token_len + i)
-// 		//i += token_len
-// 		//if input[i] = > ou >> ou | alors j++;
-// 	}
-// }
+static char	*return_token(int start, const char *input, t_shell *shell)
+{
+	char	*token;
+	
+	if (input[start] == '\0')
+		return (calloc_sh(shell, 1));
+	else if (is_quote(input[start]))
+		token = create_quoted_token(start, input, shell);
+	else if (is_redirection(input, start))
+		token = create_redirection_token(start, input, shell);
+	else
+		token = create_word_token(start, input, shell);
+	return (token);
+}
+
+static void	split_into_tokens(t_token **cmd_array, const char *input, t_shell *shell)
+{
+	int		i;
+	int		j;
+	char	*token;
+
+	i = 0;
+	j = 0;
+	while (input[i])
+	{
+		while (input[i] == ' ' && input[i])
+			i++;
+		token = return_token(i, input, shell);
+		dprintf(1, "token = %s|\n", token);
+		//add_token_tail(cmd_array[], create_new_token(token, shell))
+		i += ft_strlen(token);//verifier qu'on arrive bien juste APRES token
+		//if is_redirection(token_tail->word[0]), j++;
+		free_set_null((void **)&token);
+	}
+	(void)cmd_array;
+	(void)shell;
+}
 
 t_token	**tokenize(t_shell *shell, const char *input)
 {
@@ -106,10 +152,10 @@ t_token	**tokenize(t_shell *shell, const char *input)
 	//cmd + 1 so that last one is set to NULL
 	cmd_array = calloc_sh(shell, sizeof(t_token) * nb_of_cmds + 1);
 	//dprintf(1, "sizeof(token *) = %d sizeof(token) = %d\n", sizeof(t_token *), sizeof(t_token));
-	//split_into_tokens(cmd_array, *input, shell);
 	
-	//Free in parent function bc input is const here
+	split_into_tokens(cmd_array, input, shell);
+	
+	//Free_set_null(input) in parent function bc input is const here
 	//&& only one free for null input or else
-	//free_set_null(input); 
 	return (cmd_array);
 }

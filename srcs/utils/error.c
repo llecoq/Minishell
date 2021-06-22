@@ -51,4 +51,5 @@ void	error(t_shell *shell, int error_type)
 	// 	dprintf(1, "");
 	dprintf(1, "\n");
 	clear_memory(shell);
+	//must stop current command and go back to prompt
 }

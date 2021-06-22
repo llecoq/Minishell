@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/22 12:10:52 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/22 13:24:16 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,9 @@ void		error(t_shell *shell, int error_type);
  ** char_detection.c  
  */
 
-int	is_redirection(const char *str, int i);
-int	is_quote(const char c);
+int			is_redirection(const char *str, int i);
+int			is_quote(const char c);
+int			finished_by_spaces(const char *str);
 
 /*
 ** token_list_functions.c  
@@ -101,7 +102,7 @@ int	is_quote(const char c);
 
 t_token		*return_tail_token(t_token *token_lst);
 void		add_token_tail(t_token **head, t_token *new_token);
-t_token		*create_new_token(int token_len, t_shell *shell);
+t_token		*create_new_token(char *token, t_shell *shell);
 
 /*
 ** ---------------------------------------------------------------- UTILS

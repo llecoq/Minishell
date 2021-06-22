@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 10:40:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/22 10:54:57 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/22 13:07:49 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,17 @@ int	is_quote(const char c)
 		return (SINGLE_QUOTE);
 	else if (c == '"')
 		return (DBLE_QUOTE);
+	return (0);
+}
+
+int	finished_by_spaces(const char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i] == ' ' && str[i])
+		i++;
+	if (!str[i])
+		return (1);
 	return (0);
 }
