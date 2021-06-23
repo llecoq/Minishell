@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/23 10:25:10 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/23 11:26:26 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h" //switch back to minishell.h only
+#include "minishell.h"
 
 static int	count_commands(const char *input)
 {
@@ -143,7 +143,7 @@ static void	split_into_tokens(int nb_of_cmds, const char *input, t_shell *shell)
 	}
 }
 
-//last cmd_array is set to NULL
+//Adds one extra cmd_array that is set to NULL for easier iterations
 void	tokenize(t_shell *shell, const char *input)
 {
 	int		nb_of_cmds;
@@ -158,10 +158,6 @@ void	tokenize(t_shell *shell, const char *input)
 	}
 	dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
 	split_into_tokens(nb_of_cmds, input, shell);
-	
-	//Free_set_null(input) in parent function bc input is const here
-	//&& only one free for null input or else
-	//in mother function if cmd_array == NULL, go back to prompt
 	
 	print_cmd_array(shell->cmd_array); // A SUPPRIMER
 	//dprintf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);//verify that is null

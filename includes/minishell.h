@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/23 10:23:33 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/23 11:25:50 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct	s_shell
 	char	**env_tab;
 	t_list	*env_list;
 	t_list	*path;
-	t_token **cmd_array; //last index is set to NULL;
+	t_token **cmd_array; //last cmd_array is set to NULL;
 }				t_shell;
 
 typedef int t_bool;
