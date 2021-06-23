@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/21 19:15:23 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/22 14:18:15 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void	store_environment_list(t_shell *shell, char **env)
 		ft_lstadd_back(&shell->env_list, ft_lstnew(ft_strdup(*env++)));
 }
 
+// store the environment in a tab, by sending it a linked list.
+// if the tab is already existing, it will free it then create a new one
+// (to be used any time any time an export / unset is called)
 void	store_environment_tab(t_shell *shell, t_list *env_list, int len)
 {
 	if (shell->env_tab)

@@ -6,22 +6,22 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:54:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/22 13:20:19 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/22 14:59:02 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void    sig_handler(int signum)
-// {
-//     if (signum == SIGINT)
-//     {
-//         // printf("\n");
-//         rl_on_new_line();
-//         rl_replace_line("", 0);
-//         rl_redisplay();
-//     }
-// }
+void    sig_handler(int signum)
+{
+    if (signum == SIGINT)
+    {
+        // printf("\n");
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+    }
+}
 
 char	*format_and_add_colors(char *user, char *directory)
 {
@@ -85,7 +85,7 @@ void	prompt(t_shell *shell)
 	shell->input = readline(user_dir);
 	if (*shell->input)
 		add_history(shell->input);
-	// signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
 	free(shell->input);
 	free(user_dir);
 	// gerer l'history pour ne pas qu'il ecrase le user et path

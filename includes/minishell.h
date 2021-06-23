@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/22 13:24:16 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/23 10:17:30 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <stdio.h>
+# include "readline/8.1/include/readline/readline.h"
+# include "readline/8.1/include/readline/history.h"
+// # include <readline/readline.h>
+# include <readline/history.h>
 # include <sys/wait.h>
 # include <signal.h>
 # include <unistd.h>

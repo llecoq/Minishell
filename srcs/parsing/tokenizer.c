@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/22 13:26:30 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/22 15:00:24 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,28 +78,28 @@ static char	*create_word_token(int i, const char *input, t_shell *shell)
 	return (token);
 }
 
-static char	*create_redirection_token(int i, const char *input, t_shell *shell)
-{
-	char	*token;
+// static char	*create_redirection_token(int i, const char *input, t_shell *shell)
+// {
+// 	char	*token;
 	
-	if (is_redirection(input, i) == PIPE)
-	{
-		token = calloc_sh(shell, 2);
-		token[0] = '|';
-	}
-	else if (is_redirection(input, i) == APPEND)
-	{
-		token = calloc_sh(shell, 3);
-		token[0] = '>';
-		token[1] = '>';
-	}
-	else if (is_redirection(input, i) == REDIR)
-	{
-		token = calloc_sh(shell, 2);
-		token[0] = '>';
-	}
-	return (token);	
-}
+// 	if (is_redirection(input, i) == PIPE)
+// 	{
+// 		token = calloc_sh(shell, 2);
+// 		token[0] = '|';
+// 	}
+// 	else if (is_redirection(input, i) == APPEND)
+// 	{
+// 		token = calloc_sh(shell, 3);
+// 		token[0] = '>';
+// 		token[1] = '>';
+// 	}
+// 	else if (is_redirection(input, i) == REDIR)
+// 	{
+// 		token = calloc_sh(shell, 2);
+// 		token[0] = '>';
+// 	}
+// 	return (token);	
+// }
 
 static char	*return_token(int start, const char *input, t_shell *shell)
 {
@@ -109,8 +109,8 @@ static char	*return_token(int start, const char *input, t_shell *shell)
 		return (calloc_sh(shell, 1));
 	else if (is_quote(input[start]))
 		token = create_quoted_token(start, input, shell);
-	else if (is_redirection(input, start))
-		token = create_redirection_token(start, input, shell);
+	// else if (is_redirection(input, start))
+	// 	token = create_redirection_token(start, input, shell);
 	else
 		token = create_word_token(start, input, shell);
 	return (token);
