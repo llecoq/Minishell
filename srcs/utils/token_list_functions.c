@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/22 17:07:05 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/23 11:53:19 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	print_cmd_array(t_token **cmd_array)
 		x = 0;
 		while (cpy)
 		{
-			dprintf(1, "cmd_array[%d], token n*%d = %s\n", i, x, cpy->word);
+			dprintf(1, "cmd[%d], token n*%d = |%s|\n", i, x, cpy->word);
 			cpy = cpy->next;
 			x++;
 		}
