@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/23 10:17:30 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/23 10:23:33 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdio.h>
 # include "readline/8.1/include/readline/readline.h"
 # include "readline/8.1/include/readline/history.h"
-// # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <signal.h>
@@ -78,6 +77,11 @@ enum	e_quotes
 	DBLE_QUOTE = 2,
 };
 
+enum	e_errors
+{
+	NO_CLOSING_QUOTE = -1,
+};
+
 
 /*
 ** UTILS ----------------------------------------------------------------
@@ -105,6 +109,7 @@ int			finished_by_spaces(const char *str);
 t_token		*return_tail_token(t_token *token_lst);
 void		add_token_tail(t_token **head, t_token *new_token);
 t_token		*create_new_token(char *token, t_shell *shell);
+void		print_cmd_array(t_token **cmd_array);
 
 /*
 ** ---------------------------------------------------------------- UTILS
@@ -116,7 +121,7 @@ t_token		*create_new_token(char *token, t_shell *shell);
 
 int			store_environment(t_shell *shell, char **env);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
-t_token 	**tokenize(t_shell *shell, const char *input);
+void		tokenize(t_shell *shell, const char *input);
 
 
 
