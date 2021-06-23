@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/23 11:25:50 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/23 12:00:16 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ typedef struct	s_shell
 {
 	char	*input; // readline
 	char	**env_tab;
+	char	*user_dir;
 	t_list	*env_list;
 	t_list	*path;
 	t_token **cmd_array; //last cmd_array is set to NULL;
+	int		change_directory;
 }				t_shell;
 
 typedef int t_bool;
@@ -93,6 +95,7 @@ void		del(void *content);
 void		clear_memory(t_shell *shell);
 void		error_quit(t_shell *shell, int error_type);
 void		error(t_shell *shell, int error_type);
+void		sig_handler(int signum);
 
 /*
  ** char_detection.c  
