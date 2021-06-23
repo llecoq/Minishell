@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:54:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/23 10:22:25 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/23 10:32:09 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	prompt(t_shell *shell)
 	shell->input = readline(user_dir);
 	if (*shell->input)
 		add_history(shell->input);
-	signal(SIGINT, sig_handler);
+	// signal(SIGINT, sig_handler);
 	free(shell->input);
 	free(user_dir);
 	// gerer l'history pour ne pas qu'il ecrase le user et path
