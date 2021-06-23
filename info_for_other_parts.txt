@@ -15,6 +15,8 @@ bash-3.2$ ls -la | wc |
 > bash: syntax error: unexpected end of file
 -------------
 
+Remove "" ' and instead create flag? for easier printing later ?
+
 EVALUATOR -------------------------------------
 
 
