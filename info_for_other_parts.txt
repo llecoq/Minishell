@@ -16,6 +16,7 @@ Remove "" ' and instead create flag? for easier printing later ?
 
 EVALUATOR -------------------------------------
 
+Token avec espace a la fin ?
 
 ECHO ----------------------------------------
 si echo "" il faudra print un espace

@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/23 12:19:42 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/23 16:13:36 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void		*calloc_sh(t_shell *shell, int size);
 void		prompt(t_shell *shell);
 void		del(void *content);
 void		clear_memory(t_shell *shell);
+void		free_cmd_array(t_token **cmd_array);
 void		error_quit(t_shell *shell, int error_type);
 void		error(t_shell *shell, int error_type);
 void		sig_handler(int signum);
