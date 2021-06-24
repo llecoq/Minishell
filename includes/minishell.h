@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/23 15:57:50 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/24 15:40:10 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void		*calloc_sh(t_shell *shell, int size);
 void		prompt(t_shell *shell);
 void		del(void *content);
 void		clear_memory(t_shell *shell);
+void		free_cmd_array(t_token **cmd_array);
 void		error_quit(t_shell *shell, int error_type);
 void		error(t_shell *shell, int error_type);
 void		sig_handler(int signum);

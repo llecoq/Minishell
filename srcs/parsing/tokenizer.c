@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/23 12:00:40 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/23 16:28:59 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,38 +42,29 @@ static int	count_commands(const char *input)
 	return (nb_of_cmds);
 }
 
-//We include the space char after the closing quote except if it is the 
-//last token. We do that bc behaviour will differ : 
-//if there is no space between two quoted
-//tokens then there will not be space between them when printed
-static char	*create_quoted_token(int i, const char *input, t_shell *shell)
-{
-	int		start;
-	char	closing_quote;
-	char	*token;
-
-	start = i;
-	closing_quote = input[i];
-	i++;
-	while (input[i] != closing_quote && input[i])
-		i++;
-	//if !input[i] --> ne devrait pas arriver
-	if (!(finished_by_spaces(input + i + 1)) && input[i + 1] == ' ')
-		i++;
-	token = (char *)calloc_sh(shell, sizeof(char) * (i - start + 2));
-	ft_strlcpy(token, input + start, i - start + 2);
-	return (token);
-}
-
+//Tokens are separated by space except when in quotes :
+// Ici"la lune"la   -> is only one token
 static char	*create_word_token(int i, const char *input, t_shell *shell)
 {
 	int		start;
 	char	*token;
+	char	closing_quote;
 	
 	start = i;
-	// dprintf(1, "input[start] == %c\n", input[start]);
-	while (!(is_quote(input[i]) || is_redirection(input, i) || input[i] == ' ') && input[i])
+	//dprintf(1, "input[start] == %c\n", input[start]);
+	while (input[i])
+	{	
+		if (is_quote(input[i]))
+		{
+			closing_quote = input[i];
+			i++;
+			while (input[i] != closing_quote && input[i])
+				i++;
+		}
+		if (input[i] == ' ')
+			break;
 		i++;
+	}
 	token = (char *)calloc_sh(shell, sizeof(char) * (i - start + 1));
 	ft_strlcpy(token, input + start, i - start + 1);
 	return (token);
@@ -109,8 +100,6 @@ static char	*return_token(int start, const char *input, t_shell *shell)
 	
 	if (input[start] == '\0')
 		return (calloc_sh(shell, 1));
-	else if (is_quote(input[start]))
-		token = create_quoted_token(start, input, shell);
 	else if (is_redirection(input, start))
 		token = create_redirection_token(start, input, shell);
 	else
@@ -149,6 +138,8 @@ void	tokenize(t_shell *shell, const char *input)
 	int		nb_of_cmds;
 
 	if (input[0] == '\0')
+		return ;
+	if (finished_by_spaces(input))
 		return ;
 	nb_of_cmds = count_commands(input);
 	if (nb_of_cmds == NO_CLOSING_QUOTE)

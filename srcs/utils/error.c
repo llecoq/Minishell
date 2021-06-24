@@ -50,6 +50,7 @@ void	error(t_shell *shell, int error_type)
 	// else if (error_type == 6)
 	// 	dprintf(2, "");
 	dprintf(2, "\n");
-	clear_memory(shell);
+	//clear_memory(shell); ->on souhaite continuer le programme
 	//must stop current command and go back to prompt
+	(void)shell;
 }
