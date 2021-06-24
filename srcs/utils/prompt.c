@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:54:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/23 12:12:23 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/24 13:58:13 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*format_and_add_colors(char *user, char *directory)
 	return (formated_line);
 }
 
-void	get_path(char **directory, const char *path)
+void	get_directory(char **directory, const char *path)
 {
 	while (*path)
 		path++;
@@ -61,7 +61,7 @@ void	get_user_dir(t_shell *shell)
 	path = NULL;
 	user = getenv("USER");
 	path = getcwd(NULL, 0);
-	get_path(&directory, path);
+	get_directory(&directory, path);
 	shell->user_dir = format_and_add_colors(user, directory);
 	shell->change_directory = 0;
 	free(path);
@@ -69,12 +69,13 @@ void	get_user_dir(t_shell *shell)
 
 void	prompt(t_shell *shell)
 {
+	signal(SIGINT, sig_handler);  // control C
+	signal(SIGQUIT, sig_handler);  // control + '\'
 	if (shell->change_directory == 1)
 		get_user_dir(shell);
 	shell->input = readline(shell->user_dir);
-	signal(SIGINT, sig_handler);
+	if (!shell->input)   // control + D flush stdin et pointe sur NULL
+		ft_exit(shell, 1);
 	if (*shell->input)
 		add_history(shell->input);
-	// signal(SIGINT, sig_handler);
-	// gerer l'history pour ne pas qu'il ecrase le user et path
 }

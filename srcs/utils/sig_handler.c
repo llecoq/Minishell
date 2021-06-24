@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:12:40 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/23 12:20:56 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/24 11:24:16 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,20 @@
 
 void	sig_handler(int signum)
 {
-	//dprintf(1, "\nsignum = %d", signum);
+	// dprintf(1, "\nsignum = %d", signum);
 	if (signum == SIGINT)
 	{
-		printf("\n");
+		ft_putchar_fd('\n', 1);   // printf peut poser pb à cause du buffer
+		rl_on_new_line(); // Tell the update routines that we have moved onto a new (empty) line, usually after ouputting a newline.
+		rl_replace_line("", 0); //Replace the contents of rl_line_buffer with text. The point and mark are preserved, if possible. If clear_undo is non-zero, the undo list associated with the current line is cleared.
+		rl_redisplay();	// Change what's displayed on the screen to reflect the current contents of rl_line_buffer.
+	}
+	if (signum == SIGQUIT)
+	{
 		rl_on_new_line();
-		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+	if (signum == 15651)  // trouver CONTROL L
+			printf("\e[1;1H\e[2J"); // clear le terminal
+	// gerer control \    pour l'instant abort
 }

@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/23 12:13:27 by llecoq           ###   ########.fr        #
+#    Updated: 2021/06/24 15:33:50 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRCS_FILES	=	main.c\
 				utils/error.c\
 				utils/char_detection.c\
 				utils/token_list_functions.c\
-				utils/sig_handler.c
+				utils/sig_handler.c\
+				builtins/ft_exit.c
 				
 
 SRCSPATH= srcs/
