@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 10:28:27 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 13:13:32 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ typedef struct 	s_token
 
 typedef struct	s_shell
 {
-	char	*input; // readline
-	char	**env_tab;
-	char	*user_dir;
-	t_list	*env_list;
-	t_list	*path;
-	t_token **cmd_array; //last cmd_array is set to NULL;
-	int		change_directory;
+	char		*input; // readline
+	char		*user_dir;
+	const char	**envp;
+	const char	**cmd_argv;
+	t_list		*env_list;
+	t_list		*path;
+	t_token 	**cmd_array; //last cmd_array is set to NULL;
+	int			change_directory;
 }				t_shell;
 
 typedef int t_bool;
@@ -85,6 +86,16 @@ enum	e_errors
 	NO_CLOSING_QUOTE = -1,
 };
 
+enum	e_builtins
+{
+	BUILT_CD = 1,
+	BUILT_PWD = 2,
+	BUILT_ENV = 3,
+	BUILT_ECHO = 4,
+	BUILT_EXIT = 5,
+	BUILT_UNSET = 6,
+	BUILT_EXPORT = 7,
+};
 
 /*
 ** UTILS ----------------------------------------------------------------
@@ -99,7 +110,6 @@ void		error_quit(t_shell *shell, int error_type);
 void		error(t_shell *shell, int error_type);
 void		sig_handler(int signum);
 void		get_signal(void);
-void		ft_exit(t_shell *shell, int i);
 
 /*
  ** char_detection.c  
@@ -130,9 +140,13 @@ int			store_environment(t_shell *shell, const char **env);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
 
+/*
+** builtins
+*/
 
-
-
+int	ft_exit(t_shell *shell, int i);
+int	cd(const char *path, char const **argv, char const **envp);
+int	pwd(const char *path, char const **argv, char const **envp);
 
 
 #endif

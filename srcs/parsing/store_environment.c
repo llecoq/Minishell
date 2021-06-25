@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 10:28:50 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 12:56:17 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,25 @@ void	store_environment_list(t_shell *shell, const char **env)
 // (to be used any time any time an export / unset is called)
 void	store_environment_tab(t_shell *shell, t_list *env_list, int len)
 {
-	if (shell->env_tab)
+	if (shell->envp)
 	{
-		free(shell->env_tab);
-		shell->env_tab = NULL;
+		free(shell->envp);
+		shell->envp = NULL;
 	}
-	shell->env_tab = calloc_sh(shell, sizeof(char *) * len + 1);
-	if (!shell->env_tab)
+	shell->envp = calloc_sh(shell, sizeof(char *) * len + 1);
+	if (!shell->envp)
 		error_quit(shell, 0);
 	len = -1;
 	while (env_list)
 	{
-		shell->env_tab[++len] = env_list->content;
+		shell->envp[++len] = env_list->content;
 		env_list = env_list->next;
 	}
 }
 
-int	store_environment(t_shell *shell, const char **env_tab)
+int	store_environment(t_shell *shell, const char **envp)
 {
-	store_environment_list(shell, env_tab);
+	store_environment_list(shell, envp);
 	store_environment_tab(shell, shell->env_list, ft_lstsize(shell->env_list));
 	store_path_list(shell, getenv("PATH"));
 	return (1);

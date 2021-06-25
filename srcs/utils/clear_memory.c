@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:41:28 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/23 12:07:29 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 12:56:45 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	clear_memory(t_shell *shell)
 {
 	if (shell->env_list)
 		ft_lstclear(&shell->env_list, del);
-	if (shell->env_tab)
-		free_set_null((void **)&shell->env_tab);
+	if (shell->envp)
+		free_set_null((void **)&shell->envp);
 	if (shell->path)
 		ft_lstclear(&shell->path, del);
 	if (shell->cmd_array)

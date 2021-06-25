@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 09:29:01 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 11:43:22 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 11:50:16 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	valid_args(char const **argv, char **absolute_path)
 
 //    Returns 0 if the directory is changed, and if $PWD is set successfully when
 //    -P is used; non-zero otherwise.
+//	  still have to handle options, what error message should we print ?
 int	cd(const char *path, char const **argv, char const **envp)
 {
 	char	*absolute_path;
