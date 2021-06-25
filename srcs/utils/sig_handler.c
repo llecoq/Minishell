@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:12:40 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/24 11:24:16 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 09:25:15 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,10 @@ void	sig_handler(int signum)
 	if (signum == 15651)  // trouver CONTROL L
 			printf("\e[1;1H\e[2J"); // clear le terminal
 	// gerer control \    pour l'instant abort
+}
+
+void	get_signal(void)
+{
+	signal(SIGINT, sig_handler);  // control C
+	signal(SIGQUIT, sig_handler);  // control + '\'
 }

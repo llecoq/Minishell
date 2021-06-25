@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:54:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/24 13:58:13 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 09:28:08 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ void	get_user_dir(t_shell *shell)
 
 	if (shell->user_dir)
 		free_set_null((void **)&shell->user_dir);
-	path = NULL;
-	user = getenv("USER");
 	path = getcwd(NULL, 0);
+	user = getenv("USER");
 	get_directory(&directory, path);
 	shell->user_dir = format_and_add_colors(user, directory);
 	shell->change_directory = 0;
@@ -69,12 +68,11 @@ void	get_user_dir(t_shell *shell)
 
 void	prompt(t_shell *shell)
 {
-	signal(SIGINT, sig_handler);  // control C
-	signal(SIGQUIT, sig_handler);  // control + '\'
+	get_signal();			// intercepte les signaux
 	if (shell->change_directory == 1)
 		get_user_dir(shell);
 	shell->input = readline(shell->user_dir);
-	if (!shell->input)   // control + D flush stdin et pointe sur NULL
+	if (!shell->input)   	// control + D flush stdin et pointe sur NULL
 		ft_exit(shell, 1);
 	if (*shell->input)
 		add_history(shell->input);

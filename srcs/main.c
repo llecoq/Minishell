@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/24 15:39:55 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 10:27:42 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	set_shell_var_to_null(t_shell *shell)
 	shell->cmd_array = NULL;
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int argc, const char **argv, const char **env)
 {
 	t_shell	shell;
 

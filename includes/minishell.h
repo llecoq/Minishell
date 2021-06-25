@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/24 15:40:10 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 10:28:27 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <stdlib.h>
 # include <term.h>
 # include <curses.h>
+# include <errno.h>
 # include "../libft/libft.h"
 
 #define RESET   "\033[0m"
@@ -97,6 +98,7 @@ void		free_cmd_array(t_token **cmd_array);
 void		error_quit(t_shell *shell, int error_type);
 void		error(t_shell *shell, int error_type);
 void		sig_handler(int signum);
+void		get_signal(void);
 void		ft_exit(t_shell *shell, int i);
 
 /*
@@ -124,7 +126,7 @@ void		print_cmd_array(t_token **cmd_array);
 ** parsing
 */
 
-int			store_environment(t_shell *shell, char **env);
+int			store_environment(t_shell *shell, const char **env);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
 
