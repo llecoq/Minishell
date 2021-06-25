@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/23 16:16:24 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/25 14:41:45 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ redirection → 1 = pipe / 2 = > / 3 = >>
 
 other flag for < et << because they don't need a dup2() pipe() fork() ? 
 
+- LQ : I did create the fct : int	search_for_builtins(t_shell *shell, t_token *cmd_array)
 → **Verify if each CMD token is** **true** : echo / cd / pwd/ export / unset/ env / exit,
 otherwise look through paths and **save path in node**. 
 Else : free and "zsh: command not found: lsls" 

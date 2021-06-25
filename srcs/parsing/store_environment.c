@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 12:56:17 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 18:27:00 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	store_environment_tab(t_shell *shell, t_list *env_list, int len)
 		shell->envp = NULL;
 	}
 	shell->envp = calloc_sh(shell, sizeof(char *) * len + 1);
-	if (!shell->envp)
-		error_quit(shell, 0);
 	len = -1;
 	while (env_list)
 	{

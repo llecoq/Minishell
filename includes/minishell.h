@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 13:13:32 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 17:01:54 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct	s_shell
 	char		*input; // readline
 	char		*user_dir;
 	const char	**envp;
-	const char	**cmd_argv;
+	const char	***cmd_argv;
 	t_list		*env_list;
 	t_list		*path;
 	t_token 	**cmd_array; //last cmd_array is set to NULL;
@@ -110,6 +110,7 @@ void		error_quit(t_shell *shell, int error_type);
 void		error(t_shell *shell, int error_type);
 void		sig_handler(int signum);
 void		get_signal(void);
+char		*get_env(t_shell *shell, const char *name); // on peut rendre l'env global ?
 
 /*
  ** char_detection.c  
@@ -145,8 +146,8 @@ void		tokenize(t_shell *shell, const char *input);
 */
 
 int	ft_exit(t_shell *shell, int i);
-int	cd(const char *path, char const **argv, char const **envp);
-int	pwd(const char *path, char const **argv, char const **envp);
+int	cd(t_shell *shell, const char *path, char const **argv, char const **envp);
+int	pwd(t_shell *shell, const char *path, char const **argv, char const **envp);
 
 
 #endif

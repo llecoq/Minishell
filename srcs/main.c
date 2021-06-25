@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 12:56:30 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/25 18:27:22 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	main(int argc, const char **argv, const char **env)
 {
 	t_shell	shell;
 
+	(void)argc;
+	(void)argv;
 	set_shell_var_to_null(&shell);
 	if (argc == 1)
 	{
