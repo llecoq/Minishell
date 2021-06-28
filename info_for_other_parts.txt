@@ -16,7 +16,20 @@ Remove "" ' and instead create flag? for easier printing later ?
 
 EVALUATOR -------------------------------------
 
-Token avec espace a la fin ?
+if there is a < or <<, we don't put what is on the right side of < or << in the char **arg,
+once we will be in the child process, we will have to redirect the standard input 
+to your open'ed descriptor (the one refering to the file) prior to calling execlp
+via the dup2(2) system call:
+
+dup2(fd, 0);
+execlp("cat", ...);
+
+> If there are multiple files on the right of < or << (grep "main" < file1.txt file2.txt) 
+then 2 cases :
+- one of the file doesn't exist, the program exits saying filexxx does not exist
+- all the file are valid files, then only the output of the last searched file will appear,
+does that mean that the output of the second file in line overwrites the output of the first
+and then the output of the third overwrites the output of the second et ainsi de suite ?
 
 ECHO ----------------------------------------
 si echo "" il faudra print un espace

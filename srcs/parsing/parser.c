@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/25 14:41:45 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:11:54 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 cmd
 
-arg → 1 = regular arg / 2 = option / 3 = env variable (/ 4 = input redirection / 5 = Heredoc )?
+arg (→ 1 = regular arg / 2 = option / 3 = env variable) (/ 4 = input redirection / 5 = Heredoc )?
 
 redirection → 1 = pipe / 2 = > / 3 = >>
 
@@ -30,9 +30,28 @@ Else : free and "zsh: command not found: lsls"
 
 - AB : Search if built-in program exists
 
-→ **Create char **argv** : count how many items there are before a redirection or the end 
+
+----------------------------------------------------------------------------------------
+→ CREATE char **argv : count how many items there are before a redirection or the end 
 of the linked list, malloc that to argv[] and then copy the pointers present in our linked 
 list to argv[0], argv[1] etc. argv[0] being the command name
+
+if there is a < or <<, we don't put what is on the right side of < or << in the char **arg,
+once we will be in the child process, we will have to redirect the standard input 
+to your open'ed descriptor (the one refering to the file) prior to calling execlp
+via the dup2(2) system call:
+
+dup2(fd, 0);
+execlp("cat", ...);
+
+> If there are multiple files on the right of < or << (grep "main" < file1.txt file2.txt) 
+then 2 cases :
+- one of the file doesn't exist, the program exits saying filexxx does not exist
+- all the file are valid files, then only the output of the last searched file will appear,
+does that mean that the output of the second file in line overwrites the output of the first
+and then the output of the third overwrites the output of the second et ainsi de suite ?
+
+---------------------------------------------------------------------------------------
 */
 
 /*
