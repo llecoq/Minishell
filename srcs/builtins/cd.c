@@ -6,23 +6,25 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 09:29:01 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 18:26:36 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:39:04 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// need to check first if OLDPWD already exist
-// instead, make a set_env fct that is more polyvalent ?
-void	add_old_path_to_env(t_shell *shell)
+void	add_old_path_to_env(t_shell *shell, char **new_path, char **old_path)
 {
-	char	*old_path;
+	char	*var_name;
 	char	*tmp;
 	
-	tmp = "OLDPWD=";
-	old_path = ft_strjoin(tmp, getcwd(NULL, 0));
-	ft_lstadd_back(&shell->env_list, ft_lstnew(old_path));
-	free(old_path);
+	var_name = "OLDPWD=";
+	tmp = *old_path;
+	*old_path = ft_strjoin(var_name, *old_path);
+	free(tmp);
+	put_env(shell, *old_path);
+	free(*old_path);
+	if (*new_path)
+		free(*new_path);
 	shell->change_directory = 1;
 }
 
@@ -62,17 +64,17 @@ int	valid_args(t_shell *shell, char const **argv, char **new_path)
 	return (0);
 }
 
+// A TESTER DE NOUVEAU AVEC OLDPWD et leaks
 //    Returns 0 if the directory is changed, and if $PWD is set successfully when
 //    -P is used; non-zero otherwise.
 //	  still have to handle options, what error message should we print ?
-//	  have to add $OLDPWD in env
-int	cd(t_shell *shell, const char *path, char const **argv, char const **envp)
+int	cd(t_shell *shell, char const **argv)
 {
 	char	*new_path;
+	char	*old_path;
 
 	new_path = NULL;
-	(void)path;
-	(void)envp;
+	old_path = getcwd(NULL, 0);
 	if ((argv[1] && *argv[1] == 0)
 		|| (argv[1] && ft_strncmp(argv[1], "./\0", 3) == 0))  // dans ce cas, pas de changement)
 		return (-1);			// shell->change_dir = 0;
@@ -80,16 +82,14 @@ int	cd(t_shell *shell, const char *path, char const **argv, char const **envp)
 	{
 		if (chdir(new_path) == -1)
 		{
-			// rajouter fd dans notre ft_printf ? Ou alors fake ft_printf qui appelle dprintf huehuehue
 			free(new_path);
+			free(old_path);
 			dprintf(2, "Minishell: cd: %s: %s\n", argv[1], strerror(errno));
 			return (-1);
 		}
 	}
 	else
 		return (-1);
-	if (new_path)
-		free(new_path);
-	add_old_path_to_env(shell);
+	add_old_path_to_env(shell, &new_path, &old_path);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 13:53:34 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/24 15:19:53 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:34:24 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 // original pwd does not care if there is any arguments after the command
 // it will only take into consideration an option (ex : -p)
 
-int	pwd(const char *path, char const **argv, char const **envp)
+int	pwd(t_shell *shell, char const **argv)
 {
 	char	*pwd;
 
-	(void)path;
-	(void)envp;
+	(void)shell;
 	if (argv[1])
 	{
 		ft_putstr_fd("pwd: too many arguments\n", 2); // will maybe need to change that ?

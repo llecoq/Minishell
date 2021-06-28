@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 17:01:54 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:42:59 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct	s_shell
 	t_list		*path;
 	t_token 	**cmd_array; //last cmd_array is set to NULL;
 	int			change_directory;
+	int			exit_code;
 }				t_shell;
 
 typedef int t_bool;
@@ -110,7 +111,9 @@ void		error_quit(t_shell *shell, int error_type);
 void		error(t_shell *shell, int error_type);
 void		sig_handler(int signum);
 void		get_signal(void);
+void		print_list(t_list *list);
 char		*get_env(t_shell *shell, const char *name); // on peut rendre l'env global ?
+int			put_env(t_shell *shell, char *string);
 
 /*
  ** char_detection.c  
@@ -145,9 +148,9 @@ void		tokenize(t_shell *shell, const char *input);
 ** builtins
 */
 
-int	ft_exit(t_shell *shell, int i);
-int	cd(t_shell *shell, const char *path, char const **argv, char const **envp);
-int	pwd(t_shell *shell, const char *path, char const **argv, char const **envp);
+int	ft_exit(t_shell *shell, char const **argv);
+int	cd(t_shell *shell, char const **argv);
+int	pwd(t_shell *shell, char const **argv);
 
 
 #endif

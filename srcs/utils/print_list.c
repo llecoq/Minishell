@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/01 10:45:01 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/28 15:25:22 by llecoq           ###   ########.fr       */
+/*   Created: 2021/06/28 15:40:58 by llecoq            #+#    #+#             */
+/*   Updated: 2021/06/28 15:46:20 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
+#include "minishell.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+void	print_list(t_list *list)
 {
-	if (!lst)
-		return ;
-	(*del)(lst->content);
-	free(lst);
+	while (list)
+	{
+		ft_putstr_fd(list->content, 1);
+		list = list->next;
+	}
 }

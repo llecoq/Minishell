@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 18:27:22 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:36:29 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static void	set_shell_var_to_null(t_shell *shell)
 {
-	shell->user_dir = NULL;
 	shell->change_directory = 1;
+	shell->exit_code = 0;
+	shell->user_dir = NULL;
 	shell->input = NULL;
 	shell->envp = NULL;
 	shell->env_list = NULL;
