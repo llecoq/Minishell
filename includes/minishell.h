@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 17:16:49 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 18:32:35 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,6 @@ void		tokenize(t_shell *shell, const char *input);
 int	ft_exit(t_shell *shell, char const **argv);
 int	cd(t_shell *shell, char const **argv);
 int	pwd(t_shell *shell, char const **argv);
-
+int	export(t_shell *shell, char const **argv);
 
 #endif

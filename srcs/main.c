@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 18:19:44 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 18:40:44 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,48 +52,3 @@ int	main(int argc, char **argv, char **env)
 	clear_memory(&shell);
 	return 0;
 }
-
-// char	*search_for_path(const char *prog_name, t_list *path_list)
-// {
-// 	char	*full_path;
-// 	char	*tmp;
-// 	int		fd;
-
-// 	tmp = "/";
-// 	tmp = ft_strjoin(tmp, prog_name);
-// 	while (path_list)
-// 	{
-// 		full_path = ft_strjoin(path_list->content, tmp);
-// 		fd = open(full_path, O_RDONLY);
-// 			dprintf(1, "full_path = %s  fd = %d\n",full_path, fd);
-// 		if (fd > 0)
-// 		{
-// 			close(fd);
-// 			free(tmp);
-// 			return (full_path);
-// 		}
-// 		free(full_path);
-// 		path_list = path_list->next;
-// 	}
-// 	return (NULL);
-// }
-
-// int	main(int argc, char *const *argv, char *const *env)
-// {
-// 	t_shell	shell;
-
-// 	(void)argc;
-// 	(void)argv;
-// 	set_shell_var_to_null(&shell);
-// 	store_environment(&shell, env);
-
-
-// 	char	*path;
-// 	// print_list(shell.path);
-// 	path = search_for_path(argv[1], shell.path);
-// 	execve(path, argv, env);
-// 	dprintf(1, "path = %s\n", path);
-
-// 	clear_memory(&shell);
-// 	return 0;
-// }
