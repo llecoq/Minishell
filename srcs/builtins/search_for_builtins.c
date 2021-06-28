@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 11:51:08 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 18:32:23 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:50:49 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	builtin_number(char *word)
 		return (BUILT_EXPORT);
 	return (0);
 }
-
+//enlever la partie qui lance la fonction direct, et en valeur de retour pointeur
+//sur fonction correspondant
 // fonction non testée, fd à rajouter pour gérer redirections 
 int	search_for_builtins(t_shell *shell, t_token *cmd_array)
 {

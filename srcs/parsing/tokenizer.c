@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/23 16:28:59 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/28 15:27:46 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static int	count_commands(const char *input)
 	return (nb_of_cmds);
 }
 
-//Tokens are separated by space except when in quotes :
-// Ici"la lune"la   -> is only one token
 static char	*create_word_token(int i, const char *input, t_shell *shell)
 {
 	int		start;
@@ -61,7 +59,7 @@ static char	*create_word_token(int i, const char *input, t_shell *shell)
 			while (input[i] != closing_quote && input[i])
 				i++;
 		}
-		if (input[i] == ' ')
+		if (input[i] == ' ' || is_redirection(input, i))
 			break;
 		i++;
 	}
@@ -83,13 +81,22 @@ static char	*create_redirection_token(int i, const char *input, t_shell *shell)
 	else if (is_redirection(input, i) == APPEND)
 	{
 		token = calloc_sh(shell, 3);
-		token[0] = '>';
-		token[1] = '>';
+		ft_strlcpy(token, ">>", 3);
 	}
 	else if (is_redirection(input, i) == REDIR)
 	{
 		token = calloc_sh(shell, 2);
 		token[0] = '>';
+	}
+	else if (is_redirection(input, i) == INREDIR)
+	{
+		token = calloc_sh(shell, 3);
+		token[0] = '<';
+	}
+	else if (is_redirection(input, i) == HEREDOC)
+	{
+		token = calloc_sh(shell, 2);
+		ft_strlcpy(token, "<<", 3);
 	}
 	return (token);	
 }
@@ -133,6 +140,11 @@ static void	split_into_tokens(int nb_of_cmds, const char *input, t_shell *shell)
 }
 
 //Adds one extra cmd_array that is set to NULL for easier iterations
+//Tokens are either :
+//		- redirection > >> < << | that does not need to be separated from other
+//		letters by any space to be recognized as such
+//		- words that are separated by space, though spaces do not split a word if
+//		surrounded by "" or ''  ex : ici"la lune"rouge   == one token only
 void	tokenize(t_shell *shell, const char *input)
 {
 	int		nb_of_cmds;

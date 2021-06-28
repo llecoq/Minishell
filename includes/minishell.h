@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 15:42:59 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:51:23 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ enum	e_redirections
 	PIPE = 1,
 	REDIR = 2,
 	APPEND = 3,
+	INREDIR = 4,
+	HEREDOC = 5,
 };
 
 enum	e_quotes

@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 10:40:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/22 13:07:49 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/28 15:19:42 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ int	is_redirection(const char *str, int i)
 		return (APPEND);
 	else if (str[i] == '>')
 		return (REDIR);
+	else if (str[i] == '<' && str[i + 1] == '<')
+		return (HEREDOC);
+	else if (str[i] == '<')
+		return (INREDIR);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/25 14:41:45 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:16:52 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 cmd
 
-arg → 1 = regular arg / 2 = option / 3 = env variable (/ 4 = input redirection / 5 = Heredoc )?
+arg (→ 1 = regular arg / 2 = option / 3 = env variable) (/ 4 = input redirection / 5 = Heredoc )?
 
 redirection → 1 = pipe / 2 = > / 3 = >>
 
@@ -30,9 +30,16 @@ Else : free and "zsh: command not found: lsls"
 
 - AB : Search if built-in program exists
 
-→ **Create char **argv** : count how many items there are before a redirection or the end 
+
+----------------------------------------------------------------------------------------
+→ CREATE char **argv : count how many items there are before a redirection or the end 
 of the linked list, malloc that to argv[] and then copy the pointers present in our linked 
 list to argv[0], argv[1] etc. argv[0] being the command name
+
+if there is a < or <<, we don't put what is on the right side of < or << in the char **arg,
+that part will be handled in the evaluator
+
+---------------------------------------------------------------------------------------
 */
 
 /*
