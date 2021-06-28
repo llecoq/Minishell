@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 11:51:08 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 15:50:49 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 18:26:56 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	search_for_builtins(t_shell *shell, t_token *cmd_array)
 	if (builtin)
 	{
 		//doit ajouter $OLDPWD dans env_tab
-		if (builtin == BUILT_CD && cd(shell, NULL, shell->cmd_argv, NULL) == 0)
-			store_environment_tab(shell, shell->env_list, ft_lstsize(shell->env_list));
+		if (builtin == BUILT_CD)
+			cd(shell, NULL, shell->cmd_argv, NULL);
 		else if (builtin == BUILT_PWD)
 			pwd(shell, NULL, shell->cmd_argv, NULL);
 		else if (builtin == BUILT_EXIT)

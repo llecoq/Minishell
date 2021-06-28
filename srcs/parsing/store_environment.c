@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 18:22:06 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 18:29:58 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	store_path_list(t_shell *shell, char *path)
 		ft_lstadd_back(&shell->path, ft_lstnew(full_path));
 	}
 	free(path_tab);
-	print_list(shell->path);
 }
 
 void	store_environment_list(t_shell *shell, char *const *env)
