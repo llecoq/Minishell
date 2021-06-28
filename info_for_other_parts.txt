@@ -1,35 +1,68 @@
 PARSER ----------------------------------------
-in case command is only spaces, in real bash it IS a command
-it does not return an error & you can search it through history
-so I did create a cmd_array for it
 
------------
-Check if after a redirection or pipe there is no next command
-bash-3.2$ ls -la | wc >
-bash: syntax error near unexpected token `newline'
-
-bash-3.2$ ls -la | wc |
-> bash: syntax error: unexpected end of file
--------------
-
-Remove "" ' and instead create flag? for easier printing later ?
 
 EVALUATOR -------------------------------------
 
-if there is a < or <<, we don't put what is on the right side of < or << in the char **arg,
-once we will be in the child process, we will have to redirect the standard input 
-to your open'ed descriptor (the one refering to the file) prior to calling execlp
-via the dup2(2) system call:
+VERIFIER si les redirections sont bien traitees en amont des execve ou si on fait un truc moche
+comme ca : char *argv[] = { "/bin/bash", "-c", "/usr/bin/cat <<EOF\ntest\nEOF", 0};
 
-dup2(fd, 0);
-execlp("cat", ...);
+REGLE : Pour les redir on ECRASE l'output, pour les arg NORMAUX, on APPEND les output les uns
+a la suite des autres
+RAPPEL : Un output peux soit etre un resultat, soit un message d'erreur
 
-> If there are multiple files on the right of < or << (grep "main" < file1.txt file2.txt) 
-then 2 cases :
-- one of the file doesn't exist, the program exits saying filexxx does not exist
-- all the file are valid files, then only the output of the last searched file will appear,
-does that mean that the output of the second file in line overwrites the output of the first
-and then the output of the third overwrites the output of the second et ainsi de suite ?
+0) Check if there are redirections in the cmd, if yes then goes to 1 if no goes to 2
+	In any case next steps happen in child process : 
+1) Execute < ou <<, dans leur ordre d'apparition
+	- Pour executer < ou << on redirige le standard input sur le fd du fichier pointé par < ou
+	le fichier tampon qu'on a cree nous meme dans le cas de <<
+
+			dup2(fd, 0);
+			execlp("cat", ...);
+
+	- Chaque < ou << va ecraser l'output du precedent
+	- Si le moindre soucis intervient sur un des < << (ex : fichier n'existe pas)
+	alors l'output est l'output de l'erreur du < << courant et ARRETE TOUT LE PROCESS :
+	les prochaines etapes n'auront pas lieu
+	- Une fois tous les < et << faits, si dans la cmd il y a le moindre arg/fichier donné 
+	directement en argument normal alors l'output qui avait ete cree sera ecrasé par celui
+	des args "normaux"
+3) Execute les arg/fichiers "normaux" (pas rediriges), output de chacun de ces fichiers sont
+	APPEND les uns a la suite des autres
+
+
+cat file1 file2 			-->affiche file1 file2
+cat file1 <file2			--> n'affiche que file1 mais s'arrete quand meme si file2 n'existe pas
+cat <file1 <file2			--> affiche file2 car il est le dernier a apparaitre
+
+pour grep qui lui a en plus un "pattern" a chercher dans ces differents fichier, l'ordre compte
+le PREMIER token venant apres grep qui N'EST PAS UNE REDIRECTION sera considéré comme le pattern
+pour TOUS LES FICHIERS RECHERCHES donc
+grep <file1 token1 token2 token3	-->token1 est le pattern et par elimination token2 et 3
+									seront consideres d'emblee comme des fichiers
+
+
+-------------------
+For << 
+https://stackoverflow.com/questions/41082647/implement-redirection-in-c
+better : https://www.oilshell.org/blog/2016/10/18.html
+so basically if << then it's like < except we need to create a temp file ourselves
+that we will write into from stdin until we find the pattern listed on the right of <<
+(ex : EOF) and then only we can dup2() and exec()
+
+bash-3.2$ grep <<EOF main
+> lala
+> main
+> encoremain
+> erpuimain
+> hehe
+> c'est drole
+> EOF
+main
+encoremain
+erpuimain
+
+For < 
+
 
 ECHO ----------------------------------------
 si echo "" il faudra print un espace

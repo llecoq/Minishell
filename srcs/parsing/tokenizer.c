@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/28 15:27:46 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/28 16:14:22 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,8 @@ static int	count_commands(const char *input)
 	nb_of_cmds = 1;
 	while (input[i])
 	{
-		if (is_redirection(input, i))
-		{
+		if (is_redirection(input, i) == PIPE)
 			nb_of_cmds++;
-			if (is_redirection(input, i) == APPEND)
-				i++;
-		}
 		else if (is_quote(input[i]))
 		{
 			closing_quote = input[i];
@@ -73,31 +69,17 @@ static char	*create_redirection_token(int i, const char *input, t_shell *shell)
 	char	*token;
 	
 	token = NULL;
+	token = calloc_sh(shell, 3);
 	if (is_redirection(input, i) == PIPE)
-	{
-		token = calloc_sh(shell, 2);
-		token[0] = '|';
-	}
-	else if (is_redirection(input, i) == APPEND)
-	{
-		token = calloc_sh(shell, 3);
-		ft_strlcpy(token, ">>", 3);
-	}
+		ft_strlcpy(token, "|", 2);
 	else if (is_redirection(input, i) == REDIR)
-	{
-		token = calloc_sh(shell, 2);
-		token[0] = '>';
-	}
+		ft_strlcpy(token, ">", 2);
+	else if (is_redirection(input, i) == APPEND)
+		ft_strlcpy(token, ">>", 3);
 	else if (is_redirection(input, i) == INREDIR)
-	{
-		token = calloc_sh(shell, 3);
-		token[0] = '<';
-	}
+		ft_strlcpy(token, "<", 2);
 	else if (is_redirection(input, i) == HEREDOC)
-	{
-		token = calloc_sh(shell, 2);
 		ft_strlcpy(token, "<<", 3);
-	}
 	return (token);	
 }
 
@@ -133,13 +115,14 @@ static void	split_into_tokens(int nb_of_cmds, const char *input, t_shell *shell)
 		//dprintf(1, "token = %s|\n", token);
 		add_token_tail(&shell->cmd_array[j], create_new_token(token, shell));
 		i += ft_strlen(token);
-		if (is_redirection(return_tail_token(shell->cmd_array[j])->word, 0))
+		if (is_redirection(return_tail_token(shell->cmd_array[j])->word, 0) == PIPE)
 			j++;
 		free_set_null((void **)&token);
 	}
 }
 
-//Adds one extra cmd_array that is set to NULL for easier iterations
+//Cmd_array is finished by NULL for easier iterations
+//One commands end at \n or at a pipe
 //Tokens are either :
 //		- redirection > >> < << | that does not need to be separated from other
 //		letters by any space to be recognized as such
@@ -162,6 +145,6 @@ void	tokenize(t_shell *shell, const char *input)
 	//dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
 	split_into_tokens(nb_of_cmds, input, shell);
 	
-	//print_cmd_array(shell->cmd_array); // A SUPPRIMER
+	print_cmd_array(shell->cmd_array); // A SUPPRIMER
 	//dprintf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);//verify that is null
 }
