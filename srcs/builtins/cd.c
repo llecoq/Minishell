@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 09:29:01 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 15:39:04 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 16:53:36 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	valid_args(t_shell *shell, char const **argv, char **new_path)
 	return (0);
 }
 
-// A TESTER DE NOUVEAU AVEC OLDPWD et leaks
+// A TESTER DE NOUVEAU AVEC OLDPWD et leaks et HOME
 //    Returns 0 if the directory is changed, and if $PWD is set successfully when
 //    -P is used; non-zero otherwise.
 //	  still have to handle options, what error message should we print ?

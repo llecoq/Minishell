@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 15:32:15 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 18:22:06 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,22 @@
 void	store_path_list(t_shell *shell, char *path)
 {
 	char	**path_tab;
-	char	**tmp;
+	char	*full_path;
+	int		i;
 
 	path_tab = ft_split(path, ':');
-	tmp = path_tab;
-	while (*path_tab)
-		ft_lstadd_back(&shell->path, ft_lstnew(*path_tab++));
-	free(tmp);
+	i = -1;
+	while (path_tab[++i])
+	{
+		full_path = ft_strjoin(path_tab[i], "/");
+		free(path_tab[i]);
+		ft_lstadd_back(&shell->path, ft_lstnew(full_path));
+	}
+	free(path_tab);
+	print_list(shell->path);
 }
 
-void	store_environment_list(t_shell *shell, const char **env)
+void	store_environment_list(t_shell *shell, char *const *env)
 {
 	while (*env)
 		ft_lstadd_back(&shell->env_list, ft_lstnew(ft_strdup(*env++)));
@@ -49,7 +55,7 @@ void	store_environment_tab(t_shell *shell, t_list *env_list, int len)
 	}
 }
 
-int	store_environment(t_shell *shell, const char **envp)
+int	store_environment(t_shell *shell, char *const *envp)
 {
 	store_environment_list(shell, envp);
 	store_environment_tab(shell, shell->env_list, ft_lstsize(shell->env_list));

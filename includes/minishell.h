@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 15:51:23 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 17:16:49 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <unistd.h>
+# include <sys/types.h>
 # include <sys/stat.h>
+# include <fcntl.h>
 # include <dirent.h>
 # include <string.h>
 # include <sys/errno.h>
@@ -142,7 +144,7 @@ void		print_cmd_array(t_token **cmd_array);
 ** parsing
 */
 
-int			store_environment(t_shell *shell, const char **env);
+int			store_environment(t_shell *shell, char *const *envp);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
 

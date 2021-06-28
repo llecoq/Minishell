@@ -5,16 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/24 15:12:36 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/24 15:32:36 by llecoq           ###   ########.fr       */
+/*   Created: 2021/06/23 15:11:47 by llecoq            #+#    #+#             */
+/*   Updated: 2021/06/28 16:53:18 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-// fonction ft_exit ici ? PAS PRATIQUE ou alors changer le prototype
-
-// int	ft_exit(const char *path, char const **argv, char const **envp)
-// {
-	
-// }
+int	ft_exit(t_shell *shell, char const **argv)
+{
+	(void)argv;
+	if (shell->exit_code == 1)
+	{
+		// essayer de deplacer curseur avec termcaps ?
+		// write(0, "exit\n", 5);
+		// ft_putstr_fd("exit\n", 1);
+		// printf("%c[2K", 27);   // ne marche
+		// printf("\r");          // PAAAAAAAS
+		// printf("%sexit\n", shell->user_dir);`
+	}
+	clear_memory(shell);
+	exit(EXIT_SUCCESS);
+}

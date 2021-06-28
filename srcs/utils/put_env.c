@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 15:34:56 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:53:05 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 	// returns a nonzero value, and errno is set to indicate the error.
 
 
-// attention calloc
 int	valid_var_name(t_shell *shell, char *string, char **name)
 {
 	int	i;

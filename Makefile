@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/28 15:43:14 by llecoq           ###   ########.fr        #
+#    Updated: 2021/06/28 16:53:14 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS_FILES	=	main.c\
 				utils/get_env.c\
 				utils/put_env.c\
 				utils/print_list.c\
-				builtins/ft_exit.c\
+				builtins/exit.c\
 				builtins/cd.c
 				
 
