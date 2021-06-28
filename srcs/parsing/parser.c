@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/28 15:11:54 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/28 15:16:52 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,7 @@ of the linked list, malloc that to argv[] and then copy the pointers present in 
 list to argv[0], argv[1] etc. argv[0] being the command name
 
 if there is a < or <<, we don't put what is on the right side of < or << in the char **arg,
-once we will be in the child process, we will have to redirect the standard input 
-to your open'ed descriptor (the one refering to the file) prior to calling execlp
-via the dup2(2) system call:
-
-dup2(fd, 0);
-execlp("cat", ...);
-
-> If there are multiple files on the right of < or << (grep "main" < file1.txt file2.txt) 
-then 2 cases :
-- one of the file doesn't exist, the program exits saying filexxx does not exist
-- all the file are valid files, then only the output of the last searched file will appear,
-does that mean that the output of the second file in line overwrites the output of the first
-and then the output of the third overwrites the output of the second et ainsi de suite ?
+that part will be handled in the evaluator
 
 ---------------------------------------------------------------------------------------
 */

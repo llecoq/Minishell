@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 17:01:54 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:19:32 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ enum	e_redirections
 	PIPE = 1,
 	REDIR = 2,
 	APPEND = 3,
+	INREDIR = 4,
+	HEREDOC = 5,
 };
 
 enum	e_quotes
