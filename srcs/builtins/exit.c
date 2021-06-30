@@ -6,13 +6,13 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 15:11:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 16:53:18 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/29 14:50:46 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exit(t_shell *shell, char const **argv)
+int	ft_exit(t_shell *shell, char **argv)
 {
 	(void)argv;
 	if (shell->exit_code == 1)

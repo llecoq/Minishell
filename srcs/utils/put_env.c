@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 15:53:05 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/29 15:51:38 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 	// The putenv() function returns zero on success.  On failure, it
 	// returns a nonzero value, and errno is set to indicate the error.
 
-
+// EXPORTED VAR ARE RANDOMLY ADDED INSIDE THE ENV, WHAT'S THE LOGIC ?
+// Our fonction just add them at the end of the list so far
 int	valid_var_name(t_shell *shell, char *string, char **name)
 {
 	int	i;
