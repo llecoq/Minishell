@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/29 14:50:20 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/30 16:34:50 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,12 @@ enum	e_errors
 	NO_CLOSING_QUOTE = -1,
 };
 
+enum	e_env
+{
+	IS_SET = 1,
+	IS_UNSET = 0,
+};
+
 enum	e_builtins
 {
 	BUILT_CD = 1,
@@ -116,8 +122,11 @@ void		error(t_shell *shell, int error_type);
 void		sig_handler(int signum);
 void		get_signal(void);
 void		print_list(t_list *list);
+void		print_env(t_shell *shell);
 char		*get_env(t_shell *shell, const char *name); // on peut rendre l'env global ?
 int			put_env(t_shell *shell, char *string);
+int			invalid_args_or_options(char **argv, char *name);
+size_t		env_size(t_list *env_list);
 
 /*
  ** char_detection.c  
@@ -154,10 +163,10 @@ void		tokenize(t_shell *shell, const char *input);
 
 int	ft_exit(t_shell *shell, char **argv);
 int	ft_echo(t_shell *shell, char **argv);
-int	cd(t_shell *shell, char **argv);
-int	pwd(t_shell *shell, char **argv);
-int	export(t_shell *shell, char **argv);
-int	unset(t_shell *shell, char **argv);
-int	env(t_shell *shell, char **argv);
+int	ft_cd(t_shell *shell, char **argv);
+int	ft_pwd(t_shell *shell, char **argv);
+int	ft_export(t_shell *shell, char **argv);
+int	ft_unset(t_shell *shell, char **argv);
+int	ft_env(t_shell *shell, char **argv);
 
 #endif

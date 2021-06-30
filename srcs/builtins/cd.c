@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 09:29:01 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/29 15:37:52 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/30 13:39:25 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ int	home_is_set(t_shell *shell, char **new_path)
 	char	*home;
 
 	home = get_env(shell, "HOME");
+	if (home)
+		home = ft_strdup(home);
 	if (home == NULL)
 	{
-		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		return (0);
 	}
 	*new_path = home;
@@ -55,9 +57,10 @@ int	valid_args(t_shell *shell, char **argv, char **new_path)
 {
 	if (!argv[1] && home_is_set(shell, new_path))
 		return (1);
-	if (!argv[1])
+	if (!argv[1] || *argv[1] == 0)
 		return (0);
-	if ((ft_strncmp(argv[1], "--", 3) == 0 || *argv[1] == 0))
+	if ((ft_strncmp(argv[1], "--", 3) == 0)
+		|| (ft_strncmp(argv[1], "~", 2) == 0))
 	{
 		if (home_is_set(shell, new_path))
 			return (1);
@@ -75,15 +78,12 @@ int	valid_args(t_shell *shell, char **argv, char **new_path)
 //    Returns 0 if the directory is changed, and if $PWD is set successfully when
 //    -P is used; non-zero otherwise.
 //	  still have to handle options, what error message should we print ?
-int	cd(t_shell *shell, char **argv)
+int	ft_cd(t_shell *shell, char **argv)
 {
 	char	*new_path;
 	char	*old_path;
 
 	new_path = NULL;
-	// doit gerer le cas cd ""   (ne doit rien faire) mais ~ est considere comme ""
-	// if ((argv[1] && *argv[1] == 0) // bouffe le ~ car considere == 0 DAFUQ
-		// || (argv[1] && ft_strncmp(argv[1], "./", 3) == 0))
 	if (argv[1] && ft_strncmp(argv[1], "./", 3) == 0)
 		return (-1);
 	if (valid_args(shell, argv, &new_path))
@@ -91,9 +91,9 @@ int	cd(t_shell *shell, char **argv)
 		old_path = getcwd(NULL, 0);
 		if (chdir(new_path) == -1)
 		{
-			free_set_null((void **)&new_path);
 			free_set_null((void **)&old_path);
-			dprintf(2, "Minishell: cd: %s: %s\n", argv[1], strerror(errno));
+			free_set_null((void **)&new_path);
+			dprintf(2, "minishell: cd: %s: %s\n", argv[1], strerror(errno));
 			return (-1);
 		}
 	}

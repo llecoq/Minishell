@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/29 15:51:38 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/30 13:55:06 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,14 @@ int	put_env(t_shell *shell, char *string)
 	{
 		len = ft_strlen(name);
 		if (found_var(shell->env_list, name, &variable_ptr, len))
+		{
 			variable_ptr->content = ft_strdup(string);
+			variable_ptr->variable = IS_SET;
+		}
 		else
 			ft_lstadd_back(&shell->env_list, ft_lstnew(ft_strdup(string)));
 		free(name);
-		store_environment_tab(shell, shell->env_list, ft_lstsize(shell->env_list));
+		store_environment_tab(shell, shell->env_list, env_size(shell->env_list));
 	}
 	return (return_value); // error code
 }

@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/29 15:05:04 by llecoq           ###   ########.fr        #
+#    Updated: 2021/06/30 15:06:30 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ SRCS_FILES	=	main.c\
 				utils/put_env.c\
 				utils/print_list.c\
 				builtins/exit.c\
-				builtins/cd.c
+				builtins/cd.c\
+				builtins/unset.c\
+				builtins/env.c
 				
 
 SRCSPATH= srcs/

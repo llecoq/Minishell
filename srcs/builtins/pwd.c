@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 13:53:34 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/28 15:34:24 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/30 13:40:18 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // original pwd does not care if there is any arguments after the command
 // it will only take into consideration an option (ex : -p)
 
-int	pwd(t_shell *shell, char const **argv)
+int	ft_pwd(t_shell *shell, char **argv)
 {
 	char	*pwd;
 
