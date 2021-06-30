@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/30 16:34:50 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/30 19:13:07 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void		print_env(t_shell *shell);
 char		*get_env(t_shell *shell, const char *name); // on peut rendre l'env global ?
 int			put_env(t_shell *shell, char *string);
 int			invalid_args_or_options(char **argv, char *name);
+int			valid_name(char *argv, char *built_name);
 size_t		env_size(t_list *env_list);
 
 /*

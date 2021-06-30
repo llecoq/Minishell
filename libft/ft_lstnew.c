@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 10:02:28 by abonnel           #+#    #+#             */
-/*   Updated: 2021/03/29 18:04:29 by abonnel          ###   ########lyon.fr   */
+/*   Updated: 2021/06/30 13:51:12 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_list	*ft_lstnew(void *content)
 	if (!(res))
 		return (NULL);
 	res->content = content;
+	res->variable = 1;
 	res->next = NULL;
 	return (res);
 }

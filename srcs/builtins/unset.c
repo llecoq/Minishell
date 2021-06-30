@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:42:24 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/30 16:35:48 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/30 20:31:48 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // A word consisting solely of letters, numbers, and underscores, and beginning with
 // a letter or underscore. Names are used as shell variable and function names. Also
 // referred to as an identifier.
-int	valid_name(char *argv)
+int	valid_name(char *argv, char *built_name)
 {
 	if (ft_isalpha(*argv) || *argv == '_')
 		argv++;
@@ -24,6 +24,8 @@ int	valid_name(char *argv)
 		return (0);
 	while (ft_isalnum(*argv) || *argv == '_')
 		argv++;
+	if (*argv == '=' && ft_strncmp(built_name, "export", 6) == 0)
+		return (1);
 	if (*argv)
 		return (0);
 	return (1);
@@ -52,13 +54,18 @@ int	invalid_args_or_options(char **argv, char *name)
 	if (argv[1] && *argv[1] == '-')
 	{
 		dprintf(2, "minishell: %s: -%c: invalid option\n", name, argv[1][1]);
+		if (strncmp(name, "pwd", 3) == 0)
+		{
+			dprintf(1, "pwd: usage: pwd\n");
+			return (1);
+		}
 		dprintf(2, "%s: usage: %s [name", name, name);
 		if (strncmp(name, "export", ft_strlen(name)) == 0)
 			ft_putstr_fd("[=value]", 2);
 		ft_putstr_fd(" ...]\n", 2);
 		return (1);
 	}
-	if (!argv[1])
+	if (!argv[1] && ft_strncmp(name, "unset", ft_strlen(name)) == 0)
 		return (1);
 	return (0);
 }
@@ -71,7 +78,7 @@ int	ft_unset(t_shell *shell, char **argv)
 {
 	if (invalid_args_or_options(argv, "unset"))
 		return (-1);
-	if (argv[1] && valid_name(argv[1]))
+	if (argv[1] && valid_name(argv[1], "unset"))
 			unset_variable(shell->env_list, argv[1]);
 	else
 	{

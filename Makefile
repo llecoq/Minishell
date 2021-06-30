@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/30 15:06:30 by llecoq           ###   ########.fr        #
+#    Updated: 2021/06/30 20:30:42 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ SRCS_FILES	=	main.c\
 				builtins/exit.c\
 				builtins/cd.c\
 				builtins/unset.c\
+				builtins/export.c\
+				builtins/pwd.c\
 				builtins/env.c
 				
 
