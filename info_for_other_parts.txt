@@ -1,8 +1,6 @@
-PARSER ----------------------------------------
-
-
 EVALUATOR -------------------------------------
 
+https://www.sarathlakshman.com/2012/09/24/implementation-overview-of-redirection-and-pipe-operators-in-shell
 VERIFIER si les redirections sont bien traitees en amont des execve ou si on fait un truc moche
 comme ca : char *argv[] = { "/bin/bash", "-c", "/usr/bin/cat <<EOF\ntest\nEOF", 0};
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/29 14:50:20 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/30 12:26:43 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,15 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
+typedef int t_bool;
+typedef int t_flag;
+
 typedef struct 	s_token
 {
 	char			*word;
+	t_flag			cmd;
+	t_flag			arg;
+	t_flag			redir;
 	struct s_token	*next;
 }				t_token;
 
@@ -69,8 +75,6 @@ typedef struct	s_shell
 	int			exit_code;
 }				t_shell;
 
-typedef int t_bool;
-
 enum	e_redirections
 {
 	PIPE = 1,
@@ -78,6 +82,13 @@ enum	e_redirections
 	APPEND = 3,
 	INREDIR = 4,
 	HEREDOC = 5,
+};
+
+//REDIR = 2 already exists
+enum	e_flags
+{
+	CMD = 1,
+	ARG = 3,
 };
 
 enum	e_quotes
@@ -89,6 +100,7 @@ enum	e_quotes
 enum	e_errors
 {
 	NO_CLOSING_QUOTE = -1,
+	NOTHING_AFTER_REDIR = -2,
 };
 
 enum	e_builtins
@@ -110,13 +122,14 @@ void		*calloc_sh(t_shell *shell, int size);
 void		prompt(t_shell *shell);
 void		del(void *content);
 void		clear_memory(t_shell *shell);
+void		clear_nonessential_memory(t_shell *shell);
 void		free_cmd_array(t_token **cmd_array);
 void		error_quit(t_shell *shell, int error_type);
 void		error(t_shell *shell, int error_type);
 void		sig_handler(int signum);
 void		get_signal(void);
 void		print_list(t_list *list);
-char		*get_env(t_shell *shell, const char *name); // on peut rendre l'env global ?
+char		*get_env(t_shell *shell, const char *name);
 int			put_env(t_shell *shell, char *string);
 
 /*
@@ -147,6 +160,7 @@ void		print_cmd_array(t_token **cmd_array);
 int			store_environment(t_shell *shell, char *const *envp);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
+void		parse(t_shell *shell);
 
 /*
 ** builtins
