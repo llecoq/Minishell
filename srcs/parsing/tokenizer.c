@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/28 16:14:22 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/30 12:40:22 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,6 @@ void	tokenize(t_shell *shell, const char *input)
 	//dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
 	split_into_tokens(nb_of_cmds, input, shell);
 	
-	print_cmd_array(shell->cmd_array); // A SUPPRIMER
+	//print_cmd_array(shell->cmd_array); // A SUPPRIMER
 	//dprintf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);//verify that is null
 }

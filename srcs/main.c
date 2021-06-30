@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/30 16:18:48 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/06/30 20:35:25 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,24 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	set_shell_var_to_null(&shell);
-	store_environment(&shell, env);
-
-	// char	*path;
-	// print_list(shell.path);
-	// path = search_for_path(argv[1], shell.path);
-	// execve(path, argv, env);
-	// dprintf(1, "path = %s\n", path);
-
-	// argv[1] = "~";
-	// print_env(&shell);
-	ft_unset(&shell, argv);
-	// print_env(&shell);
+	if (argc == 1)
+	{
+		store_environment(&shell, env);
+		while (1)
+		{
+			prompt(&shell);
+			tokenize(&shell, shell.input);
+			free_set_null((void **)&shell.input);
+			if (shell.cmd_array == NULL) //in case of missing closing bracket / empty input
+				continue;
+			parse(&shell);
+			if (shell.cmd_array == NULL) //in case of error that does not need to stop program
+				continue;
+			clear_nonessential_memory(&shell);
+		}
+	}
+	else if (argc > 1 && argv)          // args to be processed
+		dprintf(2, "minishell : too many arguments\n");
 	clear_memory(&shell);
 	return 0;
 }
