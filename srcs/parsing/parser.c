@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/01 16:15:05 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/01 18:07:10 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,20 +160,18 @@ static int	set_flags(t_token **cmd_array)
 //si token = "" alors becomes a space
 // -----------------------------------------------------------------------------------------
 
-//!! strlen de null fait segfault
-
-
 static char	*get_var_value(int i, int j, const char *str, t_shell *shell)
 {
 	char		*var_name;
 	char		*var_value;
 
 	var_value = NULL; //a enlever?
-	var_name = calloc_sh(shell, sizeof(char) * j + 2); //+2 because1 for $ char and 1 for \0
-	ft_strlcpy(var_name, str + i + 1, j + 2);
-	ft_printf(1, "var_name = %s\n", var_name);
+	var_name = calloc_sh(shell, sizeof(char) * j); //bc j = var_name_len
+	ft_strlcpy(var_name, str + i + 1, j);
+	// ft_printf(1, "var_name = %s et j = %d\n", var_name, j);
+	var_value = get_env(shell, var_name);
+	free(var_name);
 	return (var_value);
-	(void)shell;
 }
 
 
@@ -181,39 +179,36 @@ static char	*get_var_value(int i, int j, const char *str, t_shell *shell)
 //echo $$ 
 //bash 810
 //i starts at $
-static int	insert_var_in_str(char *str, const int i, t_shell *shell)
+static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 {
 	int			j;
-	int			value_len;
+	int			dst_len;
 	char		*dst;
 	char		*value;
 
 	j = 1; // to start after $
-	if (!(ft_isalpha(str[i + j]) || str[i + j] == '_')) //if doesn't start by letter or _
+	if (!(ft_isalpha((*str)[i + j]) || (*str)[i + j] == '_')) //if doesn't start by letter or _
 	{
 		//if $$ alors il faut inserer 810
-		ft_memmove(str + i, str + i + 2, ft_strlen(str));//test if strlen == 0
-		return (2);
+		ft_memmove(*str + i, *str + i + 2, ft_strlen(*str));//test if strlen == 0
+		return (1);
 	}
-	while (ft_isalnum(str[i + j]) || str[i + j] == '_')
+	while (ft_isalnum((*str)[i + j]) || (*str)[i + j] == '_')
 		j++;
-	dprintf(1, "str + i + j = %s\n", str + i + j); //devrait etre apres le name
-	value = get_var_value(i, j, str, shell);
-	//value_len = len(value); !!! value peu etre null donc strlen va segfault
-	//new_str = malloc(len(str) + len(value) - (j))
-	//strlcpy(new_str, str, i)
-	//strlcat(new_str + i, value, len(new_str + value))
-	//strlcat(new_str + len(new_str) + len(value), str + i + j, new_str size)
-	//free(value)
-	//free(str)
-	//str = new_str
-	//return (value_len)
-	(void)value;
-	(void)value_len;
-	(void)j;
-	(void)dst;
-	(void)shell;
-	return (0);
+	value = get_var_value(i, j, *str, shell);
+	if (!value)
+	{
+		ft_memmove(*str + i, *str + i + j, ft_strlen(*str));
+		return (0);
+	}
+	dst_len = ft_strlen(*str) - j + ft_strlen(value) + 1;
+	dst = calloc_sh(shell, dst_len);
+	ft_strlcpy(dst, *str, i + 1);
+	ft_strlcat(dst, value, dst_len);
+	ft_strlcat(dst, *str + i + j, dst_len);
+	free_set_null((void **)str);
+	*str = dst;
+	return (ft_strlen(value) - 1);
 }
 
 
@@ -229,40 +224,34 @@ static int	insert_var_in_str(char *str, const int i, t_shell *shell)
 
 //In that case up there, if we would restart at the position were $ used to be
 //then it will enter "$USER" and would interpret USER whereas it should not
-static void	process_variables(char *str, t_shell *shell)
+static char	*process_variables(char *str, t_shell *shell)
 {
 	int			i;
 	
 	i = 0;
-	dprintf(1, "str at start= %s\n", str);
 	while (str[i])
 	{
-		//dprintf(1, "char n*%d = %c\n", i, str[i]);
 		if (str[i] == '"')
 		{
 			i++;
 			while (str[i] != '"' && str[i])
 			{	
 				if (str[i] == '$')
-					i += insert_var_in_str(str, i, shell);
-					//dprintf(1, "rentre dans dble quotes a %s\n", str + i);
+					i += insert_var_in_str(&str, i, shell);
 				i++;
 			}
 		}
 		else if (str[i] == '\'')
 		{
 			i++;
-			// dprintf(1, "ici\n");
 			while (str[i] != '\'' && str[i])
 				i++;
 		}
 		else if (str[i] == '$')
-			i += insert_var_in_str(str, i, shell);
-			// dprintf(1, "rentre hors quotes a %s\n", str + i);
+			i += insert_var_in_str(&str, i, shell);
 		i++;
 	}
-	dprintf(1, "str = %s\n", str);
-	(void)shell;//a enlever
+	return (str);
 }
 
 static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
@@ -276,7 +265,7 @@ static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
 		token = cmd_array[i];
 		while (token)
 		{	
-			process_variables(token->word, shell);//??
+			token->word = process_variables(token->word, shell);//??
 			dprintf(1, "token = %s\n", token->word);
 			//trim_quotes(token->word);	
 			token = token->next;
