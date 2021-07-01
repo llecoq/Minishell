@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 14:41:29 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 16:12:41 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 17:38:53 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,51 @@ void	print_env(t_shell *shell)
 		ft_printf(1, "%s\n", (char *)shell->envp[i]);
 }
 
+int	search_for_changing_dir(char *argv)
+{
+	int	i;
+
+	i = -1;
+	while (argv[++i])
+		if (argv[i] == '/' || argv[i] == '.')
+			return (1);
+	return (0);
+}
+
+int	process_env_args(char **argv)
+{
+	int		fd;
+	int		ret;
+	int		denied;
+	char	buff;
+
+	if (*argv[1] == '-')
+		return (ILLEGAL_OPTION);
+	denied = search_for_changing_dir(argv[1]);
+	fd = open(argv[1], O_RDONLY);
+	ret = read(fd, &buff, 1);
+	if (ret == 1)
+		return (NO_SUCH_FILE_OR_DIRECTORY);
+	if (ret == -1 && denied == 1)
+		return (PERMISSION_DENIED);
+	return (0);
+}
+
 int	ft_env(t_shell *shell, char **argv)
 {
-	(void)shell;
+	int	args_value;
+
 	if (argv[1])
 	{
-		ft_putstr_fd("env: too many arguments\n", 2);   // bash doesnt act the same
+		args_value = process_env_args(argv);
+		if (args_value == ILLEGAL_OPTION)
+			ft_printf(2, "env: illegal option -- %c\nusage: env\n", argv[1][1]);
+		if (args_value == PERMISSION_DENIED)
+			ft_printf(2, "env: %s: Permission denied\n", argv[1]);
+		if (args_value == NO_SUCH_FILE_OR_DIRECTORY)
+			ft_printf(2, "env: %s: No such file or directory\n", argv[1]);
 		return (1);										// may have different return value
 	}
+	print_env(shell);
 	return (0);		// SUCCESS !!!
 }
