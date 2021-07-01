@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 15:19:21 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/30 12:19:22 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 15:52:09 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include "ft_printf/ft_printf.h"
+// # include "../includes/minishell.h"
 
 typedef struct s_list
 {
