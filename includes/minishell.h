@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 15:06:39 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 17:19:03 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,9 @@ enum	e_env
 {
 	IS_SET = 1,
 	IS_UNSET = 0,
+	ILLEGAL_OPTION = 2,
+	PERMISSION_DENIED = 3,
+	NO_SUCH_FILE_OR_DIRECTORY = 4,
 };
 
 enum	e_builtins
