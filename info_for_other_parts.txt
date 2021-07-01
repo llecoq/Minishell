@@ -6,7 +6,7 @@ comme ca : char *argv[] = { "/bin/bash", "-c", "/usr/bin/cat <<EOF\ntest\nEOF", 
 
 REGLE : Pour les redir on ECRASE l'output, pour les arg NORMAUX, on APPEND les output les uns
 a la suite des autres
-RAPPEL : Un output peux soit etre un resultat, soit un message d'erreur
+RAPPEL : Un output peut soit etre un resultat, soit un message d'erreur
 
 0) Check if there are redirections in the cmd, if yes then goes to 1 if no goes to 2
 	In any case next steps happen in child process : 

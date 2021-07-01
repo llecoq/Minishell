@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
+#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/29 10:45:55 by abonnel           #+#    #+#              #
-#    Updated: 2021/06/18 15:45:38 by abonnel          ###   ########.fr        #
+#    Updated: 2021/07/01 14:59:20 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,9 @@ CFLAGS	= -Wall -Wextra -Werror
 
 $(NAME):	$(OBJS)
 			$(MAKE) -C ./gnl
+			$(MAKE) -C ./ft_printf
 			cp gnl/libgnl.a $(NAME)
+			cp ft_printf/libftprintf.a $(NAME)
 			ar rcs $(NAME) $(OBJS)
 			ranlib $(NAME)
 

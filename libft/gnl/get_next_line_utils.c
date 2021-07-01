@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/06 14:58:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/03/29 17:47:26 by abonnel          ###   ########lyon.fr   */
+/*   Updated: 2021/07/01 15:53:49 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,6 @@ void	*ft_calloc(size_t count, size_t size)
 		nb_bytes--;
 	}
 	return (ptr);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	int				s_len;
-	char			*s_bis;
-	int				i;
-
-	s_len = ft_strlen(s1);
-	s_bis = (char *)malloc(sizeof(char) * (s_len + 1));
-	if (!(s_bis))
-		return (0);
-	i = -1;
-	while (s1[++i])
-		s_bis[i] = s1[i];
-	s_bis[i] = '\0';
-	return (s_bis);
 }
 
 char	*strjoin_free1(char *s1, char *s2)

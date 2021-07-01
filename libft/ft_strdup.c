@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:48:12 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/30 12:13:40 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 16:13:26 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*ft_strdup(const char *s1)
 
 	s_len = ft_strlen(s1);
 	s_bis = NULL;
-	if (!(ft_malloc(s_bis, sizeof(char) * (s_len + 1))))
+	s_bis = malloc(sizeof(char) * (s_len + 1));
+	if (!s_bis)
 		return (0);
 	i = -1;
 	while (s1[++i])
