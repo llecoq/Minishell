@@ -1,4 +1,17 @@
+Attention si on veux vraiment faire propre il faudrait que toutes les fonctions de la libft
+qu'on utilise qui contiennent un malloc soit protegees
+
 EVALUATOR -------------------------------------
+Voir man bash 3.6 REDIRECTIONS 
+->Pour recuperer l'output dans le cas de plusieurs input redirection consecutif il faut
+peut etre simplement aussi faire un dup2() ou cette fois on link stderr et sdout a un
+file qu'on cree nous mm en mode O_CREAT O_TRUNC et dans lequel on reecrira par dessus
+
+A failure to open or create a file causes the redirection to fail.
+
+Redirections using file descriptors greater than 9 should be used with care, as they may conflict with file descriptors the shell uses internally.
+
+
 
 https://www.sarathlakshman.com/2012/09/24/implementation-overview-of-redirection-and-pipe-operators-in-shell
 VERIFIER si les redirections sont bien traitees en amont des execve ou si on fait un truc moche
@@ -8,6 +21,10 @@ REGLE : Pour les redir on ECRASE l'output, pour les arg NORMAUX, on APPEND les o
 a la suite des autres
 RAPPEL : Un output peut soit etre un resultat, soit un message d'erreur
 
+0) The output of each command in the pipeline is connected via a pipe to the input of 
+the next command. That is, each command reads the previous command’s output. 
+This connection is performed before any redirections specified by the command.
+->voir 3.2.3 de man bash
 0) Check if there are redirections in the cmd, if yes then goes to 1 if no goes to 2
 	In any case next steps happen in child process : 
 1) Execute < ou <<, dans leur ordre d'apparition
