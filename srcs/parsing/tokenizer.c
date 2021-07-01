@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/30 12:40:22 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/01 16:07:47 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*create_word_token(int i, const char *input, t_shell *shell)
 	char	closing_quote;
 	
 	start = i;
-	//dprintf(1, "input[start] == %c\n", input[start]);
+	//ft_printf(1, "input[start] == %c\n", input[start]);
 	while (input[i])
 	{	
 		if (is_quote(input[i]))
@@ -112,7 +112,7 @@ static void	split_into_tokens(int nb_of_cmds, const char *input, t_shell *shell)
 		if (!input[i] && i != 0)
 			break;
 		token = return_token(i, input, shell);
-		//dprintf(1, "token = %s|\n", token);
+		//ft_printf(1, "token = %s|\n", token);
 		add_token_tail(&shell->cmd_array[j], create_new_token(token, shell));
 		i += ft_strlen(token);
 		if (is_redirection(return_tail_token(shell->cmd_array[j])->word, 0) == PIPE)
@@ -142,9 +142,9 @@ void	tokenize(t_shell *shell, const char *input)
 		error(shell, NO_CLOSING_QUOTE);
 		return ;
 	}
-	//dprintf(1, "nb of cmds = %d\n", nb_of_cmds);
+	//ft_printf(1, "nb of cmds = %d\n", nb_of_cmds);
 	split_into_tokens(nb_of_cmds, input, shell);
 	
 	//print_cmd_array(shell->cmd_array); // A SUPPRIMER
-	//dprintf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);//verify that is null
+	//ft_printf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);//verify that is null
 }

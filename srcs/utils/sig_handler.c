@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:12:40 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 09:25:15 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 16:07:47 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	sig_handler(int signum)
 {
-	// dprintf(1, "\nsignum = %d", signum);
+	// ft_printf(1, "\nsignum = %d", signum);
 	if (signum == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);   // printf peut poser pb à cause du buffer

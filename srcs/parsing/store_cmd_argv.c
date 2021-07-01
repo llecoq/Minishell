@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 13:35:57 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/25 15:02:24 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 16:07:47 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 // 	size_t	i;
 
 // 	nb_of_words = count_words(cmd_array);
-// 	dprintf(1, "cmd_number = %zu   nb_of_words = %zu\n", cmd_number, nb_of_words);
+// 	ft_printf(1, "cmd_number = %zu   nb_of_words = %zu\n", cmd_number, nb_of_words);
 // 	shell->cmd_argv[cmd_number]
 // 		= calloc_sh(shell, sizeof(char *) * (nb_of_words + 1));
 // 	i = -1;

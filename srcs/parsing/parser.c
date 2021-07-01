@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/30 20:42:25 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 16:07:47 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,13 @@ void	parse(t_shell *shell)
 {
 	initialize_flags_values(shell->cmd_array);
 	//if (shell->cmd_array[0]->cmd)
-	//	dprintf(1, "flag cmd = %d\n", shell->cmd_array[0]->cmd);
-	// dprintf(1, "flag arg = %d\n", shell->cmd_array[0]->arg);
-	// dprintf(1, "flag redir = %d\n", shell->cmd_array[0]->redir);
+	//	ft_printf(1, "flag cmd = %d\n", shell->cmd_array[0]->cmd);
+	// ft_printf(1, "flag arg = %d\n", shell->cmd_array[0]->arg);
+	// ft_printf(1, "flag redir = %d\n", shell->cmd_array[0]->redir);
 	if (set_flags(shell->cmd_array) == NOTHING_AFTER_REDIR)
 	{
 		error(shell, NOTHING_AFTER_REDIR);
 		return ;
 	}
-	//dprintf(1, "END OF PARSE()\n");
+	//ft_printf(1, "END OF PARSE()\n");
 }

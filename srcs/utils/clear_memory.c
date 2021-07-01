@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:41:28 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/30 11:41:03 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/01 16:07:47 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ void	clear_memory(t_shell *shell)
 	if (shell->user_dir)
 		free_set_null((void **)&shell->user_dir);
 	clear_nonessential_memory(shell);
-	//dprintf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);
+	//ft_printf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);
 }

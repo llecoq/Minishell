@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:42:24 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 14:16:18 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 16:07:47 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ int	invalid_args_or_options(char **argv, char *name)
 {
 	if (argv[1] && *argv[1] == '-')
 	{
-		dprintf(2, "minishell: %s: -%c: invalid option\n", name, argv[1][1]);
+		ft_printf(2, "minishell: %s: -%c: invalid option\n", name, argv[1][1]);
 		if (strncmp(name, "pwd", 3) == 0)
 		{
-			dprintf(1, "pwd: usage: pwd\n");
+			ft_printf(1, "pwd: usage: pwd\n");
 			return (1);
 		}
-		dprintf(2, "%s: usage: %s [name", name, name);
+		ft_printf(2, "%s: usage: %s [name", name, name);
 		if (strncmp(name, "export", ft_strlen(name)) == 0)
 			ft_putstr_fd("[=value]", 2);
 		ft_putstr_fd(" ...]\n", 2);
@@ -82,7 +82,7 @@ int	ft_unset(t_shell *shell, char **argv)
 			unset_variable(shell->env_list, argv[1]);
 	else
 	{
-		dprintf(2, "minishell: unset: `%s': not a valid identifier\n", argv[1]);
+		ft_printf(2, "minishell: unset: `%s': not a valid identifier\n", argv[1]);
 		return (-1);
 	}
 	store_environment_tab(shell, shell->env_list, env_size(shell->env_list));
