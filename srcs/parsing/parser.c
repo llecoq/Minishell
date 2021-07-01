@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/30 12:40:39 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/06/30 20:42:25 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ otherwise look through paths and **save path in node**.
 /!\ "echo" works so we need to do preprocessing before
 
 Else : free and "zsh: command not found: lsls" 
-Fonction faite par LQ pour nos built ins
 
 ----------------------------------------------------------------------------------------
 → CREATE char **argv : nb of arg = cmd + nb of flag arg

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 14:41:29 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/30 15:54:00 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 14:18:08 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_env(t_shell *shell)
 	i = -1;
 	while (shell->envp[++i])
 	{
-		dprintf(1, "%d     ", i);
+		dprintf(1, "%d     ", i);  // only for tests, delete afterwards
 		ft_putstr_fd((char *)shell->envp[i], 1);
 		ft_putchar_fd('\n', 1);
 	}

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/06/30 18:57:35 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 13:08:10 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	put_env(t_shell *shell, char *string)
 	char	*name;
 	int		return_value;
 
+	if (!string)
+		return (-1);
 	return_value = valid_var_name(shell, string, &name);
 	if (return_value == 1)
 	{
