@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 14:07:20 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 15:35:49 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,21 @@ void	store_path_list(t_shell *shell, char *path)
 	}
 	free(path_tab);
 }
+
+// void	store_environment_list(t_shell *shell, char *const *env)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	(void)shell;
+// 	while (env[++i])
+// 		ft_printf("%s\n", env[i]);
+// 	char *test;
+
+// 	test = ft_strdup(env[i]);
+// 	// while (env[++i])
+// 	// 	ft_lstadd_back(&shell->env_list, ft_lstnew(ft_strdup(env[i])));
+// }
 
 void	store_environment_list(t_shell *shell, char *const *env)
 {
