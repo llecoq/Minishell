@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/02 13:53:23 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/02 16:19:06 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	return (ft_strlen(value) - 1);
 }
 
-/*--------------------------PROCESS_VARIABLES -------------------------------*/
+/*--------------------------PROCESS_VARIABLES() -----------------------------*/		
 //We must restart at i + length of var value bc otherwise it will interpret 
 //things it should not so we send an int ptr to insert_var_in_str()
 //Variables that reference other var inside of themselves are already
@@ -217,8 +217,6 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 // bonjour HEHE"$USER"bonjour et ensuite
 // bash-3.2$ env | grep "NEWW"
 // NEWW=HEHE"$USER"bonjour
-
-//We can reuse thise function for export()
 /*---------------------------------------------------------------------------*/
 
 char	*process_variables(char *str, t_shell *shell)
@@ -251,6 +249,9 @@ char	*process_variables(char *str, t_shell *shell)
 	return (str);
 }
 
+/*-------------- EVERYTHING BEFORE THIS HAS BEEN TESTED ---------------------*/
+/*-------------- APRES VACANCES - FAIRE BELOW -------------------------------*/
+
 /*---------------------------------------------------------------------------*/
 /*------------------- TRIM QUOTES -------------------------------------------*/
 /*---------------------------------------------------------------------------*/
@@ -261,7 +262,7 @@ trim ' et " sur tous les tokens !! on ne trim pas tous les " et '
 on les trim 2 a deux
 donc le long du token des qu'on en trouve un on va chercher le closing one
 et on enleve juste ce "couple" et ainsi de suite
-si token = "" alors becomes a space
+si token = "" then becomes nothing
 */
 
 /*---------------------------------------------------------------------------*/
@@ -275,6 +276,8 @@ Verify that each token with the flag CMD is true :
 Otherwise look through $PATH and save path in node->cmd_path. 
 
 Else : free and "zsh: command not found: lsls"
+refer to minishell notion.so for implementation + Louis had created a
+function for that already
 */
 
 /*---------------------------------------------------------------------------*/
@@ -284,7 +287,13 @@ Else : free and "zsh: command not found: lsls"
 /*
 CREATE char **argv : nb of arg = nb of token with flags cmd and arg
 We do not include redirections tokens in char **argv
+We can just make the argv[] point to the adress of token? 
+instead of duplicating memory
 */
+
+/*---------------------------------------------------------------------------*/
+/*------------------- PARSING LAUNCHER --------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
 {
@@ -297,11 +306,11 @@ static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
 		token = cmd_array[i];
 		while (token)
 		{	
-			if (token->redir == 1 && !is_redirection(token->word, 0))
+			if (token->redir == 1 && !is_redirection(token->word, 0))//not enough, refer to comment in parse() below
 				verify_redir_is_one_word(token->word, shell);
-			token->word = process_variables(token->word, shell);//??
+			token->word = process_variables(token->word, shell);
 			//dprintf(1, "token = %s\n", token->word);
-			//trim_quotes(token->word);	
+			//trim_quotes(token->word);
 			token = token->next;
 		}
 		i++;
@@ -309,10 +318,17 @@ static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
 }
 
 
+
+/*
+Pour RETOUR DE VACANCES :
+Continuer a regarder la gestion d'erreur avant de continuer a implementer (voir commentaire
+dans parse()
+Avant de trim quotes, cmd verification et char **argv creation
+*/
 void	parse(t_shell *shell)
 {
 	/*
-	!! error handling, it does not stop program, other parser error will diplay
+	!! error handling, it does not stop program, other parser error will display
 	and be added to one another
 	
 	bash-3.2$ echo < $VARR | txt.txt
@@ -328,6 +344,7 @@ void	parse(t_shell *shell)
 	
 	*/
 	//we need to check if there is NOTHING_AFTER_REDIR after we do syntax processing
+	//bc amiguous redirect has more priority than echo >
 	//beware that there aren't 2 errors for
 	//echo >			and 			echo >$5 		as shown before
 	//so check this within same function -> /!\ ambiguous reidrect error display

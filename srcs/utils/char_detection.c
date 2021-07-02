@@ -6,12 +6,14 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 10:40:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/28 15:19:42 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/02 16:15:57 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// ! this function does not check wether str is only a redirection and not
+// >>xxx per example
 int	is_redirection(const char *str, int i)
 {
 	if (str[i] == '|')
