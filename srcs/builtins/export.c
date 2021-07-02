@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:32:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 16:07:47 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/02 17:03:36 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@ char	*join_args(char	**argv)
 	return (export_name_and_value);
 }
 
+int	print_export_list(t_list *export_list)
+{
+	while (export_list)
+	{
+		ft_printf(1, "declare -x %s\n", export_list->content);
+		export_list = export_list->next;
+	}
+	return (0);
+}
+
 int	ft_export(t_shell *shell, char **argv)
 {
 	char	*export_name_and_value;
@@ -57,7 +67,7 @@ int	ft_export(t_shell *shell, char **argv)
 	if (invalid_args_or_options(argv, "export"))
 		return (-1);
 	if (!argv[1])
-		return (ft_printf(1, "need to print export list\n"));
+		return (print_export_list(shell->export_list));
 	if (valid_name(argv[1], "export"))
 	{
 		export_name_and_value = ft_strdup(argv[1]);

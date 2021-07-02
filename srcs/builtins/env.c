@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 14:41:29 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 17:38:53 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/01 18:07:19 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 // are coming back to the original position in the list
 // We need to print it from the tab, because in the linked list there is still
 // elements that are unset and should not be printed
-
 void	print_env(t_shell *shell)
 {
 	int	i;

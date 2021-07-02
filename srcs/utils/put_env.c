@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 14:25:20 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/02 17:01:02 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ int	valid_var_name(t_shell *shell, char *string, char **name)
 	while (string[i] && string[i] != '=')
 		i++;
 	if (string[i] != '=')
+	{
+		ft_lstadd_back(&shell->export_list, ft_lstnew(ft_strdup(string)));
+		sort_alphabetically_list(&shell->export_list);
 		return (-1);		// only visible in export, but not in env
+	}
 	i++;
 	*name = calloc_sh(shell, i);
 	ft_strlcpy(*name, string, i);

@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/26 17:48:12 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/02 16:11:09 by llecoq           ###   ########.fr       */
+/*   Created: 2021/07/01 18:07:59 by llecoq            #+#    #+#             */
+/*   Updated: 2021/07/02 15:59:17 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-char	*ft_strdup(const char *s1)
+int	ft_echo(t_shell *shell, char **argv)
 {
-	int		s_len;
-	char	*s_bis;
-	int		i;
-
-	s_len = ft_strlen(s1);
-	s_bis = NULL;
-	s_bis = malloc(sizeof(char) * (s_len + 1));
-	if (!s_bis)
-		return (0);
-	i = -1;
-	while (s1[++i])
-		s_bis[i] = s1[i];
-	s_bis[i] = '\0';
-	return (s_bis);
+	(void)shell;
+	(void)argv;
+	return (1);
 }

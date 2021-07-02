@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 15:35:49 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/02 16:45:22 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,10 @@ void	store_path_list(t_shell *shell, char *path)
 	free(path_tab);
 }
 
-// void	store_environment_list(t_shell *shell, char *const *env)
-// {
-// 	int	i;
-
-// 	i = -1;
-// 	(void)shell;
-// 	while (env[++i])
-// 		ft_printf("%s\n", env[i]);
-// 	char *test;
-
-// 	test = ft_strdup(env[i]);
-// 	// while (env[++i])
-// 	// 	ft_lstadd_back(&shell->env_list, ft_lstnew(ft_strdup(env[i])));
-// }
-
-void	store_environment_list(t_shell *shell, char *const *env)
+void	store_list(t_list **list, char *const *env)
 {
 	while (*env)
-		ft_lstadd_back(&shell->env_list, ft_lstnew(ft_strdup(*env++)));
+		ft_lstadd_back(list, ft_lstnew(ft_strdup(*env++)));
 }
 
 // store the environment in a tab, by sending it a linked list.
@@ -87,7 +72,9 @@ void	store_environment_tab(t_shell *shell, t_list *env_list, int len)
 
 int	store_environment(t_shell *shell, char *const *envp)
 {
-	store_environment_list(shell, envp);
+	store_list(&shell->env_list, envp);
+	store_list(&shell->export_list, envp);
+	sort_alphabetically_list(&shell->export_list);
 	store_environment_tab(shell, shell->env_list, env_size(shell->env_list));
 	store_path_list(shell, getenv("PATH"));
 	return (1);

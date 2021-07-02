@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 17:19:03 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/02 16:48:40 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ typedef struct	s_shell
 {
 	char		*input; // readline
 	char		*user_dir;
-	const char	**envp;
+	char		**envp;
 	const char	***cmd_argv;
 	t_list		*env_list;
+	t_list		*export_list;
 	t_list		*path;
 	t_token 	**cmd_array; //last cmd_array is set to NULL;
 	int			change_directory;
@@ -139,6 +140,7 @@ void		sig_handler(int signum);
 void		get_signal(void);
 void		print_list(t_list *list);
 void		print_env(t_shell *shell);
+void		sort_alphabetically_list(t_list **export_list);
 char		*get_env(t_shell *shell, const char *name);
 int			put_env(t_shell *shell, char *string);
 int			invalid_args_or_options(char **argv, char *name);
