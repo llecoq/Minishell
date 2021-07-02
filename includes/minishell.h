@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/02 16:48:40 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/02 17:12:00 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct 	s_token
 	t_flag			cmd;
 	t_flag			arg;
 	t_flag			redir;
+	char			*cmd_path;
 	struct s_token	*next;
 }				t_token;
 
@@ -102,6 +103,7 @@ enum	e_errors
 {
 	NO_CLOSING_QUOTE = -1,
 	NOTHING_AFTER_REDIR = -2,
+	REDIR_IS_NOT_ONE_WORD,
 };
 
 enum	e_env
@@ -135,7 +137,7 @@ void		clear_memory(t_shell *shell);
 void		clear_nonessential_memory(t_shell *shell);
 void		free_cmd_array(t_token **cmd_array);
 void		error_quit(t_shell *shell, int error_type);
-void		error(t_shell *shell, int error_type);
+void		error(t_shell *shell, int error_type, char *str);
 void		sig_handler(int signum);
 void		get_signal(void);
 void		print_list(t_list *list);
@@ -176,6 +178,8 @@ int			store_environment(t_shell *shell, char *const *envp);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
 void		parse(t_shell *shell);
+char		*process_variables(char *str, t_shell *shell);
+
 
 /*
 ** builtins
