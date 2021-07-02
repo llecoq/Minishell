@@ -41,7 +41,7 @@ bash-3.2$ ls -la | wc |
 --> I CHOSE the other error msg bc "unexpected end of file"
 happens bc of multiline that we do not havw to handle
 */
-void	error(t_shell *shell, int error_type)
+void	error(t_shell *shell, int error_type, char *str)
 {
 	if (error_type == 0) //errno pour les built-in 
 		ft_printf(2, "%s\n", strerror(errno));
@@ -52,8 +52,8 @@ void	error(t_shell *shell, int error_type)
 	}
 	else if (error_type == NOTHING_AFTER_REDIR)
 		ft_printf(2, "minishell: syntax error near unexpected token `newline'");
-	// else if (error_type == 3)
-	// 	ft_printf(2, "");
+	else if (error_type == REDIR_IS_NOT_ONE_WORD)
+		ft_printf(2, "minishell: %s: ambiguous redirect", str);
 	// else if (error_type == 4)
 	// 	ft_printf(2, "");
 	// else if (error_type == 5)

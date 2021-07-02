@@ -6,31 +6,20 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/01 18:07:10 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/02 13:53:23 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-The word following the redirection operator in the following descriptions,
-is subjected to parameter expansion
-If it expands to more than one word, Bash reports an error.
------------------------------------------------------------------------------------------
-→ **Verify if each CMD token is** **true** : echo / cd / pwd/ export / unset/ env / exit,
-otherwise look through paths and **save path in node**. 
-in case command is only spaces, in bash it IS a command so I did create a cmd_array for it
-but program goes back to prompt when only space
+/*---------------------------------------------------------------------------*/
+/*------------------- FLAG ASSIGNATION---------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
-Else : free and "zsh: command not found: lsls" 
+// We first initialize flags values by default to -1 bc it will 
+// allow us to make sure they have all been properly set
+// Then we set each to 1 or 0
 
-----------------------------------------------------------------------------------------
-→ CREATE char **argv : nb of arg = cmd + nb of flag arg
-
-
-We only put cmd and args flags in char **argv
----------------------------------------------------------------------------------------
-*/
 
 static void	initialize_flags_values(t_token **cmd_array)
 {
@@ -114,71 +103,72 @@ static int	set_flags(t_token **cmd_array)
 	return (1);
 }
 
-//------------------------------------------------------------------------------
+
+/*---------------------------------------------------------------------------*/
+/*-------- CHECK REDIRECTION IS ONLY ONE WORD -------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+/*
+The word following the redirection operator in the following descriptions,
+is subjected to parameter expansion
+If it expands to more than one word, Bash reports an error.
+It is done before var expansion bc error needs token->word value
+before expansion
+
+bash-3.2$ export VARR="bonjour comment"
+bash-3.2$ echo < $VARR
+bash: $VARR: ambiguous redirect
+*/
+
+static void	verify_redir_is_one_word(char *token, t_shell *shell)
+{
+	int			i;
+	char		*variable_value;
+
+	variable_value = process_variables(token, shell);
+	if (variable_value == NULL)
+		error(shell, REDIR_IS_NOT_ONE_WORD, token);
+	i = 0;
+	while (token[i])
+	{
+		if (token[i] == ' ')
+			error(shell, REDIR_IS_NOT_ONE_WORD, token);
+		i++;
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+/*------------------- VAR EXPANSION -----------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
 //REPLACE ENV VAR BY THEIR VALUES
-//ce sont les outmost outer quotes qui donnent le ton
-//Entrer dans fonction selon les cas
-//si entre '' on avance jusqu'a prochaine closing one sans regarder ce qu'il y a entre les deux
-//si entre "" ou pas entre quotes n'importe quelle var d'env rencontree sera a remplacer
+//For var that does not exist, just prints nothing
 
-//for var that does not exist, just prints nothing
-
+//Outermost quotes are the one that defines behavior :
 // echo "aa $USER '$USER' lol"
 // aa abonnel 'abonnel' lol
 
-//!! 
-// echo bonr"hihi $USER'$USER"
-// bonrhihi abonnel'abonnel
-// echo "bonjour$USER#lol"
-// bonjourabonnel#lol
-//ATTENTION, var name est delimité soit par un espace apres le nom soit n'importe quel char
-//non alphanumerique except underscore
-// name :
-// A word consisting solely of letters, numbers, and underscores, and beginning with
-// a letter or underscore. Names are used as shell variable and function names. Also
-// referred to as an identifier.
-
-//!! si chiffre apres $mange le premier chiffre et laisse le reste intact
-// bash-3.2$ echo "bonjour$456USER-lol"
-// bonjour56USER-lol
-// bash-3.2$ echo "bonjour$56USER-lol"
-// bonjour6USER-lol
-// bash-3.2$ echo "bonjour$6USER-lol"
-// bonjourUSER-lol
-
-// -----------------------------------------------------------------------------------------
-// 
-// The word following the redirection operator in the following descriptions,
-// is subjected to parameter expansion
-// If it expands to more than one word, Bash reports an error.
-//-----------------------------------------------------------------------------
-//TRIM OUTER QUOTES
-//trim ' et " sur tous les tokens !! on ne trim pas tous les " et '
-//on les trim 2 a deux
-//donc le long du token des qu'on en trouve un on va chercher le closing one
-//et on enleve juste ce "couple" et ainsi de suite
-//si token = "" alors becomes a space
-// -----------------------------------------------------------------------------------------
+// Var name :
+// A word consisting solely of letters, numbers, and underscores
+// and beginning with a letter or underscore.
+// If char following $ is not a letter or underscore then $ + this following
+// char expand to nothing
 
 static char	*get_var_value(int i, int j, const char *str, t_shell *shell)
 {
 	char		*var_name;
 	char		*var_value;
 
-	var_value = NULL; //a enlever?
-	var_name = calloc_sh(shell, sizeof(char) * j); //bc j = var_name_len
+	var_value = NULL;
+	var_name = calloc_sh(shell, sizeof(char) * j); //bc j = var_name_len + 1
 	ft_strlcpy(var_name, str + i + 1, j);
-	// ft_printf(1, "var_name = %s et j = %d\n", var_name, j);
 	var_value = get_env(shell, var_name);
 	free(var_name);
 	return (var_value);
 }
 
-
-//!! $$ = 810 
-//echo $$ 
-//bash 810
 //i starts at $
+//echo $$ is not to be handled by us
 static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 {
 	int			j;
@@ -189,42 +179,49 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	j = 1; // to start after $
 	if (!(ft_isalpha((*str)[i + j]) || (*str)[i + j] == '_')) //if doesn't start by letter or _
 	{
-		//if $$ alors il faut inserer 810
-		ft_memmove(*str + i, *str + i + 2, ft_strlen(*str));//test if strlen == 0
+		ft_memmove(*str + i, *str + i + 2, ft_strlen(*str));
 		return (1);
 	}
-	while (ft_isalnum((*str)[i + j]) || (*str)[i + j] == '_')
+	while (ft_isalnum((*str)[i + j]) || (*str)[i + j] == '_') //j goes at the end of var name
 		j++;
 	value = get_var_value(i, j, *str, shell);
-	if (!value)
+	if (!value) //if var does not exist, replace var name by nothing in str
 	{
 		ft_memmove(*str + i, *str + i + j, ft_strlen(*str));
 		return (0);
 	}
+	//dst len = src_len + diff between var name and var value + 1 for \0
 	dst_len = ft_strlen(*str) - j + ft_strlen(value) + 1;
 	dst = calloc_sh(shell, dst_len);
-	ft_strlcpy(dst, *str, i + 1);
-	ft_strlcat(dst, value, dst_len);
-	ft_strlcat(dst, *str + i + j, dst_len);
+	ft_strlcpy(dst, *str, i + 1); //copy str until $ to dst
+	ft_strlcat(dst, value, dst_len); //append var value
+	ft_strlcat(dst, *str + i + j, dst_len); //append rest of str
 	free_set_null((void **)str);
 	*str = dst;
 	return (ft_strlen(value) - 1);
 }
 
+/*--------------------------PROCESS_VARIABLES -------------------------------*/
+//We must restart at i + length of var value bc otherwise it will interpret 
+//things it should not so we send an int ptr to insert_var_in_str()
+//Variables that reference other var inside of themselves are already
+//processed at the export cmd stage so appear already fully expanded in env. 
 
-//We must restart at i + var value length bc otherwise it will interpret things it
-//should not. Variables that reference other var inside of themselves are already
-//processed at the export stage
+//In the case below, it shows what would happen if we would restart at the 
+// position were $ used to be instead of i + length of var value,
+// it would enter "$USER" and would interpret USER whereas it should not
+// as it was originaly defined as a string literal and should remain so
 
 //bash-3.2$ export NEWW='HEHE"$USER"bonjour'
-// bash-3.2$ echo "bonjour $NEWW et ensuite on rigole"
-// bonjour HEHE"$USER"bonjour et ensuite on rigole
+// bash-3.2$ echo "bonjour $NEWW et ensuite"
+// bonjour HEHE"$USER"bonjour et ensuite
 // bash-3.2$ env | grep "NEWW"
 // NEWW=HEHE"$USER"bonjour
 
-//In that case up there, if we would restart at the position were $ used to be
-//then it will enter "$USER" and would interpret USER whereas it should not
-static char	*process_variables(char *str, t_shell *shell)
+//We can reuse thise function for export()
+/*---------------------------------------------------------------------------*/
+
+char	*process_variables(char *str, t_shell *shell)
 {
 	int			i;
 	
@@ -236,7 +233,7 @@ static char	*process_variables(char *str, t_shell *shell)
 			i++;
 			while (str[i] != '"' && str[i])
 			{	
-				if (str[i] == '$')
+				if (str[i] == '$' && str[i + 1])
 					i += insert_var_in_str(&str, i, shell);
 				i++;
 			}
@@ -247,12 +244,47 @@ static char	*process_variables(char *str, t_shell *shell)
 			while (str[i] != '\'' && str[i])
 				i++;
 		}
-		else if (str[i] == '$')
+		else if (str[i] == '$' && str[i + 1])
 			i += insert_var_in_str(&str, i, shell);
 		i++;
 	}
 	return (str);
 }
+
+/*---------------------------------------------------------------------------*/
+/*------------------- TRIM QUOTES -------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+/*
+TRIM OUTER QUOTES
+trim ' et " sur tous les tokens !! on ne trim pas tous les " et '
+on les trim 2 a deux
+donc le long du token des qu'on en trouve un on va chercher le closing one
+et on enleve juste ce "couple" et ainsi de suite
+si token = "" alors becomes a space
+*/
+
+/*---------------------------------------------------------------------------*/
+/*------------------- CMD VERIFICATION---------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+/*
+Verify that each token with the flag CMD is true : 
+	echo / cd / pwd/ export / unset/ env / exit,
+
+Otherwise look through $PATH and save path in node->cmd_path. 
+
+Else : free and "zsh: command not found: lsls"
+*/
+
+/*---------------------------------------------------------------------------*/
+/*------------------- CHAR **ARGV CREATION ----------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+/*
+CREATE char **argv : nb of arg = nb of token with flags cmd and arg
+We do not include redirections tokens in char **argv
+*/
 
 static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
 {
@@ -265,8 +297,10 @@ static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
 		token = cmd_array[i];
 		while (token)
 		{	
+			if (token->redir == 1 && !is_redirection(token->word, 0))
+				verify_redir_is_one_word(token->word, shell);
 			token->word = process_variables(token->word, shell);//??
-			dprintf(1, "token = %s\n", token->word);
+			//dprintf(1, "token = %s\n", token->word);
 			//trim_quotes(token->word);	
 			token = token->next;
 		}
@@ -274,16 +308,33 @@ static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
 	}
 }
 
-/* 
-We first initialize flags values by default to -1 bc it will allow us to make sure
-they have all been properly set
-Then we set each to 1 or 0
-*/
+
 void	parse(t_shell *shell)
 {
+	/*
+	!! error handling, it does not stop program, other parser error will diplay
+	and be added to one another
+	
+	bash-3.2$ echo < $VARR | txt.txt
+	bash: $VARR: ambiguous redirect
+	bash: txt.txt: command not found
+
+	below shows that ambiguous redirect has precedence over 
+	bash-3.2$ echo >
+	bash: syntax error near unexpected token `newline'
+	
+	bash-3.2$ echo > $5
+	bash: $5: ambiguous redirect
+	
+	*/
+	//we need to check if there is NOTHING_AFTER_REDIR after we do syntax processing
+	//beware that there aren't 2 errors for
+	//echo >			and 			echo >$5 		as shown before
+	//so check this within same function -> /!\ ambiguous reidrect error display
+	//needs token before expansion
 	if (set_flags(shell->cmd_array) == NOTHING_AFTER_REDIR)
 	{
-		error(shell, NOTHING_AFTER_REDIR);
+		error(shell, NOTHING_AFTER_REDIR, NULL);
 		return ;
 	}
 	token_syntax_processing(shell->cmd_array, shell);
