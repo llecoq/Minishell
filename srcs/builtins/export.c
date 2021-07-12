@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:32:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/02 17:12:11 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/04 13:23:13 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 // a letter or underscore. Names are used as shell variable and function names. Also
 // referred to as an identifier.
 
-// RESTE A GERER = EXPORT seul
 size_t	count_args(char **argv)
 {
 	int	len;
@@ -28,26 +27,28 @@ size_t	count_args(char **argv)
 	return (len);	
 }
 
-char	*join_args(char	**argv)
+char	*join_args(char	**argv, char *flag)
 {
 	char	*tmp;
-	char	*export_name_and_value;
+	char	*full_argument;
 
 	argv++;
-	export_name_and_value = ft_strjoin(*argv, " ");
+	if (ft_strncmp(flag, "-p", 3) == 0)
+		argv++;
+	full_argument = ft_strjoin(*argv, " ");
 	while (*argv)
 	{
-		tmp = export_name_and_value;
-		export_name_and_value = ft_strjoin(tmp, *argv++);
+		tmp = full_argument;
+		full_argument = ft_strjoin(tmp, *argv++);
 		free(tmp);
 		if (*argv)
 		{
-			tmp = export_name_and_value;
-			export_name_and_value = ft_strjoin(tmp, " ");
+			tmp = full_argument;
+			full_argument = ft_strjoin(tmp, " ");
 			free(tmp);
 		}
 	}
-	return (export_name_and_value);
+	return (full_argument);
 }
 
 int	print_export_list(t_list *export_list)
@@ -74,7 +75,7 @@ int	ft_export(t_shell *shell, char **argv)
 		if (count_args(argv) > 2)
 		{
 			free_set_null((void **)&export_name_and_value);
-			export_name_and_value = join_args(argv);
+			export_name_and_value = join_args(argv, NULL);
 		}
 		put_env(shell, export_name_and_value);
 		free_set_null((void **)&export_name_and_value);
