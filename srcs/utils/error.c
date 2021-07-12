@@ -39,7 +39,7 @@ For NOTHING_AFTER_REDIR
 bash-3.2$ ls -la | wc |
 > bash: syntax error: unexpected end of file
 --> I CHOSE the other error msg bc "unexpected end of file"
-happens bc of multiline that we do not havw to handle
+happens bc of multiline that we do not have to handle
 */
 void	error(t_shell *shell, int error_type, char *str)
 {
@@ -51,7 +51,7 @@ void	error(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "minishell: syntax error: unexpected end of file");
 	}
 	else if (error_type == NOTHING_AFTER_REDIR)
-		ft_printf(2, "minishell: syntax error near unexpected token `newline'");
+		ft_printf(2, "minishell: syntax error near unexpected token %s", str);
 	else if (error_type == REDIR_IS_NOT_ONE_WORD)
 		ft_printf(2, "minishell: %s: ambiguous redirect", str);
 	// else if (error_type == 4)

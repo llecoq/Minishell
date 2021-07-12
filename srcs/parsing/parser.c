@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/02 16:19:06 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/12 16:36:39 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,7 @@ static void	turn_on_flag(int flag, t_token *cpy)
 		cpy->redir = 0;
 }
 
-static int	after_redir(t_token **cpy, t_token *next_cmd)
-{
-	t_token		*next_token;
-	
-	next_token = (*cpy)->next;
-	if (is_redirection((*cpy)->word, 0) == PIPE && next_cmd == NULL)
-		return (NOTHING_AFTER_REDIR);
-	else if (is_redirection((*cpy)->word, 0) != PIPE)
-	{
-		if (next_token == NULL)
-			return (NOTHING_AFTER_REDIR);
-		*cpy = (*cpy)->next;
-		turn_on_flag(REDIR, *cpy);
-	}
-	return (1);
-}
-
-static int	set_flags(t_token **cmd_array)
+static void	set_flags(t_token **cmd_array)
 {
 	int			i;
 	t_token		*cpy;
@@ -89,26 +72,68 @@ static int	set_flags(t_token **cmd_array)
 		while (cpy)
 		{
 			if (is_redirection(cpy->word, 0))
-			{
 				turn_on_flag(REDIR, cpy);
-				if (after_redir(&cpy, cmd_array[i + 1]) == NOTHING_AFTER_REDIR)
-					return (NOTHING_AFTER_REDIR);			
-			}
 			else
 				turn_on_flag(ARG, cpy);
 			cpy = cpy->next;
 		}
 		i++;
 	}
-	return (1);
 }
 
+static char	*create_error_str(char *next_token)
+{
+	char		*error_str;
+
+	error_str = calloc(ft_strlen(next_token) + 3, sizeof(char));
+	error_str[0] = '`';
+	ft_strlcat(error_str, next_token, ft_strlen(next_token) + 3);
+	error_str[ft_strlen(next_token) + 1] = '\'';
+	return (error_str);
+}
+
+static char	*check_after_redir(t_token *cpy, t_token *next_cmd)
+{
+	if (is_redirection(cpy->word, 0) == PIPE && next_cmd == NULL)
+		return (create_error_str("newline"));
+	else if (cpy->next == NULL)
+		return (create_error_str("newline"));
+	else if (cpy->next->redir == 1)
+		return (create_error_str(cpy->next->word));
+	return (NULL);
+}
+
+static void	set_flag_after_redirection(t_token **cmd_array, char **error_str)
+{
+	int			i;
+	t_token		*cpy;
+	
+	i = 0;
+	while (cmd_array[i])
+	{
+		cpy = cmd_array[i];
+		while (cpy)
+		{
+			if (cpy->redir == 1)
+			{
+				*error_str = check_after_redir(cpy, cmd_array[i + 1]);
+				if (*error_str)
+					return ;
+				cpy = cpy->next;
+				turn_on_flag(REDIR, cpy);//next token is redir
+			}
+			cpy = cpy->next;
+		}
+		i++;
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 /*-------- CHECK REDIRECTION IS ONLY ONE WORD -------------------------------*/
 /*---------------------------------------------------------------------------*/
 
 /*
+man bash :
 The word following the redirection operator in the following descriptions,
 is subjected to parameter expansion
 If it expands to more than one word, Bash reports an error.
@@ -141,18 +166,20 @@ static void	verify_redir_is_one_word(char *token, t_shell *shell)
 /*------------------- VAR EXPANSION -----------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
-//REPLACE ENV VAR BY THEIR VALUES
-//For var that does not exist, just prints nothing
+/*
+REPLACE ENV VAR BY THEIR VALUES
+For var that does not exist, just prints nothing
 
-//Outermost quotes are the one that defines behavior :
-// echo "aa $USER '$USER' lol"
-// aa abonnel 'abonnel' lol
+Outermost quotes are the one that defines behavior :
+echo "aa $USER '$USER' lol"
+aa abonnel 'abonnel' lol
 
-// Var name :
-// A word consisting solely of letters, numbers, and underscores
-// and beginning with a letter or underscore.
-// If char following $ is not a letter or underscore then $ + this following
-// char expand to nothing
+Var name :
+A word consisting solely of letters, numbers, and underscores
+and beginning with a letter or underscore.
+If char following $ is not a letter or underscore then $ + this following
+char expand to nothing
+*/
 
 static char	*get_var_value(int i, int j, const char *str, t_shell *shell)
 {
@@ -306,7 +333,7 @@ static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
 		token = cmd_array[i];
 		while (token)
 		{	
-			if (token->redir == 1 && !is_redirection(token->word, 0))//not enough, refer to comment in parse() below
+			if (token->redir == 1 && !is_redirection(token->word, 0))//VERIFY IT WORKS and does not stop parser
 				verify_redir_is_one_word(token->word, shell);
 			token->word = process_variables(token->word, shell);
 			//dprintf(1, "token = %s\n", token->word);
@@ -317,43 +344,48 @@ static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
 	}
 }
 
-
-
 /*
-Pour RETOUR DE VACANCES :
-Continuer a regarder la gestion d'erreur avant de continuer a implementer (voir commentaire
-dans parse()
-Avant de trim quotes, cmd verification et char **argv creation
+Errors :
+	if SYNTAX ERROR (NOTHING_AFTER_REDIR) then subsequent errors won't display / parser is stopped
+	SYNTAX ERROR is checked right after flags are set
+		bash-3.2$ echo > | hehe
+		bash: syntax error near unexpected token `|'
+		---- Nothing is displayed about "hehe"
+		---- The error msg displays the next token even if it is the nxt cmd_array[]
+		---- SYNTAX ERRROR is checked before all the other errors
+	!DONE!
+	
+	otherwise errors add to each other and are displayed from left to right so they should be
+	tested at the level at which they appear
+		bash-3.2$ echo < $VARR | txt.txt
+		bash: $VARR: ambiguous redirect
+		bash: txt.txt: command not found
+		
+		bash-3.2$ echo > $5
+		bash: $5: ambiguous redirect
+
+	/!\ It is not bc there is an error on one command that the next won't happen
+		bash-3.2$ echo haha > $5 | echo haha
+		bash: $5: ambiguous redirect
+		haha
 */
+
 void	parse(t_shell *shell)
 {
-	/*
-	!! error handling, it does not stop program, other parser error will display
-	and be added to one another
-	
-	bash-3.2$ echo < $VARR | txt.txt
-	bash: $VARR: ambiguous redirect
-	bash: txt.txt: command not found
+	char		*no_token_after_redir;
 
-	below shows that ambiguous redirect has precedence over 
-	bash-3.2$ echo >
-	bash: syntax error near unexpected token `newline'
-	
-	bash-3.2$ echo > $5
-	bash: $5: ambiguous redirect
-	
-	*/
-	//we need to check if there is NOTHING_AFTER_REDIR after we do syntax processing
-	//bc amiguous redirect has more priority than echo >
-	//beware that there aren't 2 errors for
-	//echo >			and 			echo >$5 		as shown before
-	//so check this within same function -> /!\ ambiguous reidrect error display
-	//needs token before expansion
-	if (set_flags(shell->cmd_array) == NOTHING_AFTER_REDIR)
+	set_flags(shell->cmd_array);
+	no_token_after_redir = NULL;
+	set_flag_after_redirection(shell->cmd_array, &no_token_after_redir);
+	if (no_token_after_redir)
 	{
-		error(shell, NOTHING_AFTER_REDIR, NULL);
+		//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
+		error(shell, NOTHING_AFTER_REDIR, no_token_after_redir);
+		free(no_token_after_redir);
 		return ;
 	}
 	token_syntax_processing(shell->cmd_array, shell);
+	//check cmd exist
+	//create char **argv
 	//dprintf(1, "END OF PARSE()\n");
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/01 16:07:47 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/12 15:23:38 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_token	*create_new_token(char *token, t_shell *shell)
 	return (new_token);
 }
 
-void	print_cmd_array(t_token **cmd_array)
+void	print_cmd_array(t_token **cmd_array, int flags)
 {
 	int				i;
 	int				x;
@@ -55,7 +55,17 @@ void	print_cmd_array(t_token **cmd_array)
 		x = 0;
 		while (cpy)
 		{
-			ft_printf(1, "cmd[%d], token n*%d = |%s|\n", i, x, cpy->word);
+			ft_printf(1, "cmd[%d], ", i);
+			if (flags == 1)
+			{
+				if (cpy->cmd)
+					ft_printf(1, "flag : CMD, ");
+				if (cpy->arg)
+					ft_printf(1, "flag : ARG, ");
+				if (cpy->redir)
+					ft_printf(1, "flag : REDIR, ");
+			}
+			ft_printf(1, "token n*%d = |%s|\n", x, cpy->word);
 			cpy = cpy->next;
 			x++;
 		}

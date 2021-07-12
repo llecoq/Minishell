@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/02 17:12:00 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/12 16:42:07 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int			finished_by_spaces(const char *str);
 t_token		*return_tail_token(t_token *token_lst);
 void		add_token_tail(t_token **head, t_token *new_token);
 t_token		*create_new_token(char *token, t_shell *shell);
-void		print_cmd_array(t_token **cmd_array);
+void		print_cmd_array(t_token **cmd_array, int flags);
 
 /*
 ** ---------------------------------------------------------------- UTILS

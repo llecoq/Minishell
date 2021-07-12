@@ -76,8 +76,59 @@ main
 encoremain
 erpuimain
 
-For < 
+
+bash-3.2$ echo lala | $5
+bash-3.2$ ls
+Applications	Documents	Library		Music		bin
+Desktop		Downloads	Movies		Pictures	goinfre
+bash-3.2$ echo lala | $VARR
+bash-3.2$ ls
+Applications	Documents	Library		Music		bin
+Desktop		Downloads	Movies		Pictures	goinfre
 
 
 ECHO ----------------------------------------
 si echo "" il faudra print un espace
+
+bash-3.2$ export VAR="   sansespaces"
+bash-3.2$ env | grep "VAR"
+VAR=   sansespaces
+bash-3.2$ echo $VAR
+sansespaces
+
+echo trim first spaces of a var
+
+
+EXIT ----------------------------------------
+prints an "exit" msg on stdERR when we do exit
+
+
+PARSER ----- DRAFT -----------------
+static void	set_flags(t_token **cmd_array)
+{
+	int			i;
+	t_token		*cpy;
+	
+	initialize_flags_values(cmd_array);
+	i = 0;
+	while (cmd_array[i])
+	{
+		cpy = cmd_array[i];
+		turn_on_flag(CMD, cpy);
+		cpy = cpy->next;
+		while (cpy)
+		{
+			if (is_redirection(cpy->word, 0))
+			//{
+				turn_on_flag(REDIR, cpy);
+			//	if (after_redir(&cpy, cmd_array[i + 1]) == NOTHING_AFTER_REDIR)
+			//		return (NOTHING_AFTER_REDIR);			
+			//}
+			else
+				turn_on_flag(ARG, cpy);
+			cpy = cpy->next;
+		}
+		i++;
+	}
+	return (1);
+}
