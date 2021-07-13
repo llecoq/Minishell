@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/12 16:42:07 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/12 17:49:22 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef struct	s_shell
 	t_list		*path;
 	t_token 	**cmd_array; //last cmd_array is set to NULL;
 	int			change_directory;
-	int			exit_code;
 }				t_shell;
 
 enum	e_redirections
@@ -144,6 +143,7 @@ void		print_list(t_list *list);
 void		print_env(t_shell *shell);
 void		sort_alphabetically_list(t_list **export_list);
 char		*get_env(t_shell *shell, const char *name);
+char		*join_args(char	**argv, char *flag);
 int			put_env(t_shell *shell, char *string);
 int			invalid_args_or_options(char **argv, char *name);
 int			valid_name(char *argv, char *built_name);
