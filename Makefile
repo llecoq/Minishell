@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/07/02 17:11:20 by llecoq           ###   ########.fr        #
+#    Updated: 2021/07/13 20:11:26 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS_FILES	=	main.c\
 				utils/error.c\
 				utils/char_detection.c\
 				utils/token_list_functions.c\
+				utils/split_words_into_token.c\
 				utils/sig_handler.c\
 				utils/get_env.c\
 				utils/put_env.c\
@@ -68,8 +69,10 @@ $(OBJSPATH)%.o:		$(SRCSPATH)%.c includes/minishell.h libft/libft.h libft/libft.a
 all:		previous $(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -Llibft -lft -g -lreadline -lhistory\
-			-I includes/readline/8.1/include/readline/ \
+			$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -Llibft -lft -g -lhistory\
+			-lreadline -L /Users/$(USER)/.brew/opt/readline/lib\
+			-I/Users/$(USER)/.brew/opt/readline/include
+# -I includes/readline/8.1/include/readline/ \
 			-Lincludes/readline/8.1/lib
 
 previous:

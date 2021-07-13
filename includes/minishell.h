@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/12 17:49:22 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/13 20:16:18 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 # include <stdio.h>
 # include "readline/8.1/include/readline/readline.h"
 # include "readline/8.1/include/readline/history.h"
-# include <readline/history.h>
+// # include "/Users/$(USER)/.brew/opt/8.1/include/readline/history.h"
+// # include <readline/history.h>
+// # include <readline.h>
 # include <sys/wait.h>
 # include <signal.h>
 # include <unistd.h>
@@ -61,6 +63,7 @@ typedef struct 	s_token
 	t_flag			redir;
 	char			*cmd_path;
 	struct s_token	*next;
+	struct s_token	*previous;
 }				t_token;
 
 typedef struct	s_shell
@@ -142,6 +145,7 @@ void		get_signal(void);
 void		print_list(t_list *list);
 void		print_env(t_shell *shell);
 void		sort_alphabetically_list(t_list **export_list);
+void		split_multiple_words_into_token(t_shell *shell, t_token ***cmd);
 char		*get_env(t_shell *shell, const char *name);
 char		*join_args(char	**argv, char *flag);
 int			put_env(t_shell *shell, char *string);
@@ -178,6 +182,7 @@ int			store_environment(t_shell *shell, char *const *envp);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
 void		parse(t_shell *shell);
+void		turn_on_flag(int flag, t_token *cpy);
 char		*process_variables(char *str, t_shell *shell);
 
 

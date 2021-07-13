@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/13 16:17:39 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/13 20:17:39 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	initialize_flags_values(t_token **cmd_array)
 	}
 }
 
-static void	turn_on_flag(int flag, t_token *cpy)
+void	turn_on_flag(int flag, t_token *cpy)
 {
 	if (flag == CMD)
 		cpy->cmd = 1;
@@ -523,7 +523,8 @@ void	parse(t_shell *shell)
 	token_syntax_processing(shell->cmd_array, shell);
 	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 	//check cmd exist
-	// split_multiple_words_into_token
+	split_multiple_words_into_token(shell, &shell->cmd_array);
+	// print_cmd_array(shell->cmd_array, 1);
 	//trim quotes
 	//Check each redirection ?
 	//create char **argv

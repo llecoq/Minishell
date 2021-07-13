@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/12 15:23:38 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/13 16:46:00 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,15 @@ t_token	*return_tail_token(t_token *token_lst)
 
 void	add_token_tail(t_token **head, t_token *new_token)
 {
+	t_token	*last_token;
+	
+	last_token = NULL;
 	if (*head)
-		return_tail_token(*head)->next = new_token;
+	{
+		last_token = return_tail_token(*head);
+		last_token->next = new_token;
+		new_token->previous = last_token;
+	}
 	else
 		*head = new_token;
 }
@@ -39,6 +46,7 @@ t_token	*create_new_token(char *token, t_shell *shell)
 	if (!(new_token->word))
 	 	error_quit(shell, 0);
 	new_token->next = NULL;
+	new_token->previous = NULL;;
 	return (new_token);
 }
 
