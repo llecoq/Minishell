@@ -1,6 +1,20 @@
 Attention si on veux vraiment faire propre il faudrait que toutes les fonctions de la libft
 qu'on utilise qui contiennent un malloc soit protegees
 
+VAR = multiple words -------------------------
+prototype : je peux t'envoyer shell ou command_array, ce que tu veux 
+split_multiple_words_into_token
+
+iterer sur chaque token, si le token commence par ' ou ", skipper, en revanche quand
+token simple/sans quotes au debut, iterer le long et si plusieurs "words", alors "casser"
+ce token en autant de tokens que de mots (en skippant espaces), et les inserer dans la liste
+
+bash-3.2$ export VAR="bonjour             espaces"
+bash-3.2$ echo llaa$VAR*OO
+llaabonjour espaces*OO
+bash-3.2$ echo "llaa$VAR*OO"
+llaabonjour             espaces*OO
+
 EVALUATOR -------------------------------------
 Voir man bash 3.6 REDIRECTIONS 
 ->Pour recuperer l'output dans le cas de plusieurs input redirection consecutif il faut
@@ -9,9 +23,20 @@ file qu'on cree nous mm en mode O_CREAT O_TRUNC et dans lequel on reecrira par d
 
 A failure to open or create a file causes the redirection to fail.
 
-Redirections using file descriptors greater than 9 should be used with care, as they may conflict with file descriptors the shell uses internally.
+Redirections using file descriptors greater than 9 should be used with care, 
+as they may conflict with file descriptors the shell uses internally.
 
+If no command name results, redirections are performed, but do not affect the current 
+shell environment. A redirection error causes the command to exit with a non-zero status.
 
+----------------------------------------------
+The txt.txt file is created so file creation comes firsthand but then 
+it is empty and output only ends up in lol.txt
+bash-3.2$ echo hahaha >txt.txt >lol.txt
+bash-3.2$ cat txt.txt
+bash-3.2$ cat lol.txt
+hahaha
+-----------------------------------------------
 
 https://www.sarathlakshman.com/2012/09/24/implementation-overview-of-redirection-and-pipe-operators-in-shell
 VERIFIER si les redirections sont bien traitees en amont des execve ou si on fait un truc moche
@@ -85,6 +110,12 @@ bash-3.2$ echo lala | $VARR
 bash-3.2$ ls
 Applications	Documents	Library		Music		bin
 Desktop		Downloads	Movies		Pictures	goinfre
+
+If no command name results, the variable assignments affect the current 
+shell environment. Otherwise, the variables are added to the environment of 
+the executed command and do not affect the current shell environment. 
+(If any of the assignments attempts to assign a value to a readonly variable, 
+an error occurs, and the command exits with a non-zero status.)
 
 
 ECHO ----------------------------------------
