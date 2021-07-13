@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/13 20:16:18 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/13 20:44:29 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-# include "readline/8.1/include/readline/readline.h"
-# include "readline/8.1/include/readline/history.h"
-// # include "/Users/$(USER)/.brew/opt/8.1/include/readline/history.h"
-// # include <readline/history.h>
-// # include <readline.h>
 # include <sys/wait.h>
 # include <signal.h>
 # include <unistd.h>
@@ -32,6 +27,8 @@
 # include <term.h>
 # include <curses.h>
 # include <errno.h>
+# include "readline/readline.h"
+# include "readline/history.h"
 # include "../libft/libft.h"
 
 #define RESET   "\033[0m"
