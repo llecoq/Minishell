@@ -6,11 +6,25 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/13 16:46:00 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/14 13:14:51 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	reset_previous_pointers(t_token *head)
+{
+	t_token	*tmp;
+
+	tmp = head;
+	while (head)
+	{
+		if (head->next)
+			head->next->previous = head;
+		head = head->next;
+	}
+	head = tmp;
+}
 
 t_token	*return_tail_token(t_token *token_lst)
 {
