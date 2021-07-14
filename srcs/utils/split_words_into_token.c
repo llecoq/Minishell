@@ -5,28 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/13 16:48:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/13 20:43:43 by llecoq           ###   ########.fr       */
+/*   Created: 2021/07/14 09:57:27 by llecoq            #+#    #+#             */
+/*   Updated: 2021/07/14 13:14:38 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-enum	e_word
+static void	add_tokens_to_list(t_shell *shell, t_token *head, char	**word)
 {
-	IS_SINGLE,
-	IS_MULTIPLE,
-	DOUBLE_QUOTE = 34,
-	QUOTE = 39,
-	// SPACE = 32,
-};
-
-static void	add_to_list(t_shell *shell, t_token *head, char	**word)
-{
-	t_token *new_token;
+	t_token	*new_token;
 	int		i;
-	
-	i = 0;
+
+	i = 1;
 	while (word[i])
 	{
 		new_token = create_new_token(word[i], shell);
@@ -36,22 +27,27 @@ static void	add_to_list(t_shell *shell, t_token *head, char	**word)
 	}
 }
 
-// attention a free l'ancien maillon
-void	split_token(t_shell *shell, t_token **head, t_token *token)
+static void	setup_first_token(t_token **token, char **splitted_token)
 {
-	t_token	*next_token;
-	char	**splitted_words;
-
-	next_token = token->next;
-	splitted_words = ft_split(token->word, SPACE);
-	if (token->previous)
-		token->previous->next = NULL;
-	add_to_list(shell, *head, splitted_words);
-	return_tail_token(*head)->next = next_token;
-	free_split(splitted_words);
+	free((*token)->word);
+	(*token)->word = *splitted_token;
+	(*token)->next = NULL;
 }
 
-int	find_multiple_words(char *word)
+static void	split_token(t_shell *shell, t_token **token, int i)
+{
+	char	**splitted_token;
+	t_token	*next_token;
+
+	next_token = (*token)->next;
+	splitted_token = ft_split((*token)->word, SPACE);
+	setup_first_token(token, splitted_token);
+	add_tokens_to_list(shell, shell->cmd_array[i], splitted_token);
+	return_tail_token(shell->cmd_array[i])->next = next_token;
+	free(splitted_token);
+}
+
+static int	find_multiple_words(char *word)
 {
 	int	i;
 
@@ -66,26 +62,25 @@ int	find_multiple_words(char *word)
 	return (IS_SINGLE);
 }
 
-void	split_multiple_words_into_token(t_shell *shell, t_token ***cmd_array)
+void	split_multiple_words_into_token(t_shell *shell)
 {
 	t_token	*head;
+	int		nb_of_words;
 	int		i;
-	int		token_word;
 
-	head = NULL;
-	token_word = 0;
 	i = 0;
-	while ((*cmd_array)[i])
+	while (shell->cmd_array[i])
 	{
-		head = *cmd_array[i];
-		while (*cmd_array[i])
+		head = shell->cmd_array[i];
+		while (shell->cmd_array[i])
 		{
-			token_word = find_multiple_words((*cmd_array[i])->word);
-			if (token_word == IS_MULTIPLE)
-				split_token(shell, &head, *cmd_array[i]);
-			*cmd_array[i] = (*cmd_array[i])->next;
+			nb_of_words = find_multiple_words(shell->cmd_array[i]->word);
+			if (nb_of_words == IS_MULTIPLE)
+				split_token(shell, &shell->cmd_array[i], i);
+			shell->cmd_array[i] = shell->cmd_array[i]->next;
 		}
-		*cmd_array[i] = head;
+		shell->cmd_array[i] = head;
+		reset_previous_pointers(head);
 		i++;
 	}
-}	
+}
