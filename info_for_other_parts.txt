@@ -1,3 +1,7 @@
+!!!! Probleme avec notre include readline, si on git clone notre projet dans le goinfre
+ca ne marche plus donc pour les corrections il faut qu'on utilise la methode ou on met
+$USER
+
 Attention si on veux vraiment faire propre il faudrait que toutes les fonctions de la libft
 qu'on utilise qui contiennent un malloc soit protegees
 
@@ -16,6 +20,8 @@ bash-3.2$ echo "llaa$VAR*OO"
 llaabonjour             espaces*OO
 
 EVALUATOR -------------------------------------
+En tout premier creer les pipes des differentes commandes?
+
 Voir man bash 3.6 REDIRECTIONS 
 ->Pour recuperer l'output dans le cas de plusieurs input redirection consecutif il faut
 peut etre simplement aussi faire un dup2() ou cette fois on link stderr et sdout a un

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/13 20:17:39 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/14 13:17:48 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	turn_on_flag(int flag, t_token *cpy)
 		cpy->redir = 0;
 }
 
-static void	set_flags(t_token **cmd_array)
+static void	set_redir_arg_flags(t_token **cmd_array)
 {
 	int			i;
 	t_token		*cpy;
@@ -67,8 +67,6 @@ static void	set_flags(t_token **cmd_array)
 	while (cmd_array[i])
 	{
 		cpy = cmd_array[i];
-		turn_on_flag(CMD, cpy);
-		cpy = cpy->next;
 		while (cpy)
 		{
 			if (is_redirection(cpy->word, 0))
@@ -96,10 +94,13 @@ static char	*check_after_redir(t_token *cpy, t_token *next_cmd)
 {
 	if (is_redirection(cpy->word, 0) == PIPE && next_cmd == NULL)
 		return (create_error_str("newline"));
-	else if (cpy->next == NULL)
-		return (create_error_str("newline"));
-	else if (cpy->next->redir == 1)
-		return (create_error_str(cpy->next->word));
+	else if (is_redirection(cpy->word, 0) != PIPE)
+	{
+		if (cpy->next == NULL)
+			return (create_error_str("newline"));
+		else if (cpy->next->redir == 1)
+			return (create_error_str(cpy->next->word));
+	}
 	return (NULL);
 }
 
@@ -119,8 +120,11 @@ static void	set_flag_after_redirection(t_token **cmd_array, char **error_str)
 				*error_str = check_after_redir(cpy, cmd_array[i + 1]);
 				if (*error_str)
 					return ;
-				cpy = cpy->next;
-				turn_on_flag(REDIR, cpy);//next token is redir
+				if (is_redirection(cpy->word, 0) != PIPE)
+				{
+					cpy = cpy->next;
+					turn_on_flag(REDIR, cpy);//next token is redir
+				}
 			}
 			cpy = cpy->next;
 		}
@@ -206,15 +210,15 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	char		*value;
 
 	j = 1; // to start after $
-	if (!(ft_isalpha((*str)[i + j]) || (*str)[i + j] == '_')) //if doesn't start by letter or _
+	if (!is_word_char((*str)[i + j], FIRST_LETTER)) //if doesn't start by letter or _
 	{
 		ft_memmove(*str + i, *str + i + 2, ft_strlen(*str));
 		return (1);
 	}
-	while (ft_isalnum((*str)[i + j]) || (*str)[i + j] == '_') //j goes at the end of var name
+	while (is_word_char((*str)[i + j], OTHER_LETTERS)) //j goes at the end of var name
 		j++;
 	value = get_var_value(i, j, *str, shell);
-	if (!value) //if var does not exist, replace var name by nothing in str
+	if (!value) //if !var, replace var name by nothing in str
 	{
 		ft_memmove(*str + i, *str + i + j, ft_strlen(*str));
 		return (0);
@@ -298,6 +302,8 @@ si token = "" then becomes nothing
 /*---------------------------------------------------------------------------*/
 
 /*
+Check if cmd is a word -> see definition
+
 Verify that each token with the flag CMD is true : 
 	echo / cd / pwd/ export / unset/ env / exit,
 
@@ -341,8 +347,6 @@ hoho txt.txt
 are then considered to be 2 tokens alors que un token qui faisait deja
 plusieurs mots (entre " ou ') reste bien integre = un seul et mm token
 
-!! quand creation de char **argv, expansions that gave 2 words should be
-split up in 2 param
 dans draftminishell : exec_cat.c j'ai bien verifie, si on lui envoie 
 char **argv = {"cat", "file1 file2", NULL} ca ne fonctionnera pas meme si file1 et file2
 existent donc il faut bien split en deux parametres differents
@@ -352,7 +356,7 @@ existent donc il faut bien split en deux parametres differents
 /*------------------- PARSING LAUNCHER --------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
-static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
+static void arg_syntax_processing(t_token **cmd_array, t_shell *shell)
 {
 	int			i;
 	t_token		*token;
@@ -363,15 +367,8 @@ static void token_syntax_processing(t_token **cmd_array, t_shell *shell)
 		token = cmd_array[i];
 		while (token)
 		{	
-			// if (token->redir == 1 && !is_redirection(token->word, 0))//VERIFY IT WORKS and does not stop parser
-			// 	verify_redir_is_one_word(token->word, shell);
-			//seulement les var qui ne sont pas des redir + il faut ajouter que si var = plusieurs
-			//mots alors il faut la splitter en plusieurs tokens/maillons (ne pas oublier de set le flag
-			//des nouveaux maillons)
 			if (token->redir == 0)
 				token->word = process_variables(token->word, shell);
-				//if token->word = plusieurs mots, alors ajouter maillons
-			
 			//dprintf(1, "token = %s\n", token->word);
 			token = token->next;
 		}
@@ -389,42 +386,6 @@ Errors :
 		---- The error msg displays the token right after redir
 		---- SYNTAX ERRROR is checked before all the other errors
 	!DONE!
-*/
-
-/*	
-	Donc deroulement du parsing :
-	
-		NB : le dernier token qui contient le pipe est inutiles puisque chaque cmd_array est
-		necessairement separé par un pipe
-		00) CREER LES PIPES des differentes commandes
-		0) Mettre les flags redir et arg seulement (car la premier var peut etre une cmd du type : 
-		CMDNAME="echo     haha")
-		1)toutes les var qui ne sont pas des redir sont expandues -> si elles font plusieurs mots il
-		faut les splitter en x tokens (seulement les var, pas les tokens simples) et les ajouter a la
-		liste (ajout de maillon)
-		2)Le premier mot resultant est considere comme etant la CMD : turn on flag, tous les autres
-		qui ne sont pas des redirections sont des arg (mais on ne teste pas si cette cmd existe a ce
-		niveau )
-		2)char **argv est cree
-		3)avant l'execution de la commande les redirections sont crees de gauche a droite: 
-			a) la premiere est cree : VAR expandues, si pas d'erreur d'expansion, le fichier est 
-			cherché et si n'existe pas il est cree. Pour ca on utilise open() et selon si redir < ou >
-			alors open(O_CREAT, O_TRUNC) et si redir << ou >> open(O_CREATE) comme ca le contenu sera bien
-			overwritten quand il doit l'etre
-			c) la deuxieme redir (de gauche a droite) est cree, 
-				si erreur on arrete tout ici
-				si pas d'erreur alors crea de redir suivante et ainsi de suite
-		4) Check si la commande existe juste avant de la lancer mais APRES les redirections
-		5) la commande est executee SUR LA TOUTE DERNIERE REDIRECTION, les autres sont "ignorees", seuls
-		les fichiers ont etes crees donc /!\ a la gestion des fd qu'il faudra bien close
-		6) on passe a la commande suivante
-		
-			bash-3.2$ echo < othertxt.txt > hehe
-			bash-3.2$ ls
-			hehe		hihi		othertxt.txt	txt.txt
-			bash-3.2$ cat hehe
-		Montre que la commande est bien executee seulement sur la derniere redirection (mais les fichiers
-		intermediaires sont bien crees) puisque c'est comme si on avait fait echo > hehe
 */
 
 /*
@@ -496,6 +457,9 @@ Errors :
 */
 
 /*
+Montre qu'entre quotes on garde les espaces de variables mais hors quotes alors les espaces
+sont trimes --> DONC les var SIMPLES/sans quotes sont sujettes a etre casses en multiples 
+nodes
 bash-3.2$ export VAR="bonjour             espaces"
 bash-3.2$ echo llaa$VAR*OO
 llaabonjour espaces*OO
@@ -507,11 +471,72 @@ llaabonjour             espaces*OO
 lire : https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Executing-Commands
 */
 
+/*	
+	Donc deroulement du parsing :
+	
+NO		NB : le dernier token qui contient le pipe est inutile puisque chaque cmd_array est
+NO		necessairement separé par un pipe --> PAS FAIT CAR BESOIN DU PIPE POUR nothing_after_redir
+OK		0) Mettre les flags redir et arg seulement (car la premier var peut etre une cmd du type : 
+OK		CMDNAME="echo     haha")
+OK		1)toutes les var qui ne sont pas des redir sont expandues
+		1bis)si elles font plusieurs mots il faut les splitter en x tokens (seulement les var, pas 
+		les tokens simples) et les ajouter a la liste (ajout de maillon)
+		2) Si le premier token/word n'a pas le flag REDIR on alors on set son flag a CMD sinon on laisse
+		tel quel.
+		Une cmd_array peut commencer par une redirection par contre si il commence par une var qui contient
+		une redir alors il aura le flag ARG et on aura msg d'erreur bash: >>: command not found
+		bash-3.2$ >> haha				<--fonctionne
+		bash-3.2$ export REDIR=">>"		<--ne fonctionne pas
+		bash-3.2$ $REDIR loool
+		Donc on regarde bien juste le flag, ne pas faire is_redirection(first_token)
+		3)avant l'execution de la commande les redirections sont crees de gauche a droite: 
+			a) la premiere est cree : VAR expandues, si pas d'erreur d'expansion, le fichier est 
+			cherché et si n'existe pas il est cree. Pour ca on utilise open() et selon si redir < ou >
+			alors open(O_CREAT, O_TRUNC) et si redir << ou >> open(O_CREATE) comme ca le contenu sera bien
+			overwritten quand il doit l'etre
+			c) la deuxieme redir (de gauche a droite) est cree, 
+				si erreur on arrete tout ici
+				si pas d'erreur alors crea de redir suivante et ainsi de suite
+		4) Check si la commande existe juste avant de la lancer mais APRES les redirections
+		5)Trim quotes
+		6)char **argv est cree
+EVAL	7) la commande est executee SUR LA TOUTE DERNIERE REDIRECTION, les autres sont "ignorees", seuls
+		les fichiers ont etes crees donc /!\ a la gestion des fd qu'il faudra bien close
+EVAL	8) on passe a la commande suivante
+		
+			bash-3.2$ echo < othertxt.txt > hehe
+			bash-3.2$ ls
+			hehe		hihi		othertxt.txt	txt.txt
+			bash-3.2$ cat hehe
+		Montre que la commande est bien executee seulement sur la derniere redirection (mais les fichiers
+		intermediaires sont bien crees) puisque c'est comme si on avait fait echo > hehe
+
+*/
+
+static void	first_word_is_cmd_flag(t_token **cmd_array)
+{
+	//on ne check pas a ce niveau si cmd is a "word"
+	// bash-3.2$ 78echo > txt.txt
+	// bash: 78echo: command not found
+	// bash-3.2$ export VAR="deux mots"
+	// bash-3.2$ 78echo > $VAR
+	// bash: $VAR: ambiguous redirect
+	int			i;
+	
+	i = 0;
+	while (cmd_array[i])
+	{
+		if (cmd_array[i]->redir == 0)
+			turn_on_flag(CMD, cmd_array[i]);
+		i++;
+	}
+}
+
 void	parse(t_shell *shell)
 {
 	char		*no_token_after_redir;
 
-	set_flags(shell->cmd_array);
+	set_redir_arg_flags(shell->cmd_array);
 	no_token_after_redir = NULL;
 	set_flag_after_redirection(shell->cmd_array, &no_token_after_redir);
 	if (no_token_after_redir)
@@ -520,13 +545,16 @@ void	parse(t_shell *shell)
 		free(no_token_after_redir);
 		return ;
 	}
-	token_syntax_processing(shell->cmd_array, shell);
-	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
+	arg_syntax_processing(shell->cmd_array, shell);
+	//split_multiple_words_into_token(shell, &shell->cmd_array);
+	first_word_is_cmd_flag(shell->cmd_array); //si premier token n'a pas le flag REDIR
+	print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
+	//check_and_create_redirections()
+		// if (token->redir == 1 && !is_redirection(token->word, 0))//VERIFY IT WORKS and does not stop parser
+			// 	verify_redir_is_one_word(token->word, shell);
 	//check cmd exist
-	split_multiple_words_into_token(shell, &shell->cmd_array);
-	// print_cmd_array(shell->cmd_array, 1);
 	//trim quotes
-	//Check each redirection ?
 	//create char **argv
-	//dprintf(1, "END OF PARSE()\n");
+	//-->EVALUATOR--> execution de la commande sur la toute derniere redirection
+	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 }

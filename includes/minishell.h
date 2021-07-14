@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/13 20:44:29 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/14 13:30:35 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,21 @@ enum	e_errors
 	REDIR_IS_NOT_ONE_WORD,
 };
 
+enum	e_word_chars
+{
+	FIRST_LETTER = 1,
+	OTHER_LETTERS = 2,
+};
+
+enum	e_split_token
+{
+	IS_SINGLE,
+	IS_MULTIPLE,
+	DOUBLE_QUOTE = 34,
+	QUOTE = 39,
+	// SPACE = 32,
+};
+
 enum	e_env
 {
 	IS_SET = 1,
@@ -157,6 +172,8 @@ size_t		env_size(t_list *env_list);
 int			is_redirection(const char *str, int i);
 int			is_quote(const char c);
 int			finished_by_spaces(const char *str);
+int			is_word_char(int c, int mode);
+
 
 /*
 ** token_list_functions.c  
