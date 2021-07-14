@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
+#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/07/13 20:42:13 by llecoq           ###   ########.fr        #
+#    Updated: 2021/07/14 16:52:30 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,9 @@ SRCS_FILES	=	main.c\
 				parsing/tokenizer.c\
 				parsing/store_environment.c\
 				parsing/parser.c\
+				parsing/parser_utils.c\
+				parsing/parser_flags.c\
+				parsing/parser_variables.c\
 				utils/prompt.c\
 				utils/calloc_shell.c\
 				utils/clear_memory.c\

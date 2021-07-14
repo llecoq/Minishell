@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/14 13:35:33 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/14 19:04:44 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,15 @@ typedef struct 	s_token
 
 typedef struct	s_shell
 {
-	char		*input; // readline
-	char		*user_dir;
-	char		**envp;
-	const char	***cmd_argv;
-	t_list		*env_list;
-	t_list		*export_list;
-	t_list		*path;
-	t_token 	**cmd_array; //last cmd_array is set to NULL;
-	int			change_directory;
+	char			*input; // readline
+	char			*user_dir;
+	char			**envp;
+	const char		***cmd_argv;
+	t_list			*env_list;
+	t_list			*export_list;
+	t_list			*path;
+	t_token 		**cmd_array; //last cmd_array is set to NULL;
+	int				change_directory;
 }				t_shell;
 
 enum	e_redirections
@@ -102,7 +102,7 @@ enum	e_errors
 {
 	NO_CLOSING_QUOTE = -1,
 	NOTHING_AFTER_REDIR = -2,
-	REDIR_IS_NOT_ONE_WORD,
+	REDIR_ISNT_1_WORD = -3,
 };
 
 enum	e_word_chars
@@ -151,6 +151,7 @@ void		clear_memory(t_shell *shell);
 void		clear_nonessential_memory(t_shell *shell);
 void		free_cmd_array(t_token **cmd_array);
 void		error_quit(t_shell *shell, int error_type);
+void		err_clear(t_shell *shell, int error_type, char *str);
 void		error(t_shell *shell, int error_type, char *str);
 void		sig_handler(int signum);
 void		get_signal(void);
@@ -199,19 +200,32 @@ void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
 void		parse(t_shell *shell);
 void		turn_on_flag(int flag, t_token *cpy);
-char		*process_variables(char *str, t_shell *shell);
+char		*process_variables(char *token, t_shell *shell);
 
+/*
+** parser_flags
+*/
+
+void		set_flag_after_redirection(t_token **cmd_array, char **error_str);
+void		set_redir_arg_flags(t_token **cmd_array);
+
+/*
+** parser_variables
+*/
+
+void 		arg_syntax_processing(t_token **cmd_array, t_shell *shell);
+void		replace_token_with_var(char **token, t_shell *shell);
 
 /*
 ** builtins
 */
 
-int	ft_exit(t_shell *shell, char **argv);
-int	ft_echo(t_shell *shell, char **argv);
-int	ft_cd(t_shell *shell, char **argv);
-int	ft_pwd(t_shell *shell, char **argv);
-int	ft_export(t_shell *shell, char **argv);
-int	ft_unset(t_shell *shell, char **argv);
-int	ft_env(t_shell *shell, char **argv);
+int			ft_exit(t_shell *shell, char **argv);
+int			ft_echo(t_shell *shell, char **argv);
+int			ft_cd(t_shell *shell, char **argv);
+int			ft_pwd(t_shell *shell, char **argv);
+int			ft_export(t_shell *shell, char **argv);
+int			ft_unset(t_shell *shell, char **argv);
+int			ft_env(t_shell *shell, char **argv);
 
 #endif

@@ -20,14 +20,21 @@ bash-3.2$ echo "llaa$VAR*OO"
 llaabonjour             espaces*OO
 
 EVALUATOR -------------------------------------
+
+Montre que les messages d'erreur sont asynchrones 
+bash-3.2$ cat < bonjour.txt | echo haha
+haha
+bash: bonjour.txt: No such file or directory
+bash-3.2$ cat < bonjour.txt | echo haha
+bash: bonjour.txt: No such file or directory
+haha
+
 En tout premier creer les pipes des differentes commandes?
 
 Voir man bash 3.6 REDIRECTIONS 
 ->Pour recuperer l'output dans le cas de plusieurs input redirection consecutif il faut
 peut etre simplement aussi faire un dup2() ou cette fois on link stderr et sdout a un
 file qu'on cree nous mm en mode O_CREAT O_TRUNC et dans lequel on reecrira par dessus
-
-A failure to open or create a file causes the redirection to fail.
 
 Redirections using file descriptors greater than 9 should be used with care, 
 as they may conflict with file descriptors the shell uses internally.

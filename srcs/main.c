@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/13 16:45:51 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/14 19:16:06 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(int argc, char **argv, char **env)
 {
 	t_shell	shell;
 
-	(void)argc;
 	(void)argv;
 	set_shell_var_to_null(&shell);
 	if (argc == 1)
@@ -51,16 +50,3 @@ int	main(int argc, char **argv, char **env)
 	clear_memory(&shell);
 	return 0;
 }
-
-// int	main(int argc, char **argv, char **env)
-// {
-// 	t_shell	shell;
-
-// 	(void)argc;
-// 	(void)argv;
-// 	set_shell_var_to_null(&shell);
-// 	store_environment(&shell, env);
-// 	ft_export(&shell, argv);
-// 	clear_memory(&shell);
-// 	return 0;
-// }
