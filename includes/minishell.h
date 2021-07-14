@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/14 13:30:35 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/14 13:35:33 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void		get_signal(void);
 void		print_list(t_list *list);
 void		print_env(t_shell *shell);
 void		sort_alphabetically_list(t_list **export_list);
-void		split_multiple_words_into_token(t_shell *shell, t_token ***cmd);
+void		split_multiple_words_into_token(t_shell *shell);
 char		*get_env(t_shell *shell, const char *name);
 char		*join_args(char	**argv, char *flag);
 int			put_env(t_shell *shell, char *string);
@@ -183,6 +183,8 @@ t_token		*return_tail_token(t_token *token_lst);
 void		add_token_tail(t_token **head, t_token *new_token);
 t_token		*create_new_token(char *token, t_shell *shell);
 void		print_cmd_array(t_token **cmd_array, int flags);
+void		reset_previous_pointers(t_token *head);
+
 
 /*
 ** ---------------------------------------------------------------- UTILS

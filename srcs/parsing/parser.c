@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/14 13:17:48 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/14 13:37:59 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -546,9 +546,9 @@ void	parse(t_shell *shell)
 		return ;
 	}
 	arg_syntax_processing(shell->cmd_array, shell);
-	//split_multiple_words_into_token(shell, &shell->cmd_array);
+	split_multiple_words_into_token(shell);
 	first_word_is_cmd_flag(shell->cmd_array); //si premier token n'a pas le flag REDIR
-	print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
+	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 	//check_and_create_redirections()
 		// if (token->redir == 1 && !is_redirection(token->word, 0))//VERIFY IT WORKS and does not stop parser
 			// 	verify_redir_is_one_word(token->word, shell);
