@@ -98,9 +98,24 @@ grep <file1 token1 token2 token3	-->token1 est le pattern et par elimination tok
 For << 
 https://stackoverflow.com/questions/41082647/implement-redirection-in-c
 better : https://www.oilshell.org/blog/2016/10/18.html
-so basically if << then it's like < except we need to create a temp file ourselves
-that we will write into from stdin until we find the pattern listed on the right of <<
-(ex : EOF) and then only we can dup2() and exec()
+We create a buffer :
+while (gnl(0, &&line))
+{
+	if line == stop	(token apres >>)
+		dup2(); input devient notre buffer
+		execve();
+	else 
+		add line to buffer/char**argv?
+}
+Or do we create a temp file -> but we cannot use a function to delete that file afterwards
+Maybe instead of temp file we need to use a pipe
+
+bash-3.2$ cat << lol lol haha
+> hehe
+> lol
+lol
+haha
+et une fois de plus, l'output d'une redirection est overwritten par les outputs d'args simples
 
 bash-3.2$ grep <<EOF main
 > lala
@@ -113,16 +128,25 @@ bash-3.2$ grep <<EOF main
 main
 encoremain
 erpuimain
+Pour grep, l'argument juste apres s'il n'est pas une option est FORCEMENT le pattern
 
 
+bash-3.2$ rm *
 bash-3.2$ echo lala | $5
 bash-3.2$ ls
-Applications	Documents	Library		Music		bin
-Desktop		Downloads	Movies		Pictures	goinfre
-bash-3.2$ echo lala | $VARR
-bash-3.2$ ls
-Applications	Documents	Library		Music		bin
-Desktop		Downloads	Movies		Pictures	goinfre
+bash-3.2$
+Ici pas d'erreur pour $5 alors que ce n'est pas une commande qui existe
+si cmd == '\0' alors pas de message d'erreur
+Donc ici $5 devrait etre enleve de la liste donc cmd_array[1] devient NULL mais le pipe
+a quand meme lieu
+
+bash-3.2$ $5 lala
+bash: lala: command not found
+Visiblement quand un token est = '\0' alors on ne le cherche pas
+
+bash-3.2$ export VAR=noexist
+bash-3.2$ echo lala | $VAR
+bash: noexist: command not found
 
 If no command name results, the variable assignments affect the current 
 shell environment. Otherwise, the variables are added to the environment of 
@@ -142,37 +166,18 @@ sansespaces
 
 echo trim first spaces of a var
 
+bash-3.2$ echo elephant > lol
+bash-3.2$ echo < lol
+
+bash-3.2$ echo << EOF
+> haha
+> hehe
+> EOF
+
+bash-3.2$
+
+Echo n'accepte pas les INPUT redirections
+
 
 EXIT ----------------------------------------
 prints an "exit" msg on stdERR when we do exit
-
-
-PARSER ----- DRAFT -----------------
-static void	set_flags(t_token **cmd_array)
-{
-	int			i;
-	t_token		*cpy;
-	
-	initialize_flags_values(cmd_array);
-	i = 0;
-	while (cmd_array[i])
-	{
-		cpy = cmd_array[i];
-		turn_on_flag(CMD, cpy);
-		cpy = cpy->next;
-		while (cpy)
-		{
-			if (is_redirection(cpy->word, 0))
-			//{
-				turn_on_flag(REDIR, cpy);
-			//	if (after_redir(&cpy, cmd_array[i + 1]) == NOTHING_AFTER_REDIR)
-			//		return (NOTHING_AFTER_REDIR);			
-			//}
-			else
-				turn_on_flag(ARG, cpy);
-			cpy = cpy->next;
-		}
-		i++;
-	}
-	return (1);
-}

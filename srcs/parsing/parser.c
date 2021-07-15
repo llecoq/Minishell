@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/14 19:35:49 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/15 16:28:45 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,13 @@ static int	create_redirection_file(t_token *token, t_shell *shell)
 	int			mode;
 	int			fd;
 
+//bash$ cat < 1
+//0
+//bash$ cat < 1 | wc -l
+//1
+//bash$ cat < 1 | wc -l > 1
+//bash$ cat 1
+//0
 	mode = is_redirection(token->word, 0);
 	token = token->next;
 	replace_token_with_var(&token->word, shell);
@@ -105,7 +112,7 @@ int	check_and_create_redirections(t_token **cmd_array, t_shell *shell)
 					error(shell, REDIR_ISNT_1_WORD, token->next->word);
 					break;
 				}
-				//if file does not existe, error, switch to next cmd, erase this one?
+				//if file opening doesn't work, error, switch to next cmd, erase this one?
 				create_redirection_file(token, shell);
 				token = token->next;
 			}
@@ -121,7 +128,8 @@ int	check_and_create_redirections(t_token **cmd_array, t_shell *shell)
 	a) la premiere est cree : VAR expandues, si pas d'erreur d'expansion, le fichier est 
 	cherché/cree. Pour ca on utilise open()
 	si redir > alors open(O_CREAT, O_TRUNC)
-	si redir >> open(O_CREATE) comme ca le contenu sera bien overwritten quand il doit l'etre
+	si redir >> open(O_CREATE)
+	comme ca le contenu sera bien overwritten quand il doit l'etre
 	si redir < alors open() et si fail alors error
 	c) la deuxieme redir (de gauche a droite) est cree, 
 		si erreur on arrete tout ici et cette commande ne sera pas executee, uniquement les suivantes
@@ -251,6 +259,31 @@ EVAL	8) on passe a la commande suivante
 
 */
 
+void	remove_empty_tokens(t_token **cmd_array, t_shell *shell)
+{
+	int			i;
+	t_token		*token;
+	
+	
+	i = 0;
+	//!! d'une maniere ou d'une autre je set cmd_array[0] a NULL
+	while (cmd_array[i])
+	{
+		token = cmd_array[i];
+		while (token)
+		{	
+			//dprintf(1, "BEFORE CHANGE FOR TOKEN = %s\ncmd_array[i] = %p\ntoken = %p\n\n", token->word, cmd_array[i], token);
+			if (token->word[0] == '\0')
+				erase_token(&token, shell);
+			//dprintf(1, "FOR TOKEN = %s\ncmd_array[i] = %p\ntoken = %p\n\n", token->word, cmd_array[i], token);
+			if (token)
+				token = token->next;
+		}
+		i++;
+	}
+}
+
+
 void	parse(t_shell *shell)
 {
 	char		*no_token_after_redir;
@@ -265,8 +298,13 @@ void	parse(t_shell *shell)
 		return ;
 	}
 	arg_syntax_processing(shell->cmd_array, shell);
+	remove_empty_tokens(shell->cmd_array, shell);// ou simplement skipper les token[0] = '\0' et rajouter
+	//une condition dans l'attribution du flag cmd
+	print_cmd_array(shell->cmd_array, 1);// a enlever
+	
 	split_multiple_words_into_token(shell);
-	first_word_is_cmd_flag(shell->cmd_array);
+	first_word_is_cmd_flag(shell->cmd_array); //il faut iterer le long de tokens pour trouver premier
+	//qui a un flag ARG et le transformer en CMD car << EOF grep "man" marche
 	check_and_create_redirections(shell->cmd_array, shell);
 
 	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
@@ -317,6 +355,25 @@ Otherwise look through $PATH and save path in node->cmd_path.
 Else : free and "zsh: command not found: lsls"
 refer to minishell notion.so for implementation + Louis had created a
 function for that already
+
+Ici pas d'erreur pour $5 alors que ce n'est pas une commande qui existe
+si cmd == '\0' alors pas de message d'erreur
+bash-3.2$ rm *
+bash-3.2$ echo lala | $5
+bash-3.2$ ls
+bash-3.2$
+
+Alors que si var non vide on a bien un msg d'erreur si cmd n'existe pas
+bash-3.2$ export VAR=noexist
+bash-3.2$ echo lala | $VAR
+bash: noexist: command not found
+
+Visiblement quand un token est = '\0' alors on ne le cherche pas
+bash-3.2$ $5 lala
+bash: lala: command not found
+
+Donc des qu'un token qui n'est pas une redirection devient '\0' apres var
+expansion on l'enleve de la liste AVANT de set le flag cmd ou autre
 */
 
 /*---------------------------------------------------------------------------*/
