@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/15 16:28:45 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/15 16:52:01 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,7 +274,7 @@ void	remove_empty_tokens(t_token **cmd_array, t_shell *shell)
 		{	
 			//dprintf(1, "BEFORE CHANGE FOR TOKEN = %s\ncmd_array[i] = %p\ntoken = %p\n\n", token->word, cmd_array[i], token);
 			if (token->word[0] == '\0')
-				erase_token(&token, shell);
+				erase_token(&token, &cmd_array[i], shell);
 			//dprintf(1, "FOR TOKEN = %s\ncmd_array[i] = %p\ntoken = %p\n\n", token->word, cmd_array[i], token);
 			if (token)
 				token = token->next;

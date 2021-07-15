@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/15 16:03:22 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/15 16:56:40 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	print_cmd_array(t_token **cmd_array, int flags)
 	}
 }
 
-void	erase_token(t_token **token, t_shell *shell)
+void	erase_token(t_token **token, t_token **head, t_shell *shell)
 {
 	t_token 		*prev;
 	t_token			*next;
@@ -116,10 +116,14 @@ void	erase_token(t_token **token, t_shell *shell)
 	// {
 		prev = (*token)->previous; //si null
 		next = (*token)->next;
-		prev->next = next;
-		next->previous = prev;
+		if (prev)
+			prev->next = next;
+		if (next)
+			next->previous = prev;
 		free_set_null((void **)token);
 		(*token) = next;
+		if (prev == NULL)
+			(*head) = (*token);
 	// }
 	(void)shell;
 }

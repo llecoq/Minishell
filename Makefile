@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
+#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/07/14 16:52:30 by abonnel          ###   ########.fr        #
+#    Updated: 2021/07/15 16:31:25 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ all:		previous $(NAME)
 $(NAME):	$(OBJS)
 			$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -Llibft -lft -g -lhistory\
 			-lreadline -L /Users/$(USER)/.brew/opt/readline/lib\
-			-I/Users/$(USER)/.brew/opt/readline/include
+			-I /Users/$(USER)/.brew/opt/readline/include
 # -I includes/readline/8.1/include/readline/ \
 			-Lincludes/readline/8.1/lib
 

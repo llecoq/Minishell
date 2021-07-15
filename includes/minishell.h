@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/15 15:53:53 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/15 17:17:15 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include <term.h>
 # include <curses.h>
 # include <errno.h>
-# include "readline/readline.h"
-# include "readline/history.h"
+# include "../../../.brew/opt/readline/include/readline/readline.h"
+# include "../../../.brew/opt/readline/include/readline/history.h"
 # include "../libft/libft.h"
 
 #define RESET   "\033[0m"
@@ -117,7 +117,6 @@ enum	e_split_token
 	IS_MULTIPLE,
 	DOUBLE_QUOTE = 34,
 	QUOTE = 39,
-	// SPACE = 32,
 };
 
 enum	e_env
@@ -185,8 +184,7 @@ void		add_token_tail(t_token **head, t_token *new_token);
 t_token		*create_new_token(char *token, t_shell *shell);
 void		print_cmd_array(t_token **cmd_array, int flags);
 void		reset_previous_pointers(t_token *head);
-void		erase_token(t_token **token, t_shell *shell);
-
+void		erase_token(t_token **token, t_token **head, t_shell *shell);
 
 
 /*
