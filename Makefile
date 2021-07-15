@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
+#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/07/15 16:31:25 by llecoq           ###   ########.fr        #
+#    Updated: 2021/07/15 19:48:51 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ SRCS_FILES	=	main.c\
 				parsing/tokenizer.c\
 				parsing/store_environment.c\
 				parsing/parser.c\
+				parsing/parser_redirections.c\
 				parsing/parser_utils.c\
 				parsing/parser_flags.c\
 				parsing/parser_variables.c\
@@ -71,7 +72,7 @@ $(OBJSPATH)%.o:		$(SRCSPATH)%.c includes/minishell.h libft/libft.h libft/libft.a
 all:		previous $(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -Llibft -lft -g -lhistory\
+			$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -Llibft -lft -g\
 			-lreadline -L /Users/$(USER)/.brew/opt/readline/lib\
 			-I /Users/$(USER)/.brew/opt/readline/include
 # -I includes/readline/8.1/include/readline/ \

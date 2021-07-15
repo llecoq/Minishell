@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/15 17:17:15 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/15 19:23:20 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include <term.h>
 # include <curses.h>
 # include <errno.h>
-# include "../../../.brew/opt/readline/include/readline/readline.h"
-# include "../../../.brew/opt/readline/include/readline/history.h"
+# include "../../../../.brew/opt/readline/include/readline/readline.h"
+# include "../../../../.brew/opt/readline/include/readline/history.h"
 # include "../libft/libft.h"
 
 #define RESET   "\033[0m"
@@ -58,6 +58,7 @@ typedef struct 	s_token
 	t_flag			cmd;
 	t_flag			arg;
 	t_flag			redir;
+	int				fd;
 	char			*cmd_path;
 	struct s_token	*next;
 	struct s_token	*previous;
@@ -103,6 +104,8 @@ enum	e_errors
 	NO_CLOSING_QUOTE = -1,
 	NOTHING_AFTER_REDIR = -2,
 	REDIR_ISNT_1_WORD = -3,
+	CMD_IS_WRONG = -4,
+	CANT_OPEN_FILE = -5,
 };
 
 enum	e_word_chars
@@ -185,10 +188,16 @@ t_token		*create_new_token(char *token, t_shell *shell);
 void		print_cmd_array(t_token **cmd_array, int flags);
 void		reset_previous_pointers(t_token *head);
 void		erase_token(t_token **token, t_token **head, t_shell *shell);
+void		erase_cmd(t_token *cmd);
+
 
 
 /*
 ** ---------------------------------------------------------------- UTILS
+*/
+
+/*
+** PARSING ----------------------------------------------------------------
 */
 
 /*
@@ -215,6 +224,16 @@ void		set_redir_arg_flags(t_token **cmd_array);
 
 void 		arg_syntax_processing(t_token **cmd_array, t_shell *shell);
 void		replace_token_with_var(char **token, t_shell *shell);
+
+/*
+** parser_redirection
+*/
+
+int			check_and_create_redirections(t_token **cmd_array, t_shell *shell);
+
+/*
+** ---------------------------------------------------------------- PARSING
+*/
 
 /*
 ** builtins

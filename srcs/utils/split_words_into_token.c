@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_words_into_token.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 09:57:27 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/14 15:19:50 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/15 19:46:36 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	find_multiple_words(char *word)
 	int	i;
 
 	i = 0;
-	if (*word != SINGLE_QUOTE && *word != DOUBLE_QUOTE)
+	if (*word != QUOTE && *word != DOUBLE_QUOTE)
 	{
 		while (word[i] && word[i] != SPACE)
 			i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:41:28 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/13 19:47:01 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/15 20:02:41 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_cmd_array(t_token **cmd_array)
 	{
 		while (cmd_array[i])
 		{
+			//dprintf(1, "cmd_array[%d]->word = %s\n", i, cmd_array[i]->word);
 			tmp = cmd_array[i]->next;
 			free_set_null((void **)&cmd_array[i]->word);
 			free_set_null((void **)&cmd_array[i]);

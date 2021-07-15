@@ -20,14 +20,6 @@ void	error_quit(t_shell *shell, int error_type)
 	// 	ft_printf(2, "");
 	// else if (error_type == 2)
 	// 	ft_printf(2, "");
-	// else if (error_type == 3)
-	// 	ft_printf(2, "");
-	// else if (error_type == 4)
-	// 	ft_printf(2, "");
-	// else if (error_type == 5)
-	// 	ft_printf(2, "");
-	// else if (error_type == 6)
-	// 	ft_printf(2, "");
 	clear_memory(shell);
 	exit(EXIT_FAILURE);
 }
@@ -69,7 +61,8 @@ void	error(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "%s\n", strerror(errno));
 	else if (error_type == REDIR_ISNT_1_WORD)
 		ft_printf(2, "minishell: %s: ambiguous redirect", str);
-	// else if (error_type == 4)
+	else if (error_type == CANT_OPEN_FILE)
+		ft_printf(2, "bash: %s: %s", str, strerror(errno));
 	// 	ft_printf(2, "");
 	// else if (error_type == 5)
 	// 	ft_printf(2, "");

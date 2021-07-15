@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:00:50 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/14 16:02:58 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/15 18:43:37 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	initialize_flags_values(t_token **cmd_array)
 			cpy->cmd = -1;
 			cpy->arg = -1;
 			cpy->redir = -1;
+			cpy->fd = 0;
 			cpy = cpy->next;
 		}
 		i++;

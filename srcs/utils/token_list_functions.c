@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/15 16:56:40 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/15 19:20:33 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,61 +100,28 @@ void	erase_token(t_token **token, t_token **head, t_shell *shell)
 	t_token 		*prev;
 	t_token			*next;
 
-	// if ((*token)->previous == NULL)
-	// {
-	// 	next = (*token)->next;
-	// 	free_set_null((void **)token);
-	// 	*token = next;
-	// 	dprintf(1, "token = %p\n", *token);
-	// 	(*token)->previous = NULL;
-	// }
-	// // else if ((*token)->next == NULL)
-	// // {
-		
-	// // }
-	// else
-	// {
-		prev = (*token)->previous; //si null
-		next = (*token)->next;
-		if (prev)
-			prev->next = next;
-		if (next)
-			next->previous = prev;
-		free_set_null((void **)token);
-		(*token) = next;
-		if (prev == NULL)
-			(*head) = (*token);
-	// }
+	prev = (*token)->previous;
+	next = (*token)->next;
+	if (prev)
+		prev->next = next;
+	if (next)
+		next->previous = prev;
+	free_set_null((void **)token);
+	(*token) = next;
+	if (prev == NULL)
+		(*head) = (*token);
 	(void)shell;
 }
 
-	// t_token		*tmp;
-	// //!! si token est dernier token de pas sefault
-	// tmp = *token;
-	// *token = (*token)->previous;
-	// (*token)->next = (*token)->next->next;
-	// (*token)->next->previous = (*token);
-	// free(tmp);
-	// (void)shell;
+void	erase_cmd(t_token *cmd)
+{
+	t_token		*tmp;
 
-	// t_token 		*prev;
-	// t_token			*next;
-	
-	// //!! si pas de previous
-	// if (!(*token)->previous)
-	// {
-	// 	next = (*token)->next;
-	// 	free_set_null((void **)token);
-	// 	*token = next;
-	// 	(*token)->previous = NULL;
-	// 	dprintf(1, "token->cmd = %d\n", (*token)->cmd);
-	// }
-	// else
-	// {
-	// 	prev = (*token)->previous; //si null
-	// 	next = (*token)->next;
-	// 	prev->next = next;
-	// 	next->previous = prev;
-	// 	free_set_null((void **)token);
-	// }
-	// (void)shell;
+	while (cmd)
+	{
+		tmp = cmd;
+		cmd = cmd->next;
+		free_set_null((void **)&tmp->word);
+		free_set_null((void **)&tmp);
+	}
+}

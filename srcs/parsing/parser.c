@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/15 16:52:01 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/15 20:02:38 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,84 +18,6 @@ lire : https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Executin
 
 static void	first_word_is_cmd_flag(t_token **cmd_array)
 {
-	//on ne check pas a ce niveau si cmd is a "word"
-	// bash-3.2$ 78echo > txt.txt
-	// bash: 78echo: command not found
-	// bash-3.2$ export VAR="deux mots"
-	// bash-3.2$ 78echo > $VAR
-	// bash: $VAR: ambiguous redirect
-	int			i;
-	
-	i = 0;
-	while (cmd_array[i])
-	{
-		if (cmd_array[i]->redir == 0)
-			turn_on_flag(CMD, cmd_array[i]);
-		i++;
-	}
-}
-
-/*---------------------------------------------------------------------------*/
-/*-------- CREATE AND CHECKS REDIRECTIONS -----------------------------------*/
-/*---------------------------------------------------------------------------*/
-
-int	redir_is_one_word(char *token, t_shell *shell)
-{
-	int			i;
-	char		*token_with_var;
-
-	token_with_var = process_variables(token, shell);
-	if (token_with_var == NULL || token_with_var[0] == '\0')
-	{
-		free(token_with_var);
-		return (0);
-	}
-	i = 0;
-	while (token_with_var[i])
-	{
-		if (token_with_var[i] == ' ')
-		{
-			free(token_with_var);	
-			return (0);
-		}
-		i++;
-	}
-	free(token_with_var);
-	return (1);
-}
-
-
-//When entering, token is the redirection SIGN
-static int	create_redirection_file(t_token *token, t_shell *shell)
-{
-	int			mode;
-	int			fd;
-
-//bash$ cat < 1
-//0
-//bash$ cat < 1 | wc -l
-//1
-//bash$ cat < 1 | wc -l > 1
-//bash$ cat 1
-//0
-	mode = is_redirection(token->word, 0);
-	token = token->next;
-	replace_token_with_var(&token->word, shell);
-	if (mode == APPEND)
-		fd = open(".", O_CREAT | O_WRONLY | O_APPEND, 0777);
-	else if (mode == REDIR)
-		fd = open(".", O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	else if (mode == INREDIR)
-		fd = open(".", O_RDONLY); //if does not exist -> error
-	//if (fd < 0)
-	//	renvoyer erreur et effacer la commande? faire 
-	// add_fd_to_redir_node -> ajouter au node > >> < << comme ca mm plus besoin d'aller checker le node suivant?
-	return (1);
-}
-
-
-int	check_and_create_redirections(t_token **cmd_array, t_shell *shell)
-{
 	int			i;
 	t_token		*token;
 	
@@ -105,36 +27,37 @@ int	check_and_create_redirections(t_token **cmd_array, t_shell *shell)
 		token = cmd_array[i];
 		while (token)
 		{	
-			if (token->redir == 1 && is_redirection(token->word, 0) != PIPE)//enter on the redir sign except pipe
+			if (token->arg == 1)
 			{
-				if (!redir_is_one_word(token->next->word, shell))
-				{
-					error(shell, REDIR_ISNT_1_WORD, token->next->word);
-					break;
-				}
-				//if file opening doesn't work, error, switch to next cmd, erase this one?
-				create_redirection_file(token, shell);
-				token = token->next;
+				turn_on_flag(CMD, token);
+				break;
 			}
 			token = token->next;
 		}
 		i++;
 	}
-	return (1);//a changer
 }
 
-/*
-3)avant l'execution de la commande les redirections sont crees de gauche a droite: 
-	a) la premiere est cree : VAR expandues, si pas d'erreur d'expansion, le fichier est 
-	cherché/cree. Pour ca on utilise open()
-	si redir > alors open(O_CREAT, O_TRUNC)
-	si redir >> open(O_CREATE)
-	comme ca le contenu sera bien overwritten quand il doit l'etre
-	si redir < alors open() et si fail alors error
-	c) la deuxieme redir (de gauche a droite) est cree, 
-		si erreur on arrete tout ici et cette commande ne sera pas executee, uniquement les suivantes
-		si pas d'erreur alors crea de redir suivante et ainsi de suite
-*/
+void	remove_empty_tokens(t_token **cmd_array, t_shell *shell)
+{
+	int			i;
+	t_token		*token;
+	
+	
+	i = 0;
+	while (cmd_array[i])
+	{
+		token = cmd_array[i];
+		while (token)
+		{	
+			if (token->word[0] == '\0')
+				erase_token(&token, &cmd_array[i], shell);
+			else if (token)
+				token = token->next;
+		}
+		i++;
+	}
+}
 
 /*
 	Errors FROM DIFFERENT COMMANDS add to each other but if there are 2 errors WITHIN ONE CMD
@@ -234,15 +157,17 @@ OK		2) Si le premier token/word n'a pas le flag REDIR on alors on set son flag a
 		bash-3.2$ $REDIR loool
 		Donc on regarde bien juste le flag, ne pas faire is_redirection(first_token)
 		3)avant l'execution de la commande les redirections sont crees de gauche a droite: 
-			a) la premiere est cree : VAR expandues, si pas d'erreur d'expansion, le fichier est 
+OK			a) la premiere est cree : VAR expandues, si pas d'erreur d'expansion, le fichier est 
 			cherché et si n'existe pas il est cree. Pour ca on utilise open() et selon si redir < ou >
 			alors open(O_CREAT, O_TRUNC) et si redir << ou >> open(O_CREATE) comme ca le contenu sera bien
 			overwritten quand il doit l'etre
-			c) la deuxieme redir (de gauche a droite) est cree, 
+OK			c) la deuxieme redir (de gauche a droite) est cree, 
 				si erreur on arrete tout ici
 				si pas d'erreur alors crea de redir suivante et ainsi de suite
-		4) Check si la commande existe juste avant de la lancer mais APRES les redirections
-		5)Trim quotes
+OK			Si erreur au cours de l'ouverture/crea d'un des fichiers alors cette commande ne sera
+			pas executee, effacer cette cmd de cmd_array?
+		4) Trim quotes
+		5) Check si la commande existe juste avant de la lancer mais APRES les redirections
 		6)char **argv est cree
 EVAL	7) la commande est executee SUR LA TOUTE DERNIERE REDIRECTION, les autres sont "ignorees", seuls
 		les fichiers ont etes crees donc /!\ a la gestion des fd qu'il faudra bien close
@@ -254,36 +179,56 @@ EVAL	8) on passe a la commande suivante
 			bash-3.2$ ls
 			hehe		hihi		othertxt.txt	txt.txt
 			bash-3.2$ cat hehe
-		Montre que la commande est bien executee seulement sur la derniere redirection (mais les fichiers
+		FAUX : Montre que la commande est bien executee seulement sur la derniere redirection (mais les fichiers
 		intermediaires sont bien crees) puisque c'est comme si on avait fait echo > hehe
+		FAUX car echo ignore les input redir d'ou l'impression qu'il n'y a que la derniere redir qui est
+		executee
 
 */
 
-void	remove_empty_tokens(t_token **cmd_array, t_shell *shell)
+static void	remove_quotes_char(char *word, t_shell *shell)
+{
+	int			i;
+	char		closing_quote;
+	
+	i = 0;
+	while (word[i])
+	{
+		if (word[i] == '"' || word[i] == '\'')
+		{
+			closing_quote = word[i];
+			ft_memmove(word + i, word + i + 1, ft_strlen(word));
+			while (word[i] && word[i] != closing_quote)
+				i++;
+			if (word[i] == closing_quote)
+				ft_memmove(word + i, word + i + 1, ft_strlen(word));
+		}
+		i++;
+	}
+	(void)shell;
+}
+
+void	remove_quotes(t_token **cmd_array, t_shell *shell)
 {
 	int			i;
 	t_token		*token;
 	
-	
 	i = 0;
-	//!! d'une maniere ou d'une autre je set cmd_array[0] a NULL
 	while (cmd_array[i])
 	{
 		token = cmd_array[i];
 		while (token)
 		{	
-			//dprintf(1, "BEFORE CHANGE FOR TOKEN = %s\ncmd_array[i] = %p\ntoken = %p\n\n", token->word, cmd_array[i], token);
-			if (token->word[0] == '\0')
-				erase_token(&token, &cmd_array[i], shell);
-			//dprintf(1, "FOR TOKEN = %s\ncmd_array[i] = %p\ntoken = %p\n\n", token->word, cmd_array[i], token);
-			if (token)
-				token = token->next;
+			remove_quotes_char(token->word, shell);
+			token = token->next;
 		}
 		i++;
 	}
 }
 
-
+// pblm avec "bonjour    avec " les cho | cat > file | "onnnnnnnn hehe" "$VAR"
+//pete au niveau du main a clear non essential memory
+//c'est comme si onnnnnnn hehe n'etait pas malloc -> du au memmove?
 void	parse(t_shell *shell)
 {
 	char		*no_token_after_redir;
@@ -298,18 +243,18 @@ void	parse(t_shell *shell)
 		return ;
 	}
 	arg_syntax_processing(shell->cmd_array, shell);
-	remove_empty_tokens(shell->cmd_array, shell);// ou simplement skipper les token[0] = '\0' et rajouter
-	//une condition dans l'attribution du flag cmd
-	print_cmd_array(shell->cmd_array, 1);// a enlever
-	
+	remove_empty_tokens(shell->cmd_array, shell);
 	split_multiple_words_into_token(shell);
-	first_word_is_cmd_flag(shell->cmd_array); //il faut iterer le long de tokens pour trouver premier
-	//qui a un flag ARG et le transformer en CMD car << EOF grep "man" marche
+	first_word_is_cmd_flag(shell->cmd_array);
+	//Pipe creation();?? ou vraiment en amont juste apres tokenizer
+	//!! si c'est le cas au fait que les cmd contenant des erreurs vont etre supprimees
+	//a l'etape suivante
 	check_and_create_redirections(shell->cmd_array, shell);
-
+	//remove_quotes(shell->cmd_array, shell);
 	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
-	//check cmd exist
-	//trim quotes
+
+	
+	//look_for_command(shell->cmd_array, shell);
 	//create char **argv
 	//-->EVALUATOR--> execution de la commande sur la toute derniere redirection
 	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
@@ -381,6 +326,9 @@ expansion on l'enleve de la liste AVANT de set le flag cmd ou autre
 /*---------------------------------------------------------------------------*/
 
 /*
+si aucune commande dans cmd_array alors clean non essential et retour a prompt
+sans msg d'erreur ex : $4 $4
+
 CREATE char **argv : nb of arg = nb of token with flags cmd and arg
 We do not include redirections tokens in char **argv
 We can just make the argv[] point to the adress of token? 

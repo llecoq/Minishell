@@ -21,6 +21,9 @@ llaabonjour             espaces*OO
 
 EVALUATOR -------------------------------------
 
+Pipes run concurrently :
+https://unix.stackexchange.com/questions/37508/in-what-order-do-piped-commands-run
+
 Montre que les messages d'erreur sont asynchrones 
 bash-3.2$ cat < bonjour.txt | echo haha
 haha
@@ -94,6 +97,19 @@ grep <file1 token1 token2 token3	-->token1 est le pattern et par elimination tok
 									seront consideres d'emblee comme des fichiers
 
 
+----------------------------------------
+bash$ cat < 1
+0
+bash$ cat < 1 | wc -l
+1
+bash$ cat < 1 | wc -l > 1
+bash$ cat 1
+0
+Voir multiple open on same file dans drafts
+si on fait open deux fois de suite sur meme fichier, on obtient deux fd
+differents qui font reference au meme fichier et non pas le meme fd
+mais ce n'est pas un soucis, on aura juste a avancer de gauche a droite normalement
+et apres avoir fini d'utiliser un fd (=fini d'utiliser une redir) il faudra fermer le fd
 -------------------
 For << 
 https://stackoverflow.com/questions/41082647/implement-redirection-in-c
