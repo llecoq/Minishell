@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 19:21:43 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/15 19:24:31 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/16 12:25:15 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,6 @@ static int	establish_redirection(t_token *token, t_shell *shell)
 	if (create_redirection_file(token, shell) == CANT_OPEN_FILE)
 		return (CMD_IS_WRONG);
 	return (1);
-}
-
-static void	erase_current_cmd(t_token **cmd_array, int i, t_shell *shell)
-{
-	t_token		*to_erase;
-
-	to_erase = cmd_array[i];
-	while (cmd_array[i])
-	{
-		cmd_array[i] = cmd_array[i + 1];
-		i++;
-	}
-	erase_cmd(to_erase);
-	(void)shell;
 }
 
 int	check_and_create_redirections(t_token **cmd_array, t_shell *shell)

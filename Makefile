@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
+#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/07/16 10:58:19 by llecoq           ###   ########.fr        #
+#    Updated: 2021/07/16 13:48:31 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRCS_FILES	=	main.c\
 				parsing/parser.c\
 				parsing/parser_redirections.c\
 				parsing/parser_utils.c\
+				parsing/parser_trim_quotes.c\
 				parsing/parser_flags.c\
 				parsing/parser_variables.c\
 				utils/prompt.c\

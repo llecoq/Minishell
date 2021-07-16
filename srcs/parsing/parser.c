@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/16 10:53:07 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/16 13:48:06 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,8 +166,8 @@ OK			c) la deuxieme redir (de gauche a droite) est cree,
 				si pas d'erreur alors crea de redir suivante et ainsi de suite
 OK			Si erreur au cours de l'ouverture/crea d'un des fichiers alors cette commande ne sera
 			pas executee, effacer cette cmd de cmd_array?
-		4) Trim quotes
-		5) Check si la commande existe juste avant de la lancer mais APRES les redirections
+OK		4) Trim quotes
+OK		5) Check si la commande existe juste avant de la lancer mais APRES les redirections
 		6)char **argv est cree
 EVAL	7) la commande est executee SUR LA TOUTE DERNIERE REDIRECTION, les autres sont "ignorees", seuls
 		les fichiers ont etes crees donc /!\ a la gestion des fd qu'il faudra bien close
@@ -186,29 +186,63 @@ EVAL	8) on passe a la commande suivante
 
 */
 
-static void	remove_quotes_char(char *word, t_shell *shell)
+static void	find_builtin_function(char *cmd_name, t_token *cmd)
 {
-	int			i;
-	char		closing_quote;
-	
-	i = 0;
-	while (word[i])
-	{
-		if (word[i] == '"' || word[i] == '\'')
-		{
-			closing_quote = word[i];
-			ft_memmove(word + i, word + i + 1, ft_strlen(word));
-			while (word[i] && word[i] != closing_quote)
-				i++;
-			if (word[i] == closing_quote)
-				ft_memmove(word + i, word + i + 1, ft_strlen(word));
-		}
-		i++;
-	}
-	(void)shell;
+	if (ft_strncmp(cmd_name, "cd", 3) == 0)
+		cmd->ft_builtin = &ft_cd;
+	else if (ft_strncmp(cmd_name, "pwd", 4) == 0)
+		cmd->ft_builtin = &ft_pwd;
+	else if (ft_strncmp(cmd_name, "env", 4) == 0)
+		cmd->ft_builtin = &ft_env;
+	else if (ft_strncmp(cmd_name, "echo", 5) == 0)
+		cmd->ft_builtin = &ft_echo;
+	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
+		cmd->ft_builtin = &ft_exit;
+	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
+		cmd->ft_builtin = &ft_unset;
+	else if (ft_strncmp(cmd_name, "export", 7) == 0)
+		cmd->ft_builtin = &ft_export;
+	else
+		cmd->ft_builtin = NULL;
 }
 
-void	remove_quotes(t_token **cmd_array, t_shell *shell)
+static char	*look_for_cmd_path(char *cmd_name, t_list *env_path)
+{
+	int			fd;
+	char		*path_with_cmd_name;
+	
+	fd = 0;
+	while (env_path)
+	{
+		path_with_cmd_name = ft_strjoin(env_path->content, cmd_name);
+		fd = open(path_with_cmd_name, O_RDONLY);
+		if (fd > 0)
+		{
+			close(fd);
+			return (path_with_cmd_name);
+		}
+		free(path_with_cmd_name);
+		env_path = env_path->next;
+	}
+	return (NULL);
+}
+
+static int	cmd_search(t_token *cmd, t_shell *shell)
+{
+	find_builtin_function(cmd->word, cmd);
+	if (cmd->ft_builtin == NULL)
+	{
+		cmd->cmd_path = look_for_cmd_path(cmd->word, shell->path);
+		if (cmd->cmd_path == NULL)
+		{
+			error(shell, CMD_NOT_FOUND, cmd->word);
+			return (CMD_NOT_FOUND);
+		}
+	}
+	return (0);
+}
+
+void	find_command(t_token **cmd_array, t_shell *shell)
 {
 	int			i;
 	t_token		*token;
@@ -219,16 +253,22 @@ void	remove_quotes(t_token **cmd_array, t_shell *shell)
 		token = cmd_array[i];
 		while (token)
 		{	
-			remove_quotes_char(token->word, shell);
+			if (token->cmd == 1)
+			{
+				if (cmd_search(token, shell) == CMD_NOT_FOUND)
+				{
+					erase_current_cmd(cmd_array, i, shell);
+					i--;
+				}
+				break;
+			}
 			token = token->next;
 		}
 		i++;
 	}
+	(void)shell;
 }
 
-// pblm avec "bonjour    avec " les cho | cat > file | "onnnnnnnn hehe" "$VAR"
-//pete au niveau du main a clear non essential memory
-//c'est comme si onnnnnnn hehe n'etait pas malloc -> du au memmove?
 void	parse(t_shell *shell)
 {
 	char		*no_token_after_redir;
@@ -249,13 +289,17 @@ void	parse(t_shell *shell)
 	//Pipe creation();?? ou vraiment en amont juste apres tokenizer
 	//!! si c'est le cas au fait que les cmd contenant des erreurs vont etre supprimees
 	//a l'etape suivante
-	check_and_create_redirections(shell->cmd_array, shell);
-	//remove_quotes(shell->cmd_array, shell);
-	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 
-	
-	//look_for_command(shell->cmd_array, shell);
+	//dans le mode APPEND et REDIR, il faut faire un read derriere pour voir si c'est bien
+	// un fichier et non un repertoire (quand tu ouvres un repertoire, il te renvoie quand
+	// meme un fd positif, mais minishell doit renvoyer "Is a directory" avec errno)
+	check_and_create_redirections(shell->cmd_array, shell);
+	remove_quotes(shell->cmd_array, shell);
+	find_command(shell->cmd_array, shell);
 	//create char **argv
+	
+	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
+	
 	//-->EVALUATOR--> execution de la commande sur la toute derniere redirection
 	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 }
@@ -276,14 +320,7 @@ Errors :
 /*------------------- TRIM QUOTES -------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
-/*
-TRIM OUTER QUOTES
-trim ' et " sur tous les tokens !! on ne trim pas tous les " et '
-on les trim 2 a deux
-donc le long du token des qu'on en trouve un on va chercher le closing one
-et on enleve juste ce "couple" et ainsi de suite
-si token = "" then becomes nothing
-*/
+
 
 /*---------------------------------------------------------------------------*/
 /*------------------- CMD VERIFICATION---------------------------------------*/

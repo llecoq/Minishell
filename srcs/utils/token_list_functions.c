@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/15 19:20:33 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/16 12:48:48 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ t_token	*create_new_token(char *token, t_shell *shell)
 	if (!(new_token->word))
 	 	error_quit(shell, 0);
 	new_token->next = NULL;
-	new_token->previous = NULL;;
+	new_token->previous = NULL;
+	new_token->ft_builtin = NULL;
+	new_token->cmd_path = NULL;
 	return (new_token);
 }
 

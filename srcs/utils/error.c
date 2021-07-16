@@ -63,9 +63,8 @@ void	error(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "minishell: %s: ambiguous redirect", str);
 	else if (error_type == CANT_OPEN_FILE)
 		ft_printf(2, "bash: %s: %s", str, strerror(errno));
-	// 	ft_printf(2, "");
-	// else if (error_type == 5)
-	// 	ft_printf(2, "");
+	else if (error_type == CMD_NOT_FOUND)
+		ft_printf(2, "bash: %s: command not found", str);
 	// else if (error_type == 6)
 	// 	ft_printf(2, "");
 	ft_printf(2, "\n");

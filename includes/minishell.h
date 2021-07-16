@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/16 10:52:29 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/16 13:05:45 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
-typedef int t_bool;
-typedef int t_flag;
+typedef int 	t_bool;
+typedef int 	t_flag;
+typedef struct 	s_shell t_shell;
 
 typedef struct 	s_token
 {
@@ -59,6 +60,7 @@ typedef struct 	s_token
 	t_flag			arg;
 	t_flag			redir;
 	int				fd;
+	int				(*ft_builtin)(t_shell *, char **);
 	char			*cmd_path;
 	struct s_token	*next;
 	struct s_token	*previous;
@@ -106,6 +108,7 @@ enum	e_errors
 	REDIR_ISNT_1_WORD = -3,
 	CMD_IS_WRONG = -4,
 	CANT_OPEN_FILE = -5,
+	CMD_NOT_FOUND = -6,
 };
 
 enum	e_word_chars
@@ -129,17 +132,6 @@ enum	e_env
 	ILLEGAL_OPTION = 2,
 	PERMISSION_DENIED = 3,
 	NO_SUCH_FILE_OR_DIRECTORY = 4,
-};
-
-enum	e_builtins
-{
-	BUILT_CD = 1,
-	BUILT_PWD = 2,
-	BUILT_ENV = 3,
-	BUILT_ECHO = 4,
-	BUILT_EXIT = 5,
-	BUILT_UNSET = 6,
-	BUILT_EXPORT = 7,
 };
 
 /*
@@ -208,8 +200,14 @@ int			store_environment(t_shell *shell, char *const *envp);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
 void		parse(t_shell *shell);
-void		turn_on_flag(int flag, t_token *cpy);
 char		*process_variables(char *token, t_shell *shell);
+
+/*
+** parser_utils
+*/
+
+void		turn_on_flag(int flag, t_token *cpy);
+void		erase_current_cmd(t_token **cmd_array, int i, t_shell *shell);
 
 /*
 ** parser_flags
@@ -230,6 +228,12 @@ void		replace_token_with_var(char **token, t_shell *shell);
 */
 
 int			check_and_create_redirections(t_token **cmd_array, t_shell *shell);
+
+/*
+** parser_trim_quotes
+*/
+
+void		remove_quotes(t_token **cmd_array, t_shell *shell);
 
 /*
 ** ---------------------------------------------------------------- PARSING

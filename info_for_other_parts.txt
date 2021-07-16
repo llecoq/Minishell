@@ -172,7 +172,10 @@ an error occurs, and the command exits with a non-zero status.)
 
 
 ECHO ----------------------------------------
-si echo "" il faudra print un espace
+si echo "" il faudra print un espace. avec trim quotes c'est transforme en '\0'
+donc si argv[i][0] == '\0' alors print ' '
+
+!!Echo ignore toutes les INPUT redirections
 
 bash-3.2$ export VAR="   sansespaces"
 bash-3.2$ env | grep "VAR"
@@ -191,9 +194,6 @@ bash-3.2$ echo << EOF
 > EOF
 
 bash-3.2$
-
-Echo n'accepte pas les INPUT redirections
-
 
 EXIT ----------------------------------------
 prints an "exit" msg on stdERR when we do exit

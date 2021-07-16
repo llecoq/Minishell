@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:41:28 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/15 20:02:41 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/16 13:37:43 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	free_cmd_array(t_token **cmd_array)
 			//dprintf(1, "cmd_array[%d]->word = %s\n", i, cmd_array[i]->word);
 			tmp = cmd_array[i]->next;
 			free_set_null((void **)&cmd_array[i]->word);
+			if (cmd_array[i]->cmd_path)
+				free_set_null((void **)&cmd_array[i]->cmd_path);
 			free_set_null((void **)&cmd_array[i]);
 			cmd_array[i] = tmp;
 		}
