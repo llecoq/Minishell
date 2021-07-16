@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/15 19:23:20 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/16 10:52:29 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include <term.h>
 # include <curses.h>
 # include <errno.h>
-# include "../../../../.brew/opt/readline/include/readline/readline.h"
-# include "../../../../.brew/opt/readline/include/readline/history.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libft/libft.h"
 
 #define RESET   "\033[0m"

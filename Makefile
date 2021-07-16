@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
+#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/07/15 19:48:51 by abonnel          ###   ########.fr        #
+#    Updated: 2021/07/16 10:51:57 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,8 @@ CC		= gcc
 
 RM		= rm -rf
 
+READLINE = 	-I /Users/$(USER)/.brew/opt/readline/include
+
 CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
 
 DIR		=	.objs/parsing\
@@ -65,16 +67,14 @@ DIR		=	.objs/parsing\
 
 $(OBJSPATH)%.o:		$(SRCSPATH)%.c includes/minishell.h libft/libft.h libft/libft.a
 			@mkdir -p $(OBJ_PATH) $(DIR)
-			$(CC) $(CFLAGS) -c $< -o $@ -I includes/ -I libft/ -I
-
+			$(CC) $(CFLAGS) -c $< -o $@ -I includes/ -I libft/ -I /Users/$(USER)/.brew/opt/readline/include
 
 #verify that libft include works no relink
 all:		previous $(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -Llibft -lft -g\
-			-lreadline -L /Users/$(USER)/.brew/opt/readline/lib\
-			-I /Users/$(USER)/.brew/opt/readline/include
+			$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L /Users/$(USER)/.brew/opt/readline/lib -lreadline -Llibft -lft -g
+
 # -I includes/readline/8.1/include/readline/ \
 			-Lincludes/readline/8.1/lib
 

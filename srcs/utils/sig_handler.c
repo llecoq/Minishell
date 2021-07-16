@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:12:40 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/15 17:06:29 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/15 17:39:35 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	sig_handler(int signum)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	if (signum == 15651)  // trouver CONTROL L
-			printf("\e[1;1H\e[2J"); // clear le terminal
+	// if (signum == 15651)  // trouver CONTROL L
+	// 		printf("\e[1;1H\e[2J"); // clear le terminal
 	// gerer control \    pour l'instant abort
 }
 
