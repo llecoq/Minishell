@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/16 13:05:45 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/16 17:14:11 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct 	s_token
 	t_flag			cmd;
 	t_flag			arg;
 	t_flag			redir;
+	t_flag			error;
 	int				fd;
 	int				(*ft_builtin)(t_shell *, char **);
 	char			*cmd_path;
@@ -109,6 +110,7 @@ enum	e_errors
 	CMD_IS_WRONG = -4,
 	CANT_OPEN_FILE = -5,
 	CMD_NOT_FOUND = -6,
+	FILE_IS_DIR = -7,
 };
 
 enum	e_word_chars
@@ -152,7 +154,7 @@ void		get_signal(void);
 void		print_list(t_list *list);
 void		print_env(t_shell *shell);
 void		sort_alphabetically_list(t_list **export_list);
-void		split_multiple_words_into_token(t_shell *shell);
+void		split_multiple_words_into_tokens(t_shell *shell);
 char		*get_env(t_shell *shell, const char *name);
 char		*join_args(char	**argv, char *flag);
 int			put_env(t_shell *shell, char *string);
@@ -168,7 +170,7 @@ int			is_redirection(const char *str, int i);
 int			is_quote(const char c);
 int			finished_by_spaces(const char *str);
 int			is_word_char(int c, int mode);
-
+int			is_word(const char *str);
 
 /*
 ** token_list_functions.c  
@@ -227,13 +229,20 @@ void		replace_token_with_var(char **token, t_shell *shell);
 ** parser_redirection
 */
 
-int			check_and_create_redirections(t_token **cmd_array, t_shell *shell);
+void			check_and_create_redirections(t_token **cmd_array, t_shell *shell);
 
 /*
 ** parser_trim_quotes
 */
 
 void		remove_quotes(t_token **cmd_array, t_shell *shell);
+
+/*
+** parser_find_command
+*/
+
+void		find_command(t_token **cmd_array, t_shell *shell);
+
 
 /*
 ** ---------------------------------------------------------------- PARSING

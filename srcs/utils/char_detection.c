@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 10:40:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/14 13:17:14 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/16 17:13:52 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,17 @@ int	is_word_char(int c, int mode)
 //A word begins with a letter or underscore and consists solely of letters,
 //numbers, and underscores
 
-// int	is_word(const char *str)
-// {
-// 	int		i;
+int	is_word(const char *str)
+{
+	int		i;
 
-// 	i = 0;
-// 	if (str[i] != '_' && !ft_isalpha(str[i]))
-// 		return (0);
-// 	i++;
-// 	while (str[i] && (str[i] == '_' || ft_isalnum(str[i])))
-// 		i++;
-// 	if (!str[i])
-// 		return (1);
-// 	return (0);	
-// }
+	i = 0;
+	if (str[i] != '_' && !ft_isalpha(str[i]))
+		return (0);
+	i++;
+	while (str[i] && (str[i] == '_' || ft_isalnum(str[i])))
+		i++;
+	if (!str[i])
+		return (1);
+	return (0);	
+}

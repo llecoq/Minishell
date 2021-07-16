@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/16 12:48:48 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/16 18:08:22 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,14 @@ void	print_cmd_array(t_token **cmd_array, int flags)
 	t_token			*cpy;
 
 	i = 0;
+	ft_printf(1, "===== Print cmd array =====\n");
 	while (cmd_array[i])
 	{
 		cpy = cmd_array[i];
 		x = 0;
+		if (cpy->error)
+			ft_printf(1, "\033[1m\033[31m");
+		ft_printf(1, "%d\n", i);
 		while (cpy)
 		{
 			ft_printf(1, "cmd[%d], ", i);
@@ -93,8 +97,11 @@ void	print_cmd_array(t_token **cmd_array, int flags)
 			cpy = cpy->next;
 			x++;
 		}
+		if (cmd_array[i]->error)
+			ft_printf(1, "\033[0m");
 		i++;
 	}
+	ft_printf(1, "====^ Print cmd array ^====\n");
 }
 
 void	erase_token(t_token **token, t_token **head, t_shell *shell)

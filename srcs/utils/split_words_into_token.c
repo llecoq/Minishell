@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 09:57:27 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/15 19:46:36 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/16 16:37:03 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	find_multiple_words(char *word)
 	return (IS_SINGLE);
 }
 
-void	split_multiple_words_into_token(t_shell *shell)
+void	split_multiple_words_into_tokens(t_shell *shell)
 {
 	t_token	*head;
 	int		nb_of_words;

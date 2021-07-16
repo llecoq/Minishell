@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/16 13:48:06 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/16 18:07:40 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void	first_word_is_cmd_flag(t_token **cmd_array)
 	}
 }
 
+//une commande ne sera jamais vide car il restera toujours le token du pipe
 void	remove_empty_tokens(t_token **cmd_array, t_shell *shell)
 {
 	int			i;
@@ -58,85 +59,6 @@ void	remove_empty_tokens(t_token **cmd_array, t_shell *shell)
 		i++;
 	}
 }
-
-/*
-	Errors FROM DIFFERENT COMMANDS add to each other but if there are 2 errors WITHIN ONE CMD
-	only the first one/error msg appears
-	Even if there is an error on one command, the next cmd will be executed
-
-		bash-3.2$ echo < $VARR | txt.txt
-		bash: $VARR: ambiguous redirect
-		bash: txt.txt: command not found
-
-		bash-3.2$ echo haha > $5 | echo haha
-		bash: $5: ambiguous redirect
-		haha		
-	
-	Cas sans erreur : Trois fichiers sont crees et c'est le dernier qui contiendra "lalala",
-	les autres sont vides
-	
-		bash-3.2$ rm *
-		bash-3.2$ echo lalala > txt.txt > hihi > othertxt.txt
-		bash-3.2$ ls
-		hihi		othertxt.txt	txt.txt
-	
-	Cas avec erreur : Ici on voit que last.txt n'a pas ete cree car il vient apres 
-	un ambiguous redirect. Montre que les redir ne sont expandues qu'au moment meme ou elles
-	doivent etre executees/la redir doit etre cree -> car elles ne sont pas inclues comme des arg
-	dans char **argv. 
-		
-		bash-3.2$ rm *
-		bash-3.2$ echo lalala > txt.txt > $OTHERVAR > last.txt
-		bash: $OTHERVAR: ambiguous redirect
-		bash-3.2$ ls
-		txt.txt
-		bash-3.2$ cat txt.txt
-		bash-3.2$
-		
-
-	bash-3.2$ cat hoho <txt.txt < $VAR
-	bash: $VAR: ambiguous redirect
-	-->ambiguous redirect stop meme cat hoho
-	bash-3.2$ cat hoho <txt.txt
-	blablbalba
-	bash-3.2$ cat hoho
-	blablbalba
-	bash-3.2$ cat txt.txt
-	elephant
-	bash-3.2$ cat hoho <bonjour <$VAR
-	bash: bonjour: No such file or directory
-	Ici on voit qu'on n'arrive pas a <$VAR et sachant que les redirections sont faites AVANT les
-	arguments normaux, on voit bien que la commande est stoppee au moment ou une erreur apparait
-	
-	bash-3.2$ cat file_that_no_exist <no_exist <$VAR
-	bash: no_exist: No such file or directory
-	Ici ca confirme ca : le fichier file_that_no_exist n'a pas ete testé, c'est au moment de creer
-	la redirection (pipe dup) que no_exist est testé -> erreur -> arret du process
-
-	est-ce qu'il faut d'abord tout expandre SAUF les redirections a garder pour plus tard?
-	-> de toute facon on n'a pas besoin des redirections pour creer char **argv qui ne les
-	incluent pas
-	-> comme ca quand l'erreur liee a l'expansion d'une VAR de redirection error, on s'arrete bien
-	au bon moment du process
-
-		bash-3.2$ rm *
-		bash-3.2$ blabla hoho > txt.txt
-		bash: blabla: command not found
-		bash-3.2$ ls
-		txt.txt
-	montre que les fichiers de redir sont crees avant meme que l'existence de la cmd soit checkee
-*/
-
-/*
-Montre qu'entre quotes on garde les espaces de variables mais hors quotes alors les espaces
-sont trimes --> DONC les var SIMPLES/sans quotes sont sujettes a etre casses en multiples 
-nodes
-bash-3.2$ export VAR="bonjour             espaces"
-bash-3.2$ echo llaa$VAR*OO
-llaabonjour espaces*OO
-bash-3.2$ echo "llaa$VAR*OO"
-llaabonjour             espaces*OO
-*/
 
 /*	
 	Donc deroulement du parsing :
@@ -186,89 +108,12 @@ EVAL	8) on passe a la commande suivante
 
 */
 
-static void	find_builtin_function(char *cmd_name, t_token *cmd)
-{
-	if (ft_strncmp(cmd_name, "cd", 3) == 0)
-		cmd->ft_builtin = &ft_cd;
-	else if (ft_strncmp(cmd_name, "pwd", 4) == 0)
-		cmd->ft_builtin = &ft_pwd;
-	else if (ft_strncmp(cmd_name, "env", 4) == 0)
-		cmd->ft_builtin = &ft_env;
-	else if (ft_strncmp(cmd_name, "echo", 5) == 0)
-		cmd->ft_builtin = &ft_echo;
-	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
-		cmd->ft_builtin = &ft_exit;
-	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
-		cmd->ft_builtin = &ft_unset;
-	else if (ft_strncmp(cmd_name, "export", 7) == 0)
-		cmd->ft_builtin = &ft_export;
-	else
-		cmd->ft_builtin = NULL;
-}
 
-static char	*look_for_cmd_path(char *cmd_name, t_list *env_path)
-{
-	int			fd;
-	char		*path_with_cmd_name;
-	
-	fd = 0;
-	while (env_path)
-	{
-		path_with_cmd_name = ft_strjoin(env_path->content, cmd_name);
-		fd = open(path_with_cmd_name, O_RDONLY);
-		if (fd > 0)
-		{
-			close(fd);
-			return (path_with_cmd_name);
-		}
-		free(path_with_cmd_name);
-		env_path = env_path->next;
-	}
-	return (NULL);
-}
-
-static int	cmd_search(t_token *cmd, t_shell *shell)
-{
-	find_builtin_function(cmd->word, cmd);
-	if (cmd->ft_builtin == NULL)
-	{
-		cmd->cmd_path = look_for_cmd_path(cmd->word, shell->path);
-		if (cmd->cmd_path == NULL)
-		{
-			error(shell, CMD_NOT_FOUND, cmd->word);
-			return (CMD_NOT_FOUND);
-		}
-	}
-	return (0);
-}
-
-void	find_command(t_token **cmd_array, t_shell *shell)
-{
-	int			i;
-	t_token		*token;
-	
-	i = 0;
-	while (cmd_array[i])
-	{
-		token = cmd_array[i];
-		while (token)
-		{	
-			if (token->cmd == 1)
-			{
-				if (cmd_search(token, shell) == CMD_NOT_FOUND)
-				{
-					erase_current_cmd(cmd_array, i, shell);
-					i--;
-				}
-				break;
-			}
-			token = token->next;
-		}
-		i++;
-	}
-	(void)shell;
-}
-
+//Il ne reste plus que char **argv a faire
+//Pour les commandes qui contiennent des erreurs j'ai set le flag error = 1 sur le tout premier token
+//Cree un char **argv meme pour celles la ? on veut juste qqchose qui permette d'arreter
+//le flow d'informations entre deux commandes separees par une commande avec erreur
+//-> faire pipex d'abord ? 
 void	parse(t_shell *shell)
 {
 	char		*no_token_after_redir;
@@ -282,81 +127,23 @@ void	parse(t_shell *shell)
 		free(no_token_after_redir);
 		return ;
 	}
+	//Pipe creation();? Surement a ce niveau juste apres les syntax error qui
+	//arretent le programme
+	
 	arg_syntax_processing(shell->cmd_array, shell);
 	remove_empty_tokens(shell->cmd_array, shell);
-	split_multiple_words_into_token(shell);
+	split_multiple_words_into_tokens(shell);
 	first_word_is_cmd_flag(shell->cmd_array);
-	//Pipe creation();?? ou vraiment en amont juste apres tokenizer
-	//!! si c'est le cas au fait que les cmd contenant des erreurs vont etre supprimees
-	//a l'etape suivante
-
-	//dans le mode APPEND et REDIR, il faut faire un read derriere pour voir si c'est bien
-	// un fichier et non un repertoire (quand tu ouvres un repertoire, il te renvoie quand
-	// meme un fd positif, mais minishell doit renvoyer "Is a directory" avec errno)
 	check_and_create_redirections(shell->cmd_array, shell);
 	remove_quotes(shell->cmd_array, shell);
 	find_command(shell->cmd_array, shell);
-	//create char **argv
 	
 	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
+	//create_argument_list(shell->cmd_array, shell);
 	
 	//-->EVALUATOR--> execution de la commande sur la toute derniere redirection
-	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
+	//NON car si cat << first << second alors first compte quand mm
 }
-
-/*
-Errors :
-	if SYNTAX ERROR (NOTHING_AFTER_REDIR) then subsequent errors won't display / parser is stopped
-	SYNTAX ERROR is checked right after flags are set
-		bash-3.2$ echo > | hehe
-		bash: syntax error near unexpected token `|'
-		---- Nothing is displayed about "hehe"
-		---- The error msg displays the token right after redir
-		---- SYNTAX ERRROR is checked before all the other errors
-	!DONE!
-*/
-
-/*---------------------------------------------------------------------------*/
-/*------------------- TRIM QUOTES -------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-
-
-
-/*---------------------------------------------------------------------------*/
-/*------------------- CMD VERIFICATION---------------------------------------*/
-/*---------------------------------------------------------------------------*/
-
-/*
-Check if cmd is a word -> see definition
-
-Verify that each token with the flag CMD is true : 
-	echo / cd / pwd/ export / unset/ env / exit,
-
-Otherwise look through $PATH and save path in node->cmd_path. 
-
-Else : free and "zsh: command not found: lsls"
-refer to minishell notion.so for implementation + Louis had created a
-function for that already
-
-Ici pas d'erreur pour $5 alors que ce n'est pas une commande qui existe
-si cmd == '\0' alors pas de message d'erreur
-bash-3.2$ rm *
-bash-3.2$ echo lala | $5
-bash-3.2$ ls
-bash-3.2$
-
-Alors que si var non vide on a bien un msg d'erreur si cmd n'existe pas
-bash-3.2$ export VAR=noexist
-bash-3.2$ echo lala | $VAR
-bash: noexist: command not found
-
-Visiblement quand un token est = '\0' alors on ne le cherche pas
-bash-3.2$ $5 lala
-bash: lala: command not found
-
-Donc des qu'un token qui n'est pas une redirection devient '\0' apres var
-expansion on l'enleve de la liste AVANT de set le flag cmd ou autre
-*/
 
 /*---------------------------------------------------------------------------*/
 /*------------------- CHAR **ARGV CREATION ----------------------------------*/
@@ -366,33 +153,100 @@ expansion on l'enleve de la liste AVANT de set le flag cmd ou autre
 si aucune commande dans cmd_array alors clean non essential et retour a prompt
 sans msg d'erreur ex : $4 $4
 
+!! a bien checker a chaque cmd_array[i] si error = 1, dans ce cas on ne cree
+pas de char **argv
+
 CREATE char **argv : nb of arg = nb of token with flags cmd and arg
 We do not include redirections tokens in char **argv
 We can just make the argv[] point to the adress of token? 
 instead of duplicating memory
+*/
 
-bash-3.2$ cat othertxt.txt
-lalala
-bash-3.2$ export VAR="othertxt.txt  otherfile "
-bash-3.2$ cat $VAR | grep "lala"
-cat: otherfile: No such file or directory
-lalala
 
+
+//OK en dessous--------------------------------------------------------------
+
+/*
+Vendredi 16 Juillet avant de faire char **argv a 17h20
+
+OK Ici pas d'erreur pour $5 alors que ce n'est pas une commande qui existe
+si cmd == '\0' alors pas de message d'erreur
+bash-3.2$ rm *
+bash-3.2$ echo lala | $5
 bash-3.2$ ls
-hoho	txt.txt
-bash-3.2$ cat "hoho     txt.txt"
-cat: hoho     txt.txt: No such file or directory
-bash-3.2$ export VAR="hoho   txt.txt"
-bash-3.2$ cat $VAR
-blablbalba
-chat et chien
-bash-3.2$ echo $VAR
-hoho txt.txt
---> spaces are skiped in echo so it means that Vars that are expanded to 2 words
-are then considered to be 2 tokens alors que un token qui faisait deja
-plusieurs mots (entre " ou ') reste bien integre = un seul et mm token
+bash-3.2$
 
-dans draftminishell : exec_cat.c j'ai bien verifie, si on lui envoie 
-char **argv = {"cat", "file1 file2", NULL} ca ne fonctionnera pas meme si file1 et file2
-existent donc il faut bien split en deux parametres differents
+OK Alors que si var non vide on a bien un msg d'erreur si cmd n'existe pas
+bash-3.2$ export VAR=noexist
+bash-3.2$ echo lala | $VAR
+bash: noexist: command not found
+
+OK Visiblement quand un token est = '\0' alors on ne le cherche pas
+bash-3.2$ $5 lala
+bash: lala: command not found
+
+Donc des qu'un token qui n'est pas une redirection devient '\0' apres var
+expansion on l'enleve de la liste AVANT de set le flag cmd ou autre
+*/
+
+/*
+OK	Errors FROM DIFFERENT COMMANDS add to each other but if there are 2 errors WITHIN ONE CMD
+	only the first one/error msg appears
+	Even if there is an error on one command, the next cmd will be executed
+
+		bash-3.2$ echo < $VARR | txt.txt
+		bash: $VARR: ambiguous redirect
+		bash: txt.txt: command not found
+
+		bash-3.2$ echo haha > $5 | echo haha
+		bash: $5: ambiguous redirect
+		haha		
+	
+	Cas sans erreur : Trois fichiers sont crees et c'est le dernier qui contiendra "lalala",
+	les autres sont vides
+	
+		bash-3.2$ rm *
+		bash-3.2$ echo lalala > txt.txt > hihi > othertxt.txt
+		bash-3.2$ ls
+		hihi		othertxt.txt	txt.txt
+	
+OK	Cas avec erreur : Ici on voit que last.txt n'a pas ete cree car il vient apres 
+	un ambiguous redirect. Montre que les redir ne sont expandues qu'au moment meme ou elles
+	doivent etre executees/la redir doit etre cree -> car elles ne sont pas inclues comme des arg
+	dans char **argv. 
+		
+		bash-3.2$ rm *
+		bash-3.2$ echo lalala > txt.txt > $OTHERVAR > last.txt
+		bash: $OTHERVAR: ambiguous redirect
+		bash-3.2$ ls
+		txt.txt
+		bash-3.2$ cat txt.txt
+		bash-3.2$
+		
+
+OK	bash-3.2$ cat hoho <txt.txt < $VAR
+	bash: $VAR: ambiguous redirect
+	-->ambiguous redirect stop meme cat hoho
+	bash-3.2$ cat hoho <txt.txt
+	blablbalba
+	bash-3.2$ cat hoho
+	blablbalba
+	bash-3.2$ cat txt.txt
+	elephant
+	bash-3.2$ cat hoho <bonjour <$VAR
+	bash: bonjour: No such file or directory
+	Ici on voit qu'on n'arrive pas a <$VAR et sachant que les redirections sont faites AVANT les
+	arguments normaux, on voit bien que la commande est stoppee au moment ou une erreur apparait
+	
+	bash-3.2$ cat file_that_no_exist <no_exist <$VAR
+	bash: no_exist: No such file or directory
+	Ici ca confirme ca : le fichier file_that_no_exist n'a pas ete testé, c'est au moment de creer
+	la redirection (pipe dup) que no_exist est testé -> erreur -> arret du process
+
+		bash-3.2$ rm *
+		bash-3.2$ blabla hoho > txt.txt
+		bash: blabla: command not found
+		bash-3.2$ ls
+		txt.txt
+	montre que les fichiers de redir sont crees avant meme que l'existence de la cmd soit checkee
 */

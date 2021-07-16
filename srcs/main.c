@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/15 17:45:12 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/16 18:07:56 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ int	main(int argc, char **argv, char **env)
 			if (shell.cmd_array == NULL) //in case of missing closing bracket / empty input
 				continue;
 			parse(&shell);
-			if (shell.cmd_array == NULL) //in case of error that does not need to stop program
-				continue;
+			//if (shell.cmd_array == NULL) //in case of error that does not need to stop program
+			//	continue;
 			clear_nonessential_memory(&shell);
 		}
 	}
 	else if (argc > 1 && argv)          // args to be processed
-		dprintf(2, "minishell : too many arguments\n");
+		ft_printf(2, "minishell : too many arguments\n");
 	clear_memory(&shell);
 	return 0;
 }

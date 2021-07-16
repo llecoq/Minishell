@@ -6,12 +6,14 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 12:21:58 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/16 12:22:13 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/16 16:34:49 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//Quand token = "" -> deviendra '\0', c'est ce qu'on veux car quand on envoi
+//"\0" dans le char argv de echo, il imprime d'emblee un espace a la place
 static void	remove_quotes_char(char *word, t_shell *shell)
 {
 	int			i;

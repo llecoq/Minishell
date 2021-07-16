@@ -65,8 +65,8 @@ void	error(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "bash: %s: %s", str, strerror(errno));
 	else if (error_type == CMD_NOT_FOUND)
 		ft_printf(2, "bash: %s: command not found", str);
-	// else if (error_type == 6)
-	// 	ft_printf(2, "");
+	else if (error_type == FILE_IS_DIR)
+		ft_printf(2, "bash: %s: Is a directory", str);
 	ft_printf(2, "\n");
 	(void)shell;
 	//must stop current command and go back to prompt
