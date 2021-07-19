@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/16 18:08:22 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/19 15:40:26 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,42 @@ void	print_cmd_array(t_token **cmd_array, int flags)
 		i++;
 	}
 	ft_printf(1, "====^ Print cmd array ^====\n");
+}
+
+static void	print_current_argv(t_token *cmd)
+{
+	int				i;
+
+	i = 0;
+	while (cmd->argv[i])
+	{
+		ft_printf(1, "%s, ", cmd->argv[i]);
+		i++;
+	}
+	ft_printf(1, "NULL");
+	ft_printf(1, "\n");
+}
+
+void	print_argv(t_token **cmd_array)
+{
+	int				i;
+	t_token			*token;
+
+	i = 0;
+	while (cmd_array[i])
+	{
+		token = cmd_array[i];
+		while (token)
+		{
+			if (token->cmd == 1)
+			{
+				ft_printf(1, "COMMAND #%d\n", i);
+				print_current_argv(token);
+			}
+			token = token->next;
+		}
+		i++;
+	}
 }
 
 void	erase_token(t_token **token, t_token **head, t_shell *shell)

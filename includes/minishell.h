@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/16 17:14:11 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/19 16:50:35 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct 	s_token
 	int				fd;
 	int				(*ft_builtin)(t_shell *, char **);
 	char			*cmd_path;
+	char			**argv;
 	struct s_token	*next;
 	struct s_token	*previous;
 }				t_token;
@@ -183,6 +184,8 @@ void		print_cmd_array(t_token **cmd_array, int flags);
 void		reset_previous_pointers(t_token *head);
 void		erase_token(t_token **token, t_token **head, t_shell *shell);
 void		erase_cmd(t_token *cmd);
+void		print_argv(t_token **cmd_array);
+
 
 
 
@@ -243,6 +246,11 @@ void		remove_quotes(t_token **cmd_array, t_shell *shell);
 
 void		find_command(t_token **cmd_array, t_shell *shell);
 
+/*
+** parser_arg_list
+*/
+
+void		create_argument_list(t_token **cmd_array, t_shell *shell);
 
 /*
 ** ---------------------------------------------------------------- PARSING

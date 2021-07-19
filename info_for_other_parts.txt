@@ -93,7 +93,7 @@ differents qui font reference au meme fichier et non pas le meme fd
 mais ce n'est pas un soucis, on aura juste a avancer de gauche a droite normalement
 et apres avoir fini d'utiliser un fd (=fini d'utiliser une redir) il faudra fermer le fd
 -------------------
-For << 
+For << --> !! le fd n'est pas set
 https://stackoverflow.com/questions/41082647/implement-redirection-in-c
 better : https://www.oilshell.org/blog/2016/10/18.html
 We create a buffer :
@@ -107,6 +107,18 @@ while (gnl(0, &&line))
 }
 Or do we create a temp file -> but we cannot use a function to delete that file afterwards
 Maybe instead of temp file we need to use a pipe
+
+➜  ~ export VAR="deux mots"
+➜  ~ cat << $VAR					!! ICI la var $VAR n'est pas expanded/traduite
+heredoc> deux
+heredoc> mots
+heredoc> deux mots
+heredoc> VAR
+heredoc> $VAR
+deux
+mots
+deux mots
+VAR
 
 bash-3.2$ cat << lol lol haha
 > hehe
