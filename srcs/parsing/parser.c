@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/16 18:07:40 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/27 11:31:44 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,8 @@ void	parse(t_shell *shell)
 	remove_quotes(shell->cmd_array, shell);
 	find_command(shell->cmd_array, shell);
 	
-	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
-	//create_argument_list(shell->cmd_array, shell);
+	print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
+	// create_argument_list(shell->cmd_array, shell);
 	
 	//-->EVALUATOR--> execution de la commande sur la toute derniere redirection
 	//NON car si cat << first << second alors first compte quand mm

@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+// revoir valeur de retour erreur
+// $? should expand to the exit status of the most recently executed foreground
+// pipeline.
 void	error_quit(t_shell *shell, int error_type)
 {
 	if (error_type == 0) //syscall errors
@@ -21,7 +24,7 @@ void	error_quit(t_shell *shell, int error_type)
 	// else if (error_type == 2)
 	// 	ft_printf(2, "");
 	clear_memory(shell);
-	exit(EXIT_FAILURE);
+	exit(errno);
 }
 
 
@@ -62,11 +65,11 @@ void	error(t_shell *shell, int error_type, char *str)
 	else if (error_type == REDIR_ISNT_1_WORD)
 		ft_printf(2, "minishell: %s: ambiguous redirect", str);
 	else if (error_type == CANT_OPEN_FILE)
-		ft_printf(2, "bash: %s: %s", str, strerror(errno));
+		ft_printf(2, "minishell: %s: %s", str, strerror(errno));
 	else if (error_type == CMD_NOT_FOUND)
-		ft_printf(2, "bash: %s: command not found", str);
+		ft_printf(2, "minishell: %s: command not found", str);
 	else if (error_type == FILE_IS_DIR)
-		ft_printf(2, "bash: %s: Is a directory", str);
+		ft_printf(2, "minishell: %s: Is a directory", str);
 	ft_printf(2, "\n");
 	(void)shell;
 	//must stop current command and go back to prompt

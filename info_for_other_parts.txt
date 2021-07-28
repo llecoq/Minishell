@@ -183,3 +183,55 @@ bash-3.2$
 
 EXIT ----------------------------------------
 prints an "exit" msg on stdERR when we do exit
+$? should expand to the exit status of the most recently executed foreground
+pipeline.
+
+EXECUTOR -------------------------------------
+
+heredoc (il doit s'ouvrir en tout premier quelque soit sa position dans l'input, c'est la seule redirection qui se cree avant)
+creation des pipe()
+creation des fork()
+creation des redirections (renvoie d'erreur si le file en input n'existe pas)
+recherche des cmds (renvoie d'erreur si cmd n'existe pas)
+execution de tout le bordel, dup des fd et print la ou il faut
+SUCCESS - OUTSTANDING PROJECT
+
+Attention, si UNSET PATH
+redir = 0644
+ctrl + d dans un heredoc flush l'input mais ne quite pas minishell, donc les
+autres commandes et redir se lancent quand meme apres
+quand on fait une redirection, on ne close pas le fichier redirige (apres dup2)
+
+utiliser waitpid pour retourner code erreur WEXITSTATUS
+waitpid recupere la valeur de retour du fork child
+WEXITSTATUS permet de traduire le code erreur en INT classique
+
+
+Pour gagner du temps lors d'un fork, le noyau ne duplique que le mappage mémoire. 
+Par exemple, si nous avons cent pages mappées pour le tableau, le noyau va 
+dupliquer les entrées TLB (Translation Lookaside Buffer) et basculer tous les 
+mappages en lecture seule. Si les deux processus effectuent uniquement des 
+lectures, ils accèdent à de la mémoire partagée, mais quand un des processus 
+essaye d'écrire, il déclenche un défaut de page (page fault), le gestionnaire 
+d'interruptions (trap) du noyau copie la page et change sa permission en 
+lecture-écriture, puis remet le pointeur d'instruction à sa valeur initiale 
+pour que le programme puisse exécuter à nouveau l'opération d'écriture.
+
+ATTENTION POUR SET_REDIRECTION :
+
+bash-3.2$ pwd > teeest/oui
+bash-3.2$ cd teeest/
+bash-3.2$ cat oui
+/Users/llecoq/test
+bash-3.2$ pwd > test/oui
+bash: test/oui: No such file or directory
+
+open semble gerer ca automatiquement
+
+ATTENTION A CLOSE TOUS LES FD, DANS TOUTES LES FORKS, EN CAS D'ERREUR AUSSI
+ET SANS DOUBLON
+
+command not found error code = 127
+
+variable d'environnement devrait etre gerer a l'exec ?
+Car si bash: export VAR=ZOB | echo $VAR

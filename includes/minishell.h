@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/16 17:14:11 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/27 13:26:04 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ typedef struct 	s_token
 	t_flag			arg;
 	t_flag			redir;
 	t_flag			error;
-	int				fd;
-	int				(*ft_builtin)(t_shell *, char **);
-	char			*cmd_path;
+	int				fd;										//delete
+	int				(*ft_builtin)(t_shell *, char **);		//delete
+	char			*cmd_path;								//delete
 	struct s_token	*next;
 	struct s_token	*previous;
 }				t_token;
