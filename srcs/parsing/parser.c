@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/27 11:31:44 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/28 15:06:35 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,6 @@ EVAL	8) on passe a la commande suivante
 */
 
 
-//Il ne reste plus que char **argv a faire
-//Pour les commandes qui contiennent des erreurs j'ai set le flag error = 1 sur le tout premier token
-//Cree un char **argv meme pour celles la ? on veut juste qqchose qui permette d'arreter
-//le flow d'informations entre deux commandes separees par une commande avec erreur
-//-> faire pipex d'abord ? 
 void	parse(t_shell *shell)
 {
 	char		*no_token_after_redir;
@@ -137,32 +132,13 @@ void	parse(t_shell *shell)
 	check_and_create_redirections(shell->cmd_array, shell);
 	remove_quotes(shell->cmd_array, shell);
 	find_command(shell->cmd_array, shell);
+	create_argument_list(shell->cmd_array, shell);
 	
-	print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
-	// create_argument_list(shell->cmd_array, shell);
+	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 	
 	//-->EVALUATOR--> execution de la commande sur la toute derniere redirection
 	//NON car si cat << first << second alors first compte quand mm
 }
-
-/*---------------------------------------------------------------------------*/
-/*------------------- CHAR **ARGV CREATION ----------------------------------*/
-/*---------------------------------------------------------------------------*/
-
-/*
-si aucune commande dans cmd_array alors clean non essential et retour a prompt
-sans msg d'erreur ex : $4 $4
-
-!! a bien checker a chaque cmd_array[i] si error = 1, dans ce cas on ne cree
-pas de char **argv
-
-CREATE char **argv : nb of arg = nb of token with flags cmd and arg
-We do not include redirections tokens in char **argv
-We can just make the argv[] point to the adress of token? 
-instead of duplicating memory
-*/
-
-
 
 //OK en dessous--------------------------------------------------------------
 

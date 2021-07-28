@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/27 13:26:04 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/07/28 15:06:41 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,8 @@ void		print_cmd_array(t_token **cmd_array, int flags);
 void		reset_previous_pointers(t_token *head);
 void		erase_token(t_token **token, t_token **head, t_shell *shell);
 void		erase_cmd(t_token *cmd);
+void		print_argv(t_token **cmd_array);
+
 
 
 
@@ -243,6 +245,11 @@ void		remove_quotes(t_token **cmd_array, t_shell *shell);
 
 void		find_command(t_token **cmd_array, t_shell *shell);
 
+/*
+** parser_arg_list
+*/
+
+void		create_argument_list(t_token **cmd_array, t_shell *shell);
 
 /*
 ** ---------------------------------------------------------------- PARSING

@@ -6,7 +6,7 @@
 #    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/07/16 13:50:47 by abonnel          ###   ########.fr        #
+#    Updated: 2021/07/19 16:50:42 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ SRCS_FILES	=	main.c\
 				parsing/tokenizer.c\
 				parsing/store_environment.c\
 				parsing/parser.c\
+				parsing/parser_arg_list.c\
 				parsing/parser_find_command.c\
 				parsing/parser_redirections.c\
 				parsing/parser_utils.c\

@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 19:21:43 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/16 18:06:43 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/07/19 16:22:08 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ static int	create_redirection_file(t_token *token, t_shell *shell)
 
 static int	establish_redirection(t_token *token, t_shell *shell)
 {
+	if (is_redirection(token->word, 0) == HEREDOC)
+		return (1);
 	if (!redir_is_one_word(token->next->word, shell))
 	{
 		error(shell, REDIR_ISNT_1_WORD, token->next->word);
@@ -109,6 +111,9 @@ static int	establish_redirection(t_token *token, t_shell *shell)
 
 //protections contre cmd_array->error inutile pour le moment car aucune cmd n'a
 //pu emettre d'erreur mais au cas ou remaniement du code plus tard
+//Doesn't do anything for HEREDOC -> HEREDOC can be several words it will not
+//raise an error and VARS are not expanded :
+//cat << $VAR	->the word to stop the input will be $VAR as a string literal
 void	check_and_create_redirections(t_token **cmd_array, t_shell *shell)
 {
 	int			i;
