@@ -270,3 +270,6 @@ bash-3.2$ cat << stop
 > oui
 > stop
 oui
+
+attention a revoir peutetre fonctionnement prompt avec ctrl + d par exemple
+readline rajoute un \n alors que bash non

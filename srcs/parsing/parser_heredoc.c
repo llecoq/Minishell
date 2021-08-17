@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 12:55:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/17 16:26:43 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/17 16:34:55 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ static void	heredoc_prompt(t_shell *shell, char *limiter, int fd)
 			interpret_and_write_into_fd(fd, input, shell);
 		}
 		else if (input == NULL)
-		{
-			write(STDOUT_FILENO, "\n", 1);
 			return ;
-		}
 	}
 }
 
