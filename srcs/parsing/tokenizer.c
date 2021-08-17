@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/14 16:19:10 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/08/16 17:32:43 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	tokenize(t_shell *shell, const char *input)
 	if (finished_by_spaces(input))
 		return ;
 	nb_of_cmds = count_commands(input);
+	shell->nb_of_cmds = nb_of_cmds;
 	if (nb_of_cmds == NO_CLOSING_QUOTE)
 	{
 		err_clear(shell, NO_CLOSING_QUOTE, NULL);

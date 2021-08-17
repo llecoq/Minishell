@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/28 15:06:35 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/17 13:29:16 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ EVAL	8) on passe a la commande suivante
 		FAUX : Montre que la commande est bien executee seulement sur la derniere redirection (mais les fichiers
 		intermediaires sont bien crees) puisque c'est comme si on avait fait echo > hehe
 		FAUX car echo ignore les input redir d'ou l'impression qu'il n'y a que la derniere redir qui est
-		executee
+		executee	
 
 */
 
@@ -122,19 +122,17 @@ void	parse(t_shell *shell)
 		free(no_token_after_redir);
 		return ;
 	}
-	//Pipe creation();? Surement a ce niveau juste apres les syntax error qui
-	//arretent le programme
-	
 	arg_syntax_processing(shell->cmd_array, shell);
 	remove_empty_tokens(shell->cmd_array, shell);
 	split_multiple_words_into_tokens(shell);
 	first_word_is_cmd_flag(shell->cmd_array);
-	check_and_create_redirections(shell->cmd_array, shell);
+	// check_and_create_redirections(shell->cmd_array, shell);
 	remove_quotes(shell->cmd_array, shell);
-	find_command(shell->cmd_array, shell);
-	create_argument_list(shell->cmd_array, shell);
-	
-	//print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
+	// find_command(shell->cmd_array, shell);
+	create_empty_cmds_list(shell, shell->nb_of_cmds);
+	create_heredoc(shell, shell->cmd_array, shell->cmds_list);
+	// create_argument_list(shell->cmd_array, shell);
+	print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 	
 	//-->EVALUATOR--> execution de la commande sur la toute derniere redirection
 	//NON car si cat << first << second alors first compte quand mm

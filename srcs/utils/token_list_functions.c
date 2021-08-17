@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/19 15:40:26 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/08/17 15:24:50 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ t_token	*create_new_token(char *token, t_shell *shell)
 	
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!(new_token))
-		error_quit(shell, 0);
+		error_quit(shell, 0, NULL);
 	new_token->word = ft_strdup(token);
 	if (!(new_token->word))
-	 	error_quit(shell, 0);
+	 	error_quit(shell, 0, NULL);
 	new_token->next = NULL;
 	new_token->previous = NULL;
 	new_token->ft_builtin = NULL;
@@ -66,10 +66,33 @@ t_token	*create_new_token(char *token, t_shell *shell)
 	return (new_token);
 }
 
+char	*find_redir_type(int flag)
+{
+	char	*redir_type;
+
+	redir_type = NULL;
+	if (flag == PIPE)
+		redir_type = "PIPE";
+	else if (flag == REDIR)
+		redir_type = "REDIR";
+	else if (flag == APPEND)
+		redir_type = "APPEND";
+	else if (flag == INREDIR)
+		redir_type = "INREDIR";
+	else if (flag == HEREDOC)
+		redir_type = "HEREDOC";
+	else if (flag == IS_FILE)
+		redir_type = "IS_FILE";
+	else if (flag == STOP_VALUE)
+		redir_type = "STOP_VALUE";
+	return (redir_type);
+}
+
 void	print_cmd_array(t_token **cmd_array, int flags)
 {
 	int				i;
 	int				x;
+	char			*redir_type;
 	t_token			*cpy;
 
 	i = 0;
@@ -91,7 +114,10 @@ void	print_cmd_array(t_token **cmd_array, int flags)
 				if (cpy->arg)
 					ft_printf(1, "flag : ARG, ");
 				if (cpy->redir)
-					ft_printf(1, "flag : REDIR, ");
+				{
+					redir_type = find_redir_type(cpy->redir);
+					ft_printf(1, "flag : %s, ", redir_type);
+				}
 			}
 			ft_printf(1, "token n*%d = |%s|\n", x, cpy->word);
 			cpy = cpy->next;

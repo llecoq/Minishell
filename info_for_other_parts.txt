@@ -247,3 +247,26 @@ command not found error code = 127
 
 variable d'environnement devrait etre gerer a l'exec ?
 Car si bash: export VAR=ZOB | echo $VAR
+
+
+creer buff pour printf, write doit s'executer d'un seul coup
+rl_clear_history()
+
+gerer script
+
+ATTENTION A CLOSE TOOUUUUS LES FDS DANS TOUS LES CMDS LIST DANS TOUS LES FORKS
+
+si unset ou export dans pipe, alors changements non effectifs... faire R
+
+
+attention stop value dup, mais apres arg quand meme dans cat
+bash-3.2$ cat << stop oui
+> lkajhdf
+> sjkdhf
+> stop oui
+> stop
+cat: oui: No such file or directory
+bash-3.2$ cat << stop
+> oui
+> stop
+oui

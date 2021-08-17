@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_flags.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:00:50 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/16 16:51:34 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/08/17 15:32:20 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	initialize_flags_values(t_token **cmd_array)
 			cpy->cmd = -1;
 			cpy->arg = -1;
 			cpy->redir = -1;
-			cpy->fd = 0;
+			// cpy->fd = 0;
 			cpy->error = 0;
 			cpy = cpy->next;
 		}
@@ -47,6 +47,7 @@ static void	initialize_flags_values(t_token **cmd_array)
 void	set_redir_arg_flags(t_token **cmd_array)
 {
 	int			i;
+	int			redir_type;
 	t_token		*cpy;
 	
 	initialize_flags_values(cmd_array);
@@ -56,8 +57,9 @@ void	set_redir_arg_flags(t_token **cmd_array)
 		cpy = cmd_array[i];
 		while (cpy)
 		{
-			if (is_redirection(cpy->word, 0))
-				turn_on_flag(REDIR, cpy);
+			redir_type = is_redirection(cpy->word, 0);
+			if (redir_type >= IS_REDIR)
+				turn_on_flag(redir_type, cpy);
 			else
 				turn_on_flag(ARG, cpy);
 			cpy = cpy->next;
@@ -79,16 +81,28 @@ static char	*create_error_str(char *next_token)
 
 static char	*check_after_redir(t_token *cpy, t_token *next_cmd)
 {
-	if (is_redirection(cpy->word, 0) == PIPE && next_cmd == NULL)
+	if (cpy->redir == PIPE && next_cmd == NULL)
 		return (create_error_str("newline"));
-	else if (is_redirection(cpy->word, 0) != PIPE)
+	else if (cpy->redir != PIPE)
 	{
 		if (cpy->next == NULL)
 			return (create_error_str("newline"));
-		else if (cpy->next->redir == 1)
+		else if (cpy->next->redir >= IS_REDIR)
 			return (create_error_str(cpy->next->word));
 	}
 	return (NULL);
+}
+
+void	set_next_flag(t_token *token, int redir_type)
+{
+	if (redir_type == REDIR)
+		turn_on_flag(IS_FILE, token);//next token is redir
+	else if (redir_type == APPEND)
+		turn_on_flag(IS_FILE, token);
+	else if (redir_type == HEREDOC)
+		turn_on_flag(STOP_VALUE, token);
+	else if (redir_type == INREDIR)
+		turn_on_flag(IS_FILE, token);
 }
 
 void	set_flag_after_redirection(t_token **cmd_array, char **error_str)
@@ -102,15 +116,15 @@ void	set_flag_after_redirection(t_token **cmd_array, char **error_str)
 		cpy = cmd_array[i];
 		while (cpy)
 		{
-			if (cpy->redir == 1)
+			if (cpy->redir >= IS_REDIR)
 			{
 				*error_str = check_after_redir(cpy, cmd_array[i + 1]);
 				if (*error_str)
 					return ;
-				if (is_redirection(cpy->word, 0) != PIPE)
+				if (cpy->redir != PIPE)
 				{
 					cpy = cpy->next;
-					turn_on_flag(REDIR, cpy);//next token is redir
+					set_next_flag(cpy, cpy->previous->redir);
 				}
 			}
 			cpy = cpy->next;

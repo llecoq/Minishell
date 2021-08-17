@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/28 15:06:41 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/17 15:04:33 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
+# include "enum.h"
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -53,6 +54,24 @@ typedef int 	t_bool;
 typedef int 	t_flag;
 typedef struct 	s_shell t_shell;
 
+typedef struct s_redir
+{
+	int				into_file;
+	int				into_stdin;
+	int				from_heredoc;
+	int				from_file;
+}				t_redir;
+
+typedef struct s_cmd
+{
+	char			**argv;
+	int				pipefd[2];
+	struct s_redir	redir;
+	struct s_token	*token_list;
+	struct s_cmd	*previous;
+	struct s_cmd	*next;
+}				t_cmd;
+
 typedef struct 	s_token
 {
 	char			*word;
@@ -60,9 +79,10 @@ typedef struct 	s_token
 	t_flag			arg;
 	t_flag			redir;
 	t_flag			error;
-	int				fd;										//delete
+	// int				fd;										//delete
 	int				(*ft_builtin)(t_shell *, char **);		//delete
 	char			*cmd_path;								//delete
+	char			**argv;									//delete
 	struct s_token	*next;
 	struct s_token	*previous;
 }				t_token;
@@ -73,27 +93,32 @@ typedef struct	s_shell
 	char			*user_dir;
 	char			**envp;
 	const char		***cmd_argv;
+	t_cmd			*cmds_list;
 	t_list			*env_list;
 	t_list			*export_list;
 	t_list			*path;
 	t_token 		**cmd_array; //last cmd_array is set to NULL;
 	int				change_directory;
+	int				nb_of_cmds;
 }				t_shell;
 
 enum	e_redirections
 {
-	PIPE = 1,
-	REDIR = 2,
-	APPEND = 3,
-	INREDIR = 4,
-	HEREDOC = 5,
+	PIPE = 4,
+	REDIR = 5,
+	APPEND = 6,
+	INREDIR = 7,
+	HEREDOC = 8,
+	STOP_VALUE = 9,
 };
 
 //REDIR = 2 already exists
 enum	e_flags
 {
+	ARG = 0,
 	CMD = 1,
-	ARG = 3,
+	IS_REDIR = 2,
+	IS_FILE = 3,
 };
 
 enum	e_quotes
@@ -109,8 +134,9 @@ enum	e_errors
 	REDIR_ISNT_1_WORD = -3,
 	CMD_IS_WRONG = -4,
 	CANT_OPEN_FILE = -5,
-	CMD_NOT_FOUND = -6,
+	CMD_NOT_FOUND = 127,
 	FILE_IS_DIR = -7,
+	FAILED = -8,
 };
 
 enum	e_word_chars
@@ -137,6 +163,19 @@ enum	e_env
 };
 
 /*
+** EVALUATOR ------------------------------------------------------------
+*/
+
+//PARSING
+void	create_empty_cmds_list(t_shell *shell, int nb_of_cmds);
+void	create_heredoc(t_shell *shell, t_token **cmd_array, t_cmd *cmds_list);
+
+
+/*
+** ------------------------------------------------------------ EVALUATOR
+*/
+
+/*
 ** UTILS ----------------------------------------------------------------
 */
 
@@ -146,7 +185,7 @@ void		del(void *content);
 void		clear_memory(t_shell *shell);
 void		clear_nonessential_memory(t_shell *shell);
 void		free_cmd_array(t_token **cmd_array);
-void		error_quit(t_shell *shell, int error_type);
+void		error_quit(t_shell *shell, int error_type, char *str);
 void		err_clear(t_shell *shell, int error_type, char *str);
 void		error(t_shell *shell, int error_type, char *str);
 void		sig_handler(int signum);
@@ -189,7 +228,7 @@ void		print_argv(t_token **cmd_array);
 
 
 /*
-** ---------------------------------------------------------------- UTILS
+** ------------------------------------------------------------------ UTILS
 */
 
 /*
@@ -231,7 +270,7 @@ void		replace_token_with_var(char **token, t_shell *shell);
 ** parser_redirection
 */
 
-void			check_and_create_redirections(t_token **cmd_array, t_shell *shell);
+void		check_and_create_redirections(t_token **cmd_array, t_shell *shell);
 
 /*
 ** parser_trim_quotes

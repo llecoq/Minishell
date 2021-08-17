@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
+#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/07/19 16:50:42 by abonnel          ###   ########.fr        #
+#    Updated: 2021/08/17 12:55:00 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ SRCS_FILES	=	main.c\
 				parsing/parser_trim_quotes.c\
 				parsing/parser_flags.c\
 				parsing/parser_variables.c\
+				parsing/parser_heredoc.c\
+				parsing/parser_store_commands_list.c\
 				utils/prompt.c\
 				utils/calloc_shell.c\
 				utils/clear_memory.c\

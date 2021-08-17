@@ -15,8 +15,9 @@
 // revoir valeur de retour erreur
 // $? should expand to the exit status of the most recently executed foreground
 // pipeline.
-void	error_quit(t_shell *shell, int error_type)
+void	error_quit(t_shell *shell, int error_type, char *str)
 {
+	(void)str;
 	if (error_type == 0) //syscall errors
 		ft_printf(2, "%s\n", strerror(errno));
 	// else if (error_type == 1)

@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calloc_shell.c                                     :+:      :+:    :+:   */
+/*   enum.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/29 14:08:02 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/16 18:15:42 by llecoq           ###   ########.fr       */
+/*   Created: 2021/08/16 18:09:47 by llecoq            #+#    #+#             */
+/*   Updated: 2021/08/16 18:13:21 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef ENUM_H
+# define ENUM_H
 
-void	*calloc_sh(t_shell *shell, int size)
+enum	e_process
 {
-	unsigned char	*ptr;
-	int				i;
-	
-	i = 0;
-	ptr = NULL;
-	ptr = malloc(size);
-	if (!ptr)
-		error_quit(shell, 0, NULL);
-	while (i < size)
-	{
-		ptr[i] = '\0';
-		i++;
-	}
-	return ((void *)ptr);
-}
+	CHILD_PROCESS,
+	PARENT_PROCESS,
+};
+
+enum	e_redir
+{
+	FROM_FILE,
+	FROM_STDIN,
+	FROM_HEREDOC,
+};
+
+enum	e_file
+{
+	IS_VALID,
+	IS_NOT_VALID,
+	EXISTENT,
+	NONEXISTENT = -1,
+};
+
+#endif
