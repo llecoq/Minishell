@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 15:11:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/26 16:58:31 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 19:52:44 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 // dois traiter les args
 int	ft_exit(t_shell *shell, char **argv)
 {
+	if (argv && ft_strncmp(argv[0], "exit", 5) == 0)
+		ft_printf(1, "exit\n");
 	if (argv == NULL) // si argv NULL, alors ft_exit called avec CTRL + D
 	{
 		// essayer de deplacer curseur avec termcaps ?
