@@ -257,7 +257,8 @@ gerer script
 ATTENTION A CLOSE TOOUUUUS LES FDS DANS TOUS LES CMDS LIST DANS TOUS LES FORKS
 
 si unset ou export dans pipe, alors changements non effectifs... faire R
-
+=> gere automatiquement puisque dans un child process ca ne modifie pas les
+variables du parent
 
 attention stop value dup, mais apres arg quand meme dans cat
 bash-3.2$ cat << stop oui
@@ -276,3 +277,4 @@ readline rajoute un \n alors que bash non
 
 errno = last_child_status
 lorsque echo $?  = print errno
+

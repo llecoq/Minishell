@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 15:58:53 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 17:08:12 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 17:26:31 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	redir_input(t_shell *shell, t_cmd *cmd, int redir_type)
 	fd = -1;
 	if (redir_type == FROM_STDIN)
 		fd = cmd->previous->pipefd[0];
-	if (redir_type == FROM_HEREDOC)
+	else if (redir_type == FROM_HEREDOC)
 		fd = cmd->redir.from_heredoc;
 	else if (redir_type == FROM_FILE)
 		fd = cmd->redir.from_file;
@@ -56,9 +56,9 @@ static void	redir_input(t_shell *shell, t_cmd *cmd, int redir_type)
 void	dup_input_redirection(t_shell *shell, t_cmd *cmd)
 {
 	if (cmd->redir.from_heredoc >= EXISTENT)
-		redir_input(shell, cmd, FROM_HEREDOC);
+		return (redir_input(shell, cmd, FROM_HEREDOC));
 	if (cmd->redir.from_file >= EXISTENT)
-		redir_input(shell, cmd, FROM_FILE);
+		return (redir_input(shell, cmd, FROM_FILE));
 	if (cmd->previous)
 		redir_input(shell, cmd, FROM_STDIN);
 }
