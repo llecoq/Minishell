@@ -273,3 +273,6 @@ oui
 
 attention a revoir peutetre fonctionnement prompt avec ctrl + d par exemple
 readline rajoute un \n alors que bash non
+
+errno = last_child_status
+lorsque echo $?  = print errno

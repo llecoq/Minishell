@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 14:08:02 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/16 18:15:42 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 17:08:37 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*calloc_sh(t_shell *shell, int size)
 	ptr = NULL;
 	ptr = malloc(size);
 	if (!ptr)
-		error_quit(shell, 0, NULL);
+		error_quit(shell, SYSCALL_ERROR, NULL);
 	while (i < size)
 	{
 		ptr[i] = '\0';

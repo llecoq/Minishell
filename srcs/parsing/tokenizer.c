@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/16 17:32:43 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 15:30:01 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ static char	*create_redirection_token(int i, const char *input, t_shell *shell)
 	token = calloc_sh(shell, 3);
 	if (is_redirection(input, i) == PIPE)
 		ft_strlcpy(token, "|", 2);
-	else if (is_redirection(input, i) == REDIR)
+	else if (is_redirection(input, i) == TRUNC)
 		ft_strlcpy(token, ">", 2);
 	else if (is_redirection(input, i) == APPEND)
 		ft_strlcpy(token, ">>", 3);
-	else if (is_redirection(input, i) == INREDIR)
+	else if (is_redirection(input, i) == INPUT_REDIR)
 		ft_strlcpy(token, "<", 2);
 	else if (is_redirection(input, i) == HEREDOC)
 		ft_strlcpy(token, "<<", 3);

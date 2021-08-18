@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 16:49:43 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/16 18:04:43 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 15:00:48 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,27 @@ void	create_argument_list(t_token **cmd_array, t_shell *shell)
 {
 	int			i;
 	t_token		*token;
+	t_cmd		*cmd;
 	int			argv_nb;
 	
 	i = 0;
+	cmd = shell->cmds_list;
 	while (cmd_array[i])
 	{
 		token = cmd_array[i];
+		cmd->token_list = cmd_array[i];
 		while (token)
 		{
 			if (token->cmd == 1)
 			{
 				argv_nb = arg_count(cmd_array[i]);
-				token->argv = calloc_sh(shell, sizeof(char *) * (argv_nb + 1));
-				link_arg_pointers(cmd_array[i], token->argv);
+				cmd->argv = calloc_sh(shell, sizeof(char *) * (argv_nb + 1));
+				link_arg_pointers(cmd_array[i], cmd->argv);
 				break ;
 			}
 			token = token->next;
 		}
+		cmd = cmd->next;
 		i++;
 	}
 	//print_argv(cmd_array); //A ENLEVER

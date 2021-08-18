@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/08/17 12:55:00 by llecoq           ###   ########.fr        #
+#    Updated: 2021/08/18 16:22:32 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,13 @@ SRCS_FILES	=	main.c\
 				parsing/parser_variables.c\
 				parsing/parser_heredoc.c\
 				parsing/parser_store_commands_list.c\
+				execution/evaluator.c\
+				execution/utils/create_pipe.c\
+				execution/utils/exit_status.c\
+				execution/utils/dup_redirections.c\
+				execution/utils/create_redirection.c\
+				execution/utils/path_is_unset.c\
+				execution/utils/build_file_path.c\
 				utils/prompt.c\
 				utils/calloc_shell.c\
 				utils/clear_memory.c\
@@ -68,6 +75,7 @@ CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
 DIR		=	.objs/parsing\
 			.objs/utils\
 			.objs/execution\
+			.objs/execution/utils\
 			.objs/builtins
 
 $(OBJSPATH)%.o:		$(SRCSPATH)%.c includes/minishell.h libft/libft.h libft/libft.a

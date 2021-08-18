@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/17 13:29:16 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 15:55:09 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ EVAL	8) on passe a la commande suivante
 
 */
 
-
 void	parse(t_shell *shell)
 {
 	char		*no_token_after_redir;
@@ -130,10 +129,11 @@ void	parse(t_shell *shell)
 	remove_quotes(shell->cmd_array, shell);
 	// find_command(shell->cmd_array, shell);
 	create_empty_cmds_list(shell, shell->nb_of_cmds);
+	create_argument_list(shell->cmd_array, shell);
 	create_heredoc(shell, shell->cmd_array, shell->cmds_list);
-	// create_argument_list(shell->cmd_array, shell);
-	print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
-	
+
+	// print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
+	// print_argv(shell->cmds_list);
 	//-->EVALUATOR--> execution de la commande sur la toute derniere redirection
 	//NON car si cat << first << second alors first compte quand mm
 }

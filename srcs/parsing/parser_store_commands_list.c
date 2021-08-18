@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 17:34:53 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/16 18:17:52 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 17:08:24 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_cmd	*new_cmd(t_shell *shell)
 
 	new_elem = malloc(sizeof(t_cmd));
 	if (!new_elem)
-		error_quit(shell, 0, NULL);
+		error_quit(shell, SYSCALL_ERROR, NULL);
 	new_elem->token_list = NULL;
 	new_elem->argv = NULL;
 	new_elem->next = NULL;

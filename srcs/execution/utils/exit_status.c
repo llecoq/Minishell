@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_free.c                                    :+:      :+:    :+:   */
+/*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 13:07:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/17 16:42:22 by llecoq           ###   ########.fr       */
+/*   Created: 2021/08/18 14:51:34 by llecoq            #+#    #+#             */
+/*   Updated: 2021/08/18 14:51:52 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	free_split(char **split)
+static int	wexitstatus(int status)
 {
-	int		i;
+	int	w_int;
 
-	if (!split)
-		return ;
-	i = 0;
-	while (split[i] != NULL)
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-	split = NULL;
+	w_int = (*(int *)&(status));
+	return (((w_int >> 8) & 0x000000ff));
+}
+
+int	last_child_status(pid_t last_child_pid)
+{
+	int	child_status;
+
+	waitpid(last_child_pid, &child_status, 0);
+	child_status = wexitstatus(child_status);
+	return (child_status);
 }

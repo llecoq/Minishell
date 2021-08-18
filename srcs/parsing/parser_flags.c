@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:00:50 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/17 15:32:20 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 15:30:01 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ static char	*check_after_redir(t_token *cpy, t_token *next_cmd)
 
 void	set_next_flag(t_token *token, int redir_type)
 {
-	if (redir_type == REDIR)
+	if (redir_type == TRUNC)
 		turn_on_flag(IS_FILE, token);//next token is redir
 	else if (redir_type == APPEND)
 		turn_on_flag(IS_FILE, token);
 	else if (redir_type == HEREDOC)
 		turn_on_flag(STOP_VALUE, token);
-	else if (redir_type == INREDIR)
+	else if (redir_type == INPUT_REDIR)
 		turn_on_flag(IS_FILE, token);
 }
 

@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_free.c                                    :+:      :+:    :+:   */
+/*   path_is_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 13:07:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/17 16:42:22 by llecoq           ###   ########.fr       */
+/*   Created: 2021/08/18 16:03:20 by llecoq            #+#    #+#             */
+/*   Updated: 2021/08/18 16:05:38 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	free_split(char **split)
+int	path_is_not_absolute(char **argv, t_list **path_list)
 {
-	int		i;
-
-	if (!split)
-		return ;
-	i = 0;
-	while (split[i] != NULL)
+	if (*argv[0] == '/' || ft_strncmp("./", *argv, 2) == 0)
 	{
-		free(split[i]);
-		i++;
+		ft_lstadd_back(path_list, ft_lstnew(NULL));
+		errno = 0;
+		return (0);
 	}
-	free(split);
-	split = NULL;
+	return (1);
+}
+
+int	path_is_unset(t_shell *shell, t_list **path_list)
+{
+	(*path_list) = shell->path;
+	if ((*path_list) == NULL)
+	{
+		errno = ENOENT;
+		return (1);
+	}
+	return (0);
 }

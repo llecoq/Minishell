@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/16 18:07:56 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/08/18 16:24:07 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(int argc, char **argv, char **env)
 {
 	t_shell	shell;
 
-	(void)argv;
 	set_shell_var_to_null(&shell);
 	if (argc == 1)
 	{
@@ -40,6 +39,7 @@ int	main(int argc, char **argv, char **env)
 			if (shell.cmd_array == NULL) //in case of missing closing bracket / empty input
 				continue;
 			parse(&shell);
+			evaluator(&shell, shell.cmds_list, shell.nb_of_cmds);
 			//if (shell.cmd_array == NULL) //in case of error that does not need to stop program
 			//	continue;
 			clear_nonessential_memory(&shell);

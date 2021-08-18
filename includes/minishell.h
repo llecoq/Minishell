@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/17 15:04:33 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 17:05:50 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,20 @@ typedef struct 	s_token
 	t_flag			redir;
 	t_flag			error;
 	// int				fd;										//delete
-	int				(*ft_builtin)(t_shell *, char **);		//delete
-	char			*cmd_path;								//delete
-	char			**argv;									//delete
+	// int				(*ft_builtin)(t_shell *, char **);		//delete
+	// char			*cmd_path;								//delete
+	// char			**argv;									//delete
 	struct s_token	*next;
 	struct s_token	*previous;
 }				t_token;
+
+typedef struct s_file
+{
+	char			*file;
+	char			*tmp;
+	char			**argv;
+	int				arg_type;
+}				t_file;
 
 typedef struct	s_shell
 {
@@ -105,11 +113,11 @@ typedef struct	s_shell
 enum	e_redirections
 {
 	PIPE = 4,
-	REDIR = 5,
+	TRUNC = 5,
 	APPEND = 6,
-	INREDIR = 7,
-	HEREDOC = 8,
-	STOP_VALUE = 9,
+	HEREDOC = 7,
+	STOP_VALUE = 8,
+	INPUT_REDIR = 9,
 };
 
 //REDIR = 2 already exists
@@ -119,6 +127,7 @@ enum	e_flags
 	CMD = 1,
 	IS_REDIR = 2,
 	IS_FILE = 3,
+	IS_PATH = 4,
 };
 
 enum	e_quotes
@@ -129,6 +138,7 @@ enum	e_quotes
 
 enum	e_errors
 {
+	SYSCALL_ERROR = 0,
 	NO_CLOSING_QUOTE = -1,
 	NOTHING_AFTER_REDIR = -2,
 	REDIR_ISNT_1_WORD = -3,
@@ -165,6 +175,16 @@ enum	e_env
 /*
 ** EVALUATOR ------------------------------------------------------------
 */
+void	evaluator(t_shell *shell, t_cmd *cmds_list, int nb_of_cmds);
+void	create_pipe(t_shell *shell, t_cmd *cmd);
+int	last_child_status(pid_t last_child_pid);
+void	dup_input_redirection(t_shell *shell, t_cmd *cmd);
+void	dup_output_redirection(t_shell *shell, t_cmd *cmd);
+void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *token);
+int	path_is_unset(t_shell *shell, t_list **path_list);
+int	path_is_not_absolute(char **argv, t_list **path_list);
+void	build_file_path(t_list **path_list, t_file *file, char ***argv);
+
 
 //PARSING
 void	create_empty_cmds_list(t_shell *shell, int nb_of_cmds);
@@ -222,8 +242,8 @@ void		print_cmd_array(t_token **cmd_array, int flags);
 void		reset_previous_pointers(t_token *head);
 void		erase_token(t_token **token, t_token **head, t_shell *shell);
 void		erase_cmd(t_token *cmd);
-void		print_argv(t_token **cmd_array);
-
+// void		print_argv(t_token **cmd_array);
+void		print_argv(t_cmd *cmd_list);
 
 
 

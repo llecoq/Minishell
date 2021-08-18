@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 12:55:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/17 16:34:55 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 17:08:19 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	create_heredoc(t_shell *shell, t_token **cmd_array, t_cmd *cmds_list)
 		if (cmd->redir.from_heredoc == EXISTENT)
 		{
 			if (pipe(pipefd) == FAILED)
-				error_quit(shell, 0, NULL);
+				error_quit(shell, SYSCALL_ERROR, NULL);
 			heredoc_prompt(shell, limiter, pipefd[1]);
 			close(pipefd[1]);
 			cmd->redir.from_heredoc = pipefd[0];

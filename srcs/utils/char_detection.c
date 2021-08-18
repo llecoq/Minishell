@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 10:40:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/17 13:27:59 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 15:30:01 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int	is_redirection(const char *str, int i)
 	else if (str[i] == '>' && str[i + 1] == '>')
 		return (APPEND);
 	else if (str[i] == '>')
-		return (REDIR);
+		return (TRUNC);
 	else if (str[i] == '<' && str[i + 1] == '<')
 		return (HEREDOC);
 	else if (str[i] == '<')
-		return (INREDIR);
+		return (INPUT_REDIR);
 	return (0);
 }
 

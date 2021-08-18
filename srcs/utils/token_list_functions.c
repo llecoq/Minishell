@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/17 15:24:50 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 17:08:55 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ t_token	*create_new_token(char *token, t_shell *shell)
 	
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!(new_token))
-		error_quit(shell, 0, NULL);
+		error_quit(shell, SYSCALL_ERROR, NULL);
 	new_token->word = ft_strdup(token);
 	if (!(new_token->word))
-	 	error_quit(shell, 0, NULL);
+	 	error_quit(shell, SYSCALL_ERROR, NULL);
 	new_token->next = NULL;
 	new_token->previous = NULL;
-	new_token->ft_builtin = NULL;
-	new_token->cmd_path = NULL;
+	// new_token->ft_builtin = NULL;
+	// new_token->cmd_path = NULL;
 	return (new_token);
 }
 
@@ -73,12 +73,12 @@ char	*find_redir_type(int flag)
 	redir_type = NULL;
 	if (flag == PIPE)
 		redir_type = "PIPE";
-	else if (flag == REDIR)
-		redir_type = "REDIR";
+	else if (flag == TRUNC)
+		redir_type = "TRUNC";
 	else if (flag == APPEND)
 		redir_type = "APPEND";
-	else if (flag == INREDIR)
-		redir_type = "INREDIR";
+	else if (flag == INPUT_REDIR)
+		redir_type = "INPUT_REDIR";
 	else if (flag == HEREDOC)
 		redir_type = "HEREDOC";
 	else if (flag == IS_FILE)
@@ -130,7 +130,7 @@ void	print_cmd_array(t_token **cmd_array, int flags)
 	ft_printf(1, "====^ Print cmd array ^====\n");
 }
 
-static void	print_current_argv(t_token *cmd)
+static void	print_current_argv(t_cmd *cmd)
 {
 	int				i;
 
@@ -144,27 +144,57 @@ static void	print_current_argv(t_token *cmd)
 	ft_printf(1, "\n");
 }
 
-void	print_argv(t_token **cmd_array)
+void	print_argv(t_cmd *cmds_list)
 {
 	int				i;
-	t_token			*token;
+	t_cmd			*cmd;
 
 	i = 0;
-	while (cmd_array[i])
+	cmd = cmds_list;
+	while (cmd)
 	{
-		token = cmd_array[i];
-		while (token)
-		{
-			if (token->cmd == 1)
-			{
-				ft_printf(1, "COMMAND #%d\n", i);
-				print_current_argv(token);
-			}
-			token = token->next;
-		}
+		ft_printf(1, "COMMAND #%d\n", i);
+		print_current_argv(cmd);
 		i++;
+		cmd = cmd->next;
 	}
 }
+
+// static void	print_current_argv(t_token *cmd)
+// {
+// 	int				i;
+
+// 	i = 0;
+// 	while (cmd->argv[i])
+// 	{
+// 		ft_printf(1, "%s, ", cmd->argv[i]);
+// 		i++;
+// 	}
+// 	ft_printf(1, "NULL");
+// 	ft_printf(1, "\n");
+// }
+
+// void	print_argv(t_token **cmd_array)
+// {
+// 	int				i;
+// 	t_token			*token;
+
+// 	i = 0;
+// 	while (cmd_array[i])
+// 	{
+// 		token = cmd_array[i];
+// 		while (token)
+// 		{
+// 			if (token->cmd == 1)
+// 			{
+// 				ft_printf(1, "COMMAND #%d\n", i);
+// 				print_current_argv(token);
+// 			}
+// 			token = token->next;
+// 		}
+// 		i++;
+// 	}
+// }
 
 void	erase_token(t_token **token, t_token **head, t_shell *shell)
 {

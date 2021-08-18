@@ -17,9 +17,10 @@
 // pipeline.
 void	error_quit(t_shell *shell, int error_type, char *str)
 {
-	(void)str;
-	if (error_type == 0) //syscall errors
-		ft_printf(2, "%s\n", strerror(errno));
+	if (error_type == CMD_NOT_FOUND)
+		ft_printf(2, "minishell: %s: command not found\n", str);
+	if (error_type == SYSCALL_ERROR && str) //syscall errors
+		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
 	// else if (error_type == 1)
 	// 	ft_printf(2, "");
 	// else if (error_type == 2)

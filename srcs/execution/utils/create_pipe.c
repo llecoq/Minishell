@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_free.c                                    :+:      :+:    :+:   */
+/*   create_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 13:07:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/17 16:42:22 by llecoq           ###   ########.fr       */
+/*   Created: 2021/08/18 14:48:52 by llecoq            #+#    #+#             */
+/*   Updated: 2021/08/18 17:07:55 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	free_split(char **split)
+void	create_pipe(t_shell *shell, t_cmd *cmd)
 {
-	int		i;
-
-	if (!split)
-		return ;
-	i = 0;
-	while (split[i] != NULL)
+	if (pipe(cmd->pipefd) == FAILED)
 	{
-		free(split[i]);
-		i++;
+		if (cmd->previous)
+		{
+			close(cmd->previous->pipefd[0]);
+			close(cmd->previous->pipefd[1]);
+		}
+		error_quit(shell, SYSCALL_ERROR, NULL);
 	}
-	free(split);
-	split = NULL;
 }
