@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 17:05:50 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 17:31:09 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ void		print_argv(t_cmd *cmd_list);
 ** parsing
 */
 
-int			store_environment(t_shell *shell, char *const *envp);
+void		store_environment(t_shell *shell, char *const *envp);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
 void		parse(t_shell *shell);

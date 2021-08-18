@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/02 16:45:22 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 17:33:00 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	store_path_list(t_shell *shell, char *path)
 	char	*full_path;
 	int		i;
 
+	if (path == NULL)
+		return ;
 	path_tab = ft_split(path, ':');
 	i = -1;
 	while (path_tab[++i])
@@ -70,12 +72,11 @@ void	store_environment_tab(t_shell *shell, t_list *env_list, int len)
 	}
 }
 
-int	store_environment(t_shell *shell, char *const *envp)
+void	store_environment(t_shell *shell, char *const *envp)
 {
 	store_list(&shell->env_list, envp);
 	store_list(&shell->export_list, envp);
 	sort_alphabetically_list(&shell->export_list);
 	store_environment_tab(shell, shell->env_list, env_size(shell->env_list));
 	store_path_list(shell, getenv("PATH"));
-	return (1);
 }
