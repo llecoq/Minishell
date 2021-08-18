@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 14:54:41 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 17:08:02 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 17:18:12 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *token)
 	int		redir_status;
 
 	redir_status = IS_VALID;
-	file_name = search_for_file_name(token);
 	while (token)
 	{
+		file_name = search_for_file_name(token);
 		if (token->redir == INPUT_REDIR)
 			redir_status = check_for_existing_file(cmd, file_name);
 		else if (token->redir == APPEND || token->redir == TRUNC)

@@ -6,12 +6,13 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 16:19:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 16:19:26 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 17:11:24 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// a revoir in case
 static int	argument_is_a_script(char ***argv, char **tmp, char **file)
 {
 	if (ft_strncmp(*argv[0], "./", 2) == 0)
