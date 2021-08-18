@@ -6,32 +6,35 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:49:52 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/18 14:39:19 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 19:12:29 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-// static void	find_builtin_function(char *cmd_name, t_token *cmd)
-// {
-// 	if (ft_strncmp(cmd_name, "cd", 3) == 0)
-// 		cmd->ft_builtin = &ft_cd;
-// 	else if (ft_strncmp(cmd_name, "pwd", 4) == 0)
-// 		cmd->ft_builtin = &ft_pwd;
-// 	else if (ft_strncmp(cmd_name, "env", 4) == 0)
-// 		cmd->ft_builtin = &ft_env;
-// 	else if (ft_strncmp(cmd_name, "echo", 5) == 0)
-// 		cmd->ft_builtin = &ft_echo;
-// 	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
-// 		cmd->ft_builtin = &ft_exit;
-// 	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
-// 		cmd->ft_builtin = &ft_unset;
-// 	else if (ft_strncmp(cmd_name, "export", 7) == 0)
-// 		cmd->ft_builtin = &ft_export;
-// 	else
-// 		cmd->ft_builtin = NULL;
-// }
+int	find_builtin_function(char *cmd_name, t_cmd *cmd)
+{
+	if (ft_strncmp(cmd_name, "cd", 3) == 0)
+		cmd->ft_builtin = &ft_cd;
+	else if (ft_strncmp(cmd_name, "pwd", 4) == 0)
+		cmd->ft_builtin = &ft_pwd;
+	else if (ft_strncmp(cmd_name, "env", 4) == 0)
+		cmd->ft_builtin = &ft_env;
+	else if (ft_strncmp(cmd_name, "echo", 5) == 0)
+		cmd->ft_builtin = &ft_echo;
+	else if (ft_strncmp(cmd_name, "exit", 5) == 0)
+		cmd->ft_builtin = &ft_exit;
+	else if (ft_strncmp(cmd_name, "unset", 6) == 0)
+		cmd->ft_builtin = &ft_unset;
+	else if (ft_strncmp(cmd_name, "export", 7) == 0)
+		cmd->ft_builtin = &ft_export;
+	else
+		cmd->ft_builtin = NULL;
+	if (cmd->ft_builtin)
+		return (1);
+	return (0);
+}
 
 // static char	*look_for_cmd_path(char *cmd_name, t_list *env_path)
 // {

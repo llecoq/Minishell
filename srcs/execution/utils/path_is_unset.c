@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 16:03:20 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 16:05:38 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 19:20:54 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	path_is_not_absolute(char **argv, t_list **path_list)
 int	path_is_unset(t_shell *shell, t_list **path_list)
 {
 	(*path_list) = shell->path;
-	if ((*path_list) == NULL)
+	if ((*path_list) == NULL || (*path_list)->variable == IS_UNSET)
 	{
 		errno = ENOENT;
 		return (1);

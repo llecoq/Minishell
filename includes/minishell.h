@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 17:31:09 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 19:14:53 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
+// int	global_errno;
+
 typedef int 	t_bool;
 typedef int 	t_flag;
 typedef struct 	s_shell t_shell;
@@ -65,6 +67,7 @@ typedef struct s_redir
 typedef struct s_cmd
 {
 	char			**argv;
+	int				(*ft_builtin)(t_shell *, char **);
 	int				pipefd[2];
 	struct s_redir	redir;
 	struct s_token	*token_list;
@@ -175,7 +178,7 @@ enum	e_env
 /*
 ** EVALUATOR ------------------------------------------------------------
 */
-void	evaluator(t_shell *shell, t_cmd *cmds_list, int nb_of_cmds);
+int	evaluator(t_shell *shell, t_cmd *cmds_list, int nb_of_cmds);
 void	create_pipe(t_shell *shell, t_cmd *cmd);
 int	last_child_status(pid_t last_child_pid);
 void	dup_input_redirection(t_shell *shell, t_cmd *cmd);
@@ -184,7 +187,9 @@ void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *token);
 int	path_is_unset(t_shell *shell, t_list **path_list);
 int	path_is_not_absolute(char **argv, t_list **path_list);
 void	build_file_path(t_list **path_list, t_file *file, char ***argv);
-
+// int	cmd_is_builtin(t_cmd *cmd, int **ft_builtin);
+// void	execute_builtin_and_exit(t_shell *shell, t_cmd *cmd, char **argv);
+int	find_builtin_function(char *cmd_name, t_cmd *cmd);
 
 //PARSING
 void	create_empty_cmds_list(t_shell *shell, int nb_of_cmds);

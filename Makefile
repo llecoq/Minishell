@@ -6,23 +6,23 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/08/18 16:22:32 by llecoq           ###   ########.fr        #
+#    Updated: 2021/08/18 17:41:00 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS_FILES	=	main.c\
 				parsing/tokenizer.c\
-				parsing/store_environment.c\
 				parsing/parser.c\
-				parsing/parser_arg_list.c\
-				parsing/parser_find_command.c\
-				parsing/parser_redirections.c\
-				parsing/parser_utils.c\
-				parsing/parser_trim_quotes.c\
-				parsing/parser_flags.c\
-				parsing/parser_variables.c\
-				parsing/parser_heredoc.c\
-				parsing/parser_store_commands_list.c\
+				parsing/utils/store_environment.c\
+				parsing/utils/parser_arg_list.c\
+				parsing/utils/parser_find_command.c\
+				parsing/utils/parser_redirections.c\
+				parsing/utils/parser_utils.c\
+				parsing/utils/parser_trim_quotes.c\
+				parsing/utils/parser_flags.c\
+				parsing/utils/parser_variables.c\
+				parsing/utils/parser_heredoc.c\
+				parsing/utils/parser_store_commands_list.c\
 				execution/evaluator.c\
 				execution/utils/create_pipe.c\
 				execution/utils/exit_status.c\
@@ -73,10 +73,11 @@ READLINE = 	-I /Users/$(USER)/.brew/opt/readline/include
 CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
 
 DIR		=	.objs/parsing\
-			.objs/utils\
+			.objs/parsing/utils\
 			.objs/execution\
 			.objs/execution/utils\
-			.objs/builtins
+			.objs/builtins\
+			.objs/utils
 
 $(OBJSPATH)%.o:		$(SRCSPATH)%.c includes/minishell.h libft/libft.h libft/libft.a
 			@mkdir -p $(OBJ_PATH) $(DIR)

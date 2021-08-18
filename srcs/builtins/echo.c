@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:07:59 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/16 11:01:39 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 19:00:26 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,59 @@
 // "-e not supported, usage = echo -p <msg>"
 // ou simplement ne rien faire ?
 // echo * fais un ls trimmé 
+
+// global sera errno
 int	ft_echo(t_shell *shell, char **argv)
 {
-	char	*full_argument;
-	int		flag;
+	int	flag;
 
 	(void)shell;
 	flag = 0;
-	full_argument = NULL;
-	if (argv[1] && ft_strncmp(argv[1], "-p", 3) == 0)
+	argv++;
+	if (*argv && ft_strncmp(*argv, "-p", 3) == 0)
 	{
-		full_argument = join_args(argv, "-p");
+		argv++;
 		flag = 1;
 	}
-	else if (argv[1])
-		full_argument = join_args(argv, NULL);
-	if (full_argument)
+	// dprintf(2, "%d    %s\n", errno, *argv);
+	if (*argv && ft_strncmp(*argv, "$?", 2) == 0)
 	{
-		ft_printf(1, "%s", full_argument);
-		free_set_null((void **)&full_argument);
+		dprintf(1, "OH\n");
+		ft_printf(1, "%d", errno);
+	}
+	while (*argv)
+	{
+		ft_printf(1, "%s", *argv);
+		argv++;
+		if (argv)
+			ft_putchar_fd(' ', 1);
 	}
 	if (flag == 0)
 		ft_putchar_fd('\n', 1);
 	return (1);
 }
+
+// int	ft_echo(t_shell *shell, char **argv)
+// {
+// 	char	*full_argument;
+// 	int		flag;
+
+// 	(void)shell;
+// 	flag = 0;
+// 	full_argument = NULL;
+// 	if (argv[1] && ft_strncmp(argv[1], "-p", 3) == 0)
+// 	{
+// 		full_argument = join_args(argv, "-p");
+// 		flag = 1;
+// 	}
+// 	else if (argv[1])
+// 		full_argument = join_args(argv, NULL);
+// 	if (full_argument)
+// 	{
+// 		ft_printf(1, "%s", full_argument);
+// 		free_set_null((void **)&full_argument);
+// 	}
+// 	if (flag == 0)
+// 		ft_putchar_fd('\n', 1);
+// 	return (1);
+// }

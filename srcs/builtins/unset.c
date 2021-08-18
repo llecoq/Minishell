@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:42:24 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 16:07:47 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 19:28:10 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	valid_name(char *argv, char *built_name)
 	return (1);
 }
 
-void	unset_variable(t_list *env_list, char *name)
+void	unset_variable(t_shell *shell, t_list *env_list, char *name)
 {
 	char	*content;
 	size_t	len;
@@ -43,6 +43,8 @@ void	unset_variable(t_list *env_list, char *name)
 		if (ft_strncmp(name, content, len) == 0 && content[len] == '=')
 		{
 			env_list->variable = IS_UNSET;
+			if (shell->path && ft_strncmp(content, "PATH=", 5) == 0)
+				shell->path->variable = IS_UNSET;
 			return ;
 		}
 		env_list = env_list->next;
@@ -79,7 +81,7 @@ int	ft_unset(t_shell *shell, char **argv)
 	if (invalid_args_or_options(argv, "unset"))
 		return (-1);
 	if (argv[1] && valid_name(argv[1], "unset"))
-			unset_variable(shell->env_list, argv[1]);
+		unset_variable(shell, shell->env_list, argv[1]);
 	else
 	{
 		ft_printf(2, "minishell: unset: `%s': not a valid identifier\n", argv[1]);

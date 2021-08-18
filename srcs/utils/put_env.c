@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/14 14:49:07 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/18 19:29:44 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	put_env(t_shell *shell, char *string)
 		{
 			variable_ptr->content = ft_strdup(string);
 			variable_ptr->variable = IS_SET;
+			if (ft_strncmp(name, "PATH", 5) == 0)
+				shell->path->variable = IS_SET;
 		}
 		else
 			ft_lstadd_back(&shell->env_list, ft_lstnew(ft_strdup(string)));
