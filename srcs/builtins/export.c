@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:32:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/04 13:23:13 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/19 13:57:09 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	print_export_list(t_list *export_list)
 {
 	while (export_list)
 	{
-		ft_printf(1, "declare -x %s\n", export_list->content);
+		if (export_list->variable == IS_SET)
+			ft_printf(1, "declare -x %s\n", export_list->content);
 		export_list = export_list->next;
 	}
 	return (0);
@@ -77,10 +78,13 @@ int	ft_export(t_shell *shell, char **argv)
 			free_set_null((void **)&export_name_and_value);
 			export_name_and_value = join_args(argv, NULL);
 		}
-		put_env(shell, export_name_and_value);
+		errno = put_env(shell, export_name_and_value);
 		free_set_null((void **)&export_name_and_value);
 	}
 	else
+	{
+		errno = 1;
 		ft_printf(2, "minishell: export: `%s': not a valid identifier\n", argv[1]);
-	return (0);
+	}
+	return (errno);
 }

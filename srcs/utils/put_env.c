@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 19:29:44 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/19 13:49:34 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,26 @@
 // Our fonction just add them at the end of the list so far
 int	valid_var_name(t_shell *shell, char *string, char **name)
 {
-	int	i;
+	int		i;
+	t_list	*new_elem;
 
 	if (ft_isdigit(string[0]))
-		return (0);		// if first character is digit, export: not an identifier: $name
+		return (NOT_A_VALID_IDENTIFIER);		// if first character is digit, export: not an identifier: $name
 	i = 0;
 	while (string[i] && string[i] != '=')
 		i++;
 	if (string[i] != '=')
 	{
-		ft_lstadd_back(&shell->export_list, ft_lstnew(ft_strdup(string)));
+		new_elem = ft_lstnew(ft_strdup(string));
+		new_elem->variable = IS_SET;
+		ft_lstadd_back(&shell->export_list, new_elem);
 		sort_alphabetically_list(&shell->export_list);
-		return (-1);		// only visible in export, but not in env
+		return (ADDED_TO_EXPORT_LIST);		// only visible in export, but not in env
 	}
 	i++;
 	*name = calloc_sh(shell, i);
 	ft_strlcpy(*name, string, i);
-	return (1);
+	return (IS_VALID);
 }
 
 int	found_var(t_list *env_list, char *name, t_list **variable_ptr, size_t len)
@@ -64,30 +67,45 @@ int	found_var(t_list *env_list, char *name, t_list **variable_ptr, size_t len)
 	return (0);
 }
 
-int	put_env(t_shell *shell, char *string)
+void	insert_into_list(t_shell *shell, char *string, char *name, int type)
 {
 	size_t	len;
+	t_list	*list;
 	t_list	*variable_ptr;
+
+	list = NULL;
+	if (type == EXPORT_LIST)
+		list = shell->export_list;
+	else if (type == ENV_LIST)
+		list = shell->env_list;
+	len = ft_strlen(name);
+	if (found_var(list, name, &variable_ptr, len))
+	{
+		variable_ptr->content = ft_strdup(string);
+		variable_ptr->variable = IS_SET;
+		if (ft_strncmp(name, "PATH", 5) == 0)
+			shell->path->variable = IS_SET;
+	}
+	else
+		ft_lstadd_back(&shell->env_list, ft_lstnew(ft_strdup(string)));
+}
+
+int	put_env(t_shell *shell, char *string)
+{
 	char	*name;
 	int		return_value;
 
-	if (!string)
+	if (!string) // quelle valeur retourner ?
 		return (-1);
 	return_value = valid_var_name(shell, string, &name);
-	if (return_value == 1)
+	if (return_value == IS_VALID)
 	{
-		len = ft_strlen(name);
-		if (found_var(shell->env_list, name, &variable_ptr, len))
-		{
-			variable_ptr->content = ft_strdup(string);
-			variable_ptr->variable = IS_SET;
-			if (ft_strncmp(name, "PATH", 5) == 0)
-				shell->path->variable = IS_SET;
-		}
-		else
-			ft_lstadd_back(&shell->env_list, ft_lstnew(ft_strdup(string)));
+		insert_into_list(shell, string, name, ENV_LIST);
+		insert_into_list(shell, string, name, EXPORT_LIST);
 		free(name);
 		store_environment_tab(shell, shell->env_list, env_size(shell->env_list));
 	}
+	if (return_value == ADDED_TO_EXPORT_LIST)
+		return_value = IS_VALID;
 	return (return_value); // error code
 }

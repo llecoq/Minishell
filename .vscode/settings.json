@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"history.h": "c",
+		"readline.h": "c",
+		"unistd.h": "c",
+		"sstream": "c"
+	}
+}

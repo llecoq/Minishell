@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 19:14:53 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/19 13:22:20 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,9 @@ enum	e_env
 	IS_UNSET = 0,
 	ILLEGAL_OPTION = 2,
 	PERMISSION_DENIED = 3,
-	NO_SUCH_FILE_OR_DIRECTORY = 4,
+	ADDED_TO_EXPORT_LIST = 4,
+	NOT_A_VALID_IDENTIFIER = 1,
+	NO_SUCH_FILE_OR_DIRECTORY = 5,
 };
 
 /*
