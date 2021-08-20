@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/08/18 17:41:00 by llecoq           ###   ########.fr        #
+#    Updated: 2021/08/20 18:58:19 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,11 @@ SRCS_FILES	=	main.c\
 				utils/token_list_functions.c\
 				utils/split_words_into_token.c\
 				utils/sig_handler.c\
-				utils/get_env.c\
-				utils/put_env.c\
 				utils/print_list.c\
-				utils/sort_list.c\
+				builtins/utils/get_env.c\
+				builtins/utils/put_env.c\
+				builtins/utils/sort_list.c\
+				builtins/utils/redir_single_builtin_cmd.c\
 				builtins/exit.c\
 				builtins/cd.c\
 				builtins/unset.c\
@@ -76,6 +77,7 @@ DIR		=	.objs/parsing\
 			.objs/parsing/utils\
 			.objs/execution\
 			.objs/execution/utils\
+			.objs/builtins/utils\
 			.objs/builtins\
 			.objs/utils
 

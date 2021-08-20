@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:07:59 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/20 17:38:23 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/20 18:39:52 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@
 int	ft_echo(t_shell *shell, char **argv)
 {
 	int	flag;
+	int	fd;
 
 	(void)shell;
 	flag = 0;
+	fd = redir_single_builtin_cmd("echo", argv[0]);   // si argv[0] != "echo" alors fd a rediriger
 	argv++;
 	if (*argv && ft_strncmp(*argv, "-n", 3) == 0)
 	{
@@ -37,13 +39,13 @@ int	ft_echo(t_shell *shell, char **argv)
 	}
 	while (*argv)
 	{
-		ft_printf(1, "%s", *argv);
+		ft_printf(fd, "%s", *argv);
 		argv++;
 		if (*argv)
-			ft_putchar_fd(' ', 1);
+			ft_putchar_fd(' ', fd);
 	}
 	if (flag == 0)
-		ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\n', fd);
 	global_errno = 0;
 	return (1);
 }

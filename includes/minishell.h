@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/20 17:34:46 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/20 18:51:44 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,8 @@ int	find_builtin_function(char *cmd_name, t_cmd *cmd);
 void	create_empty_cmds_list(t_shell *shell, int nb_of_cmds);
 void	create_heredoc(t_shell *shell, t_token **cmd_array, t_cmd *cmds_list);
 
+int	redir_single_builtin_cmd(char *cmd_name, char *argv);
+
 
 /*
 ** ------------------------------------------------------------ EVALUATOR
@@ -220,7 +222,7 @@ void		error(t_shell *shell, int error_type, char *str);
 void		sig_handler(int signum);
 void		get_signal(void);
 void		print_list(t_list *list);
-void		print_env(t_shell *shell);
+void		print_env(t_shell *shell, int fd);
 void		sort_alphabetically_list(t_list **export_list);
 void		split_multiple_words_into_tokens(t_shell *shell);
 char		*get_env(t_shell *shell, const char *name);

@@ -282,4 +282,6 @@ $? print sur quelle sortie ?
 
 lorsque CRT+D dans heredoc, saute une ligne
 
-replace insert_var_in_str ne prends pas en compte $?
+replace insert_var_in_str ne prends pas en compte $? OK
+
+reste a gerer tous les retours d'erreur et zbouub
