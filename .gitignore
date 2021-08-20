@@ -3,6 +3,5 @@
 minishell
 .objs
 srcs/main_test_ariane.c
-srcs/main_test_lq.c
 a.out
 main.c

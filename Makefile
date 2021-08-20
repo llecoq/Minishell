@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/08/20 18:58:19 by llecoq           ###   ########.fr        #
+#    Updated: 2021/08/20 19:07:24 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS_FILES	=	main.c\
 				parsing/utils/parser_variables.c\
 				parsing/utils/parser_heredoc.c\
 				parsing/utils/parser_store_commands_list.c\
+				parsing/utils/split_words_into_token.c\
 				execution/evaluator.c\
 				execution/utils/create_pipe.c\
 				execution/utils/exit_status.c\
@@ -30,15 +31,14 @@ SRCS_FILES	=	main.c\
 				execution/utils/create_redirection.c\
 				execution/utils/path_is_unset.c\
 				execution/utils/build_file_path.c\
-				utils/prompt.c\
+				prompt/prompt.c\
+				prompt/sig_handler.c\
 				utils/calloc_shell.c\
 				utils/clear_memory.c\
 				utils/del.c\
 				utils/error.c\
 				utils/char_detection.c\
 				utils/token_list_functions.c\
-				utils/split_words_into_token.c\
-				utils/sig_handler.c\
 				utils/print_list.c\
 				builtins/utils/get_env.c\
 				builtins/utils/put_env.c\
@@ -79,6 +79,7 @@ DIR		=	.objs/parsing\
 			.objs/execution/utils\
 			.objs/builtins/utils\
 			.objs/builtins\
+			.objs/prompt\
 			.objs/utils
 
 $(OBJSPATH)%.o:		$(SRCSPATH)%.c includes/minishell.h libft/libft.h libft/libft.a

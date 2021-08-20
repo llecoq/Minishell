@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/18 17:08:55 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/20 19:11:45 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ t_token	*create_new_token(char *token, t_shell *shell)
 	 	error_quit(shell, SYSCALL_ERROR, NULL);
 	new_token->next = NULL;
 	new_token->previous = NULL;
-	// new_token->ft_builtin = NULL;
-	// new_token->cmd_path = NULL;
 	return (new_token);
 }
 
