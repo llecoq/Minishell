@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 17:14:56 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 19:15:12 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/20 17:35:25 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ int	evaluator(t_shell *shell, t_cmd *cmd, int nb_of_cmds)
 			close_pipefds(cmd);
 		cmd = cmd->next;
 	}
-	errno = last_child_status(pid[i - 1]);
+	global_errno = last_child_status(pid[i - 1]);
 	return (0);
 }

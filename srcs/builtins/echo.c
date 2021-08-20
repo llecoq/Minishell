@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:07:59 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/20 17:29:34 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/20 17:38:23 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	ft_echo(t_shell *shell, char **argv)
 	}
 	if (flag == 0)
 		ft_putchar_fd('\n', 1);
+	global_errno = 0;
 	return (1);
 }
 
