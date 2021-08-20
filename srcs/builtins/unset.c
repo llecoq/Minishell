@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:42:24 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/19 13:55:52 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/20 15:05:46 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ int	invalid_args_or_options(char **argv, char *name)
 		if (strncmp(name, "pwd", 3) == 0)
 		{
 			ft_printf(1, "pwd: usage: pwd\n");
-			errno == 1;
+			errno = 1;
 			return (1);
 		}
 		ft_printf(2, "%s: usage: %s [name", name, name);
 		if (strncmp(name, "export", ft_strlen(name)) == 0)
 			ft_putstr_fd("[=value]", 2);
 		ft_putstr_fd(" ...]\n", 2);
-		errno == 2;
+		errno = 2;
 		return (1);
 	}
 	if (!argv[1] && ft_strncmp(name, "unset", ft_strlen(name)) == 0)

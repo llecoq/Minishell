@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/18 19:06:29 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/20 17:29:07 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,26 @@ If char following $ is not a letter or underscore then $ + this following
 char expand to nothing
 */
 
+static char	*get_errno_value(void)
+{
+	static char	errno_value[10];
+	char		*errno_itoa;
+	int			i;
+	int			len;
+
+	errno_itoa = ft_itoa(errno);
+	len = ft_strlen(errno_itoa);
+	i = 0;
+	while (i < len)
+	{
+		errno_value[i] = errno_itoa[i];
+		i++;
+	}
+	errno_value[i] = '\0';
+	free (errno_itoa);
+	return (errno_value);
+}
+
 static char	*get_var_value(int i, int j, const char *str, t_shell *shell)
 {
 	char		*var_name;
@@ -40,7 +60,10 @@ static char	*get_var_value(int i, int j, const char *str, t_shell *shell)
 	var_value = NULL;
 	var_name = calloc_sh(shell, sizeof(char) * j); //bc j = var_name_len + 1
 	ft_strlcpy(var_name, str + i + 1, j);
-	var_value = get_env(shell, var_name);
+	if (str[i + 1] == QUESTION_MARK)
+		var_value = get_errno_value(); //si $?   return errno value
+	else
+		var_value = get_env(shell, var_name);
 	free(var_name);
 	return (var_value);
 }
@@ -55,12 +78,14 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	char		*value;
 
 	j = 1; // to start after $
-	if (!is_word_char((*str)[i + j], FIRST_LETTER)) //if doesn't start by letter or _
+	if (!is_word_char((*str)[i + j], FIRST_LETTER)) //if doesn't start by letter or _ or ?
 	{
 		ft_memmove(*str + i, *str + i + 2, ft_strlen(*str));
 		return (1);
 	}
 	while (is_word_char((*str)[i + j], OTHER_LETTERS)) //j goes at the end of var name
+		j++;
+	if ((*str)[i + j] == QUESTION_MARK)
 		j++;
 	value = get_var_value(i, j, *str, shell);
 	if (!value) //if !var, replace var name by nothing in str
@@ -70,6 +95,7 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	}
 	//dst len = src_len + diff between var name and var value + 1 for \0
 	dst_len = ft_strlen(*str) - j + ft_strlen(value) + 1;
+	// dprintf(1, "j = %d  strlen_str = %zu dst_len = %d\n", j ,ft_strlen(*str), dst_len);
 	dst = calloc_sh(shell, dst_len);
 	ft_strlcpy(dst, *str, i + 1); //copy str until $ to dst
 	ft_strlcat(dst, value, dst_len); //append var value

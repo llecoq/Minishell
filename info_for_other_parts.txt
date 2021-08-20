@@ -279,3 +279,7 @@ errno = last_child_status
 lorsque echo $?  = print errno
 pour l'instant le token se fait tej de la liste
 $? print sur quelle sortie ?
+
+lorsque CRT+D dans heredoc, saute une ligne
+
+replace insert_var_in_str ne prends pas en compte $?
