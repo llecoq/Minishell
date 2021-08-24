@@ -5,39 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/06 14:58:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/01 15:53:49 by llecoq           ###   ########.fr       */
+/*   Created: 2021/08/16 09:59:31 by llecoq            #+#    #+#             */
+/*   Updated: 2021/08/23 17:05:45 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
-size_t	ft_strlen(const char *s)
-{
-	int				i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	unsigned char	*ptr;
-	size_t			nb_bytes;
-
-	ptr = malloc(count * size);
-	if (!(ptr))
-		return (NULL);
-	nb_bytes = count * size;
-	while (nb_bytes)
-	{
-		ptr[nb_bytes - 1] = 0;
-		nb_bytes--;
-	}
-	return (ptr);
-}
+#include "../libft.h"
 
 char	*strjoin_free1(char *s1, char *s2)
 {
@@ -60,7 +33,7 @@ char	*strjoin_free1(char *s1, char *s2)
 	while (++i < s2_len)
 		r[s1_len + i] = s2[i];
 	r[s1_len + i] = '\0';
-	free_set_null(&s1);
+	gnl_free_set_null(&s1);
 	return (r);
 }
 
@@ -85,6 +58,6 @@ char	*substr_gnl(char *s, unsigned int start, size_t len)
 		new[i] = s[start + i];
 	new[i] = '\0';
 	if (start != 0)
-		free_set_null(&s);
+		gnl_free_set_null(&s);
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/19 13:49:34 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/24 17:03:06 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ int	put_env(t_shell *shell, char *string)
 
 	if (!string) // quelle valeur retourner ?
 		return (-1);
+	if (string[0] == '=')
+	{
+		ft_printf(2, "minishell: `%s': not a valid identifier\n", string);
+		return (NOT_A_VALID_IDENTIFIER);
+	}
 	return_value = valid_var_name(shell, string, &name);
 	if (return_value == IS_VALID)
 	{

@@ -24,6 +24,11 @@ void	error_quit(t_shell *shell, int error_type, char *str)
 	}
 	if (error_type == SYSCALL_ERROR && str) //syscall errors
 		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
+	if (error_type == IS_A_DIRECTORY)
+	{
+		errno = IS_A_DIRECTORY;
+		ft_printf(2, "minishell: %s: is a directory\n", str);
+	}
 	// else if (error_type == 1)
 	// 	ft_printf(2, "");
 	// else if (error_type == 2)
@@ -51,7 +56,10 @@ void	err_clear(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "minishell: syntax error: unexpected end of file");
 	}
 	else if (error_type == NOTHING_AFTER_REDIR)
+	{
+		exit_status = 1;
 		ft_printf(2, "minishell: syntax error near unexpected token %s", str);
+	}
 	// else if (error_type == 4)
 	// 	ft_printf(2, "");
 	// else if (error_type == 5)

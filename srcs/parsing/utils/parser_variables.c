@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/20 17:36:12 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/24 11:31:52 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*get_errno_value(void)
 	int			i;
 	int			len;
 
-	errno_itoa = ft_itoa(global_errno);
+	errno_itoa = ft_itoa(exit_status);
 	len = ft_strlen(errno_itoa);
 	i = 0;
 	while (i < len)

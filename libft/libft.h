@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 15:19:21 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/01 16:17:56 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/23 17:04:48 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,22 @@ typedef struct s_list
 	int				variable;
 	struct s_list	*next;
 }				t_list;
+
+
+# define BUFFER_SIZE 2048
+
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+
+char			*substr_gnl(char *s, unsigned int start, size_t len);
+char			*strjoin_free1(char *s1, char *s2);
+size_t			ft_strlen(const char *s);
+char			*ft_strdup(const char *s1);
+void			*ft_calloc(size_t count, size_t size);
+int				get_next_line(int fd, char **line);
+void			*ft_calloc(size_t count, size_t size);
+void			gnl_free_set_null(char **ptr);
 
 int				ft_toupper(int c);
 int				ft_tolower(int c);

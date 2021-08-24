@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:32:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/19 13:57:09 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/24 17:06:01 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*join_args(char	**argv, char *flag)
 	char	*full_argument;
 
 	argv++;
-	if (ft_strncmp(flag, "-p", 3) == 0)
+	if (flag && ft_strncmp(flag, "-p", 3) == 0)
 		argv++;
 	full_argument = ft_strjoin(*argv, " ");
 	while (*argv)
@@ -67,7 +67,7 @@ int	ft_export(t_shell *shell, char **argv)
 	char	*export_name_and_value;
 	
 	if (invalid_args_or_options(argv, "export"))
-		return (-1);
+		return (1);
 	if (!argv[1])
 		return (print_export_list(shell->export_list));
 	if (valid_name(argv[1], "export"))
@@ -78,7 +78,7 @@ int	ft_export(t_shell *shell, char **argv)
 			free_set_null((void **)&export_name_and_value);
 			export_name_and_value = join_args(argv, NULL);
 		}
-		errno = put_env(shell, export_name_and_value);
+		exit_status = put_env(shell, export_name_and_value);
 		free_set_null((void **)&export_name_and_value);
 	}
 	else

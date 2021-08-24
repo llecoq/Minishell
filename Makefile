@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/08/20 19:07:24 by llecoq           ###   ########.fr        #
+#    Updated: 2021/08/23 16:24:49 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,8 +68,6 @@ NAME	= minishell
 CC		= gcc
 
 RM		= rm -rf
-
-READLINE = 	-I /Users/$(USER)/.brew/opt/readline/include
 
 CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
 

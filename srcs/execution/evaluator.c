@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 17:14:56 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/20 18:26:59 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/24 15:14:29 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,21 @@ static void	execute_builtin_and_exit(t_shell *shell, t_cmd *cmd, char **argv)
 	ft_exit(shell, argv);
 }
 
+static int	path_is_a_directory(char *path)
+{
+	DIR	*dir;
+
+	dir = opendir(path);
+	if (dir == NULL)
+	{
+		dir = opendir(++path);
+		if (dir == NULL)
+			return (IS_NOT_A_DIRECTORY);
+	}
+	closedir(dir);
+	return (IS_A_DIRECTORY);
+}
+
 static void	execution_child_process(t_shell *shell, t_cmd *cmd)
 {
 	char	**argv;
@@ -50,6 +65,8 @@ static void	execution_child_process(t_shell *shell, t_cmd *cmd)
 	if (path_is_unset(shell, &path_list)
 		&& path_is_not_absolute(argv, &path_list))
 		error_quit(shell, SYSCALL_ERROR, *argv);
+	if (path_is_a_directory(*argv))
+		error_quit(shell, IS_A_DIRECTORY, *argv);
 	while (path_list != NULL)
 		execute_file(shell, &path_list, &argv);
 	error_quit(shell, CMD_NOT_FOUND, *argv);
@@ -76,28 +93,27 @@ static int	execute_single_builtin_cmd(t_shell *shell, t_cmd *cmd, char **argv)
 	return (cmd->ft_builtin(shell, argv));
 }
 
-// ajouter le cas d'un seule commande (pas de fork si builtin)
 int	evaluator(t_shell *shell, t_cmd *cmd, int nb_of_cmds)
 {
 	int		i;
-	pid_t	pid[2048];
+	pid_t	pid;
 
-	if (shell->nb_of_cmds == 1 && find_builtin_function(cmd->argv[0], cmd))
+	if (nb_of_cmds == 1 && find_builtin_function(cmd->argv[0], cmd))
 		return (execute_single_builtin_cmd(shell, cmd, cmd->argv));
 	i = -1;
 	while (++i < nb_of_cmds)
 	{
 		create_pipe(shell, cmd);
-		pid[i] = fork();
+		pid = fork();
 		cmd->token_list = shell->cmd_array[i];
-		if (pid[i] == FAILED)
+		if (pid == FAILED)
 			error_quit(shell, SYSCALL_ERROR, NULL);
-		else if (pid[i] == CHILD_PROCESS)
+		else if (pid == CHILD_PROCESS)
 			execution_child_process(shell, cmd);
-		else if (pid[i] >= PARENT_PROCESS)
+		else if (pid >= PARENT_PROCESS)
 			close_pipefds(cmd);
 		cmd = cmd->next;
 	}
-	global_errno = last_child_status(pid[i - 1]);
+	exit_status = last_child_status(pid);
 	return (0);
 }

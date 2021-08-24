@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/06 14:59:12 by abonnel           #+#    #+#             */
-/*   Updated: 2021/03/29 16:40:12 by abonnel          ###   ########lyon.fr   */
+/*   Created: 2021/08/16 09:59:35 by llecoq            #+#    #+#             */
+/*   Updated: 2021/08/23 16:59:54 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../libft.h"
 
 int	n_in(char *str)
 {
@@ -26,7 +26,7 @@ int	n_in(char *str)
 	return (-2);
 }
 
-void	free_set_null(char **ptr)
+void	gnl_free_set_null(char **ptr)
 {
 	if (*ptr)
 	{
@@ -48,7 +48,7 @@ int	end_or_error(int nb_bytes, char **line, char **str)
 	{
 		if (nb_bytes == 0)
 			*line = ft_strdup(*str);
-		free_set_null(&(*str));
+		gnl_free_set_null(&(*str));
 		return (nb_bytes);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/20 18:51:44 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/24 15:43:08 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
-int	global_errno;
+int	exit_status;
 
 typedef int 	t_bool;
 typedef int 	t_flag;
@@ -173,6 +173,8 @@ enum	e_env
 	IS_SET = 1,
 	IS_UNSET = 0,
 	ILLEGAL_OPTION = 2,
+	IS_A_DIRECTORY = 126,
+	IS_NOT_A_DIRECTORY = 0,
 	PERMISSION_DENIED = 3,
 	ADDED_TO_EXPORT_LIST = 4,
 	NOT_A_VALID_IDENTIFIER = 1,
@@ -194,6 +196,8 @@ void	build_file_path(t_list **path_list, t_file *file, char ***argv);
 // int	cmd_is_builtin(t_cmd *cmd, int **ft_builtin);
 // void	execute_builtin_and_exit(t_shell *shell, t_cmd *cmd, char **argv);
 int	find_builtin_function(char *cmd_name, t_cmd *cmd);
+
+int	wexitstatus(int status);
 
 //PARSING
 void	create_empty_cmds_list(t_shell *shell, int nb_of_cmds);

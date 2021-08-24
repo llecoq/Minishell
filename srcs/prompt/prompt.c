@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:54:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/17 16:32:42 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/20 19:53:05 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	prompt(t_shell *shell)
 	if (shell->change_directory == 1)
 		get_user_dir(shell);
 	shell->input = readline(shell->user_dir);
+	// shell->input = readline(NULL);
 	if (!shell->input)   	// control + D flush stdin et pointe sur NULL
 		ft_exit(shell, NULL);
 	if (*shell->input)

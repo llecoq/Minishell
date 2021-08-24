@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 17:33:00 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/24 16:50:33 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,20 @@ void	store_path_list(t_shell *shell, char *path)
 
 void	store_list(t_list **list, char *const *env)
 {
+	char	*line;
+
 	while (*env)
-		ft_lstadd_back(list, ft_lstnew(ft_strdup(*env++)));
+	{
+		line = ft_strdup(*env);
+		if (ft_strncmp(*env, "_=", 2) == 0)
+			line = ft_strdup("_=/usr/bin/env");
+		if (ft_strncmp(*env, "SHLVL=1", 8) == 0)
+			line = ft_strdup("SHLVL=2");
+		if (ft_strncmp(*env, "OLDPWD", 6) == 0)
+			line = ft_strdup("OLDPWD");
+		ft_lstadd_back(list, ft_lstnew(line));
+		env++;
+	}
 }
 
 // store the environment in a tab, by sending it a linked list.

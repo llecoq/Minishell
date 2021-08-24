@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 09:05:45 by abonnel           #+#    #+#             */
-/*   Updated: 2021/03/29 17:48:40 by abonnel          ###   ########lyon.fr   */
+/*   Created: 2021/08/16 09:59:38 by llecoq            #+#    #+#             */
+/*   Updated: 2021/08/23 10:39:02 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ char			*ft_strdup(const char *s1);
 void			*ft_calloc(size_t count, size_t size);
 int				get_next_line(int fd, char **line);
 void			*ft_calloc(size_t count, size_t size);
-void			free_set_null(char **ptr);
+void			gnl_free_set_null(char **ptr);
 
 #endif

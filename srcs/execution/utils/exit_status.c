@@ -6,13 +6,13 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 14:51:34 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 14:51:52 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/24 15:42:57 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	wexitstatus(int status)
+int	wexitstatus(int status)
 {
 	int	w_int;
 

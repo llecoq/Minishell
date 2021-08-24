@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 09:29:01 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/01 16:07:47 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/24 14:45:55 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int	ft_cd(t_shell *shell, char **argv)
 			free_set_null((void **)&old_path);
 			free_set_null((void **)&new_path);
 			ft_printf(2, "minishell: cd: %s: %s\n", argv[1], strerror(errno));
-			return (-1);
+			exit_status = 1;
+			return (exit_status);
 		}
 	}
 	else

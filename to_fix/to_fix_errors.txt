@@ -1,0 +1,13 @@
+| test
+echo > <
+echo | |
+<
+;
+|
+| | |
+;;;;;;;
+||||||||
+;echo;
+|echo|
+| echo -n oui
+; echo -n oui
