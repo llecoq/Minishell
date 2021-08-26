@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/24 13:53:01 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 16:19:01 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	execute_minishell_script(t_shell *shell, char **argv, char **envp)
 		store_environment(shell, envp);
 		tokenize(shell, shell->input);
 		parse(shell);
-		evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
+		exit_status = evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
 		clear_nonessential_memory(shell);
 	}
 	clear_memory(shell);
@@ -52,7 +52,7 @@ void	execute_minishell_from_string(t_shell *shell, char *arg, char **envp)
 	store_environment(shell, envp);
 	tokenize(shell, shell->input);
 	parse(shell);
-	evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
+	exit_status = evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
 	ft_exit(shell, NULL);
 }
 
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 			if (shell.cmd_array == NULL) //in case of missing closing bracket / empty input
 				continue;
 			parse(&shell);
-			evaluator(&shell, shell.cmds_list, shell.nb_of_cmds);
+			exit_status = evaluator(&shell, shell.cmds_list, shell.nb_of_cmds);
 			//if (shell.cmd_array == NULL) //in case of error that does not need to stop program
 			//	continue;
 			clear_nonessential_memory(&shell);
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 	else if (argc >= 3 && ft_strncmp(argv[1], "-c", 3) == 0)
 		execute_minishell_from_string(&shell, argv[2], envp);
 	else
-		ft_printf(2, "minishell: Wrong use. Try again !\n");
+		ft_printf(2, "minishell: Wrong use. Try again !\n"); // quel exit number ?
 	clear_memory(&shell);
 	return (exit_status);
 }

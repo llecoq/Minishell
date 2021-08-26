@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 15:42:18 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 16:24:08 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ enum	e_errors
 {
 	SYSCALL_ERROR = 0,
 	NO_CLOSING_QUOTE = -1,
+	INVALID_ARGS_OR_OPTIONS = 2,
 	NOTHING_AFTER_REDIR = -2,
 	REDIR_ISNT_1_WORD = -3,
 	CMD_IS_WRONG = -4,
