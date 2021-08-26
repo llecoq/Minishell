@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 17:14:56 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 18:18:16 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 20:56:22 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ static void	execution_child_process(t_shell *shell, t_cmd *cmd)
 		error_quit(shell, FILENAME_ARGUMENT_REQUIRED, NULL);
 	if (ft_strncmp(*argv, "..", 3) == 0)
 		error_quit(shell, CMD_NOT_FOUND, "..");
+	if (ft_strncmp(*argv, "cd;", 4) == 0)
+	{
+		// exit_status = 0;
+		return ;
+	}
 	if (path_is_a_directory(*argv))
 		error_quit(shell, IS_A_DIRECTORY, *argv);
 	while (path_list != NULL)

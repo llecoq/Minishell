@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 18:06:42 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 19:09:59 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ enum	e_split_token
 	TILDE = 126,
 	QUESTION_MARK = 63,
 	UNDERSCORE = 95,
+	SEMICOLON = 59,
 };
 
 enum	e_env

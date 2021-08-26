@@ -6,12 +6,18 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 18:09:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 15:41:54 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 20:32:46 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENUM_H
 # define ENUM_H
+
+enum	e_execute
+{
+	PROMPT,
+	STRING,
+};
 
 enum	e_process
 {
