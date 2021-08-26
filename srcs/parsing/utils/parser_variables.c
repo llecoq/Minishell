@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/26 12:28:04 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 14:19:38 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	char		*value;
 
 	j = 1; // to start after $
+	if ((*str)[i + 1] == ' ' || (*str)[i + 1] == '\0')
+		return (1);
 	if (!is_word_char((*str)[i + j], FIRST_LETTER)) //if doesn't start by letter or _ or ?
 	{
 		ft_memmove(*str + i, *str + i + 2, ft_strlen(*str));
@@ -155,28 +157,33 @@ char	*process_variables(char *token, t_shell *shell)
 		return (ft_strdup(get_env(shell, "HOME")));
 	if (ft_strncmp(tk_cpy, "~/", 2) == 0)
 		i += insert_home_directory_in_str(shell, &tk_cpy);
-	// dprintf(1, "%s\n", tk_cpy);
 	while (tk_cpy[i])
 	{
-		if (tk_cpy[i] == '"')
+		if (tk_cpy[i] == '$' && tk_cpy[i + 1])
+			i += insert_var_in_str(&tk_cpy, i, shell);
+		else if (tk_cpy[i] == '"')
 		{
 			i++;
 			while (tk_cpy[i] != '"' && tk_cpy[i])
 			{
 				if (tk_cpy[i] == '$' && tk_cpy[i + 1])
+				{
 					i += insert_var_in_str(&tk_cpy, i, shell);
+					if (tk_cpy[i] == '\'')
+						break ;
+				}
 				i++;
 			}
 		}
-		else if (tk_cpy[i] == '\'') //mettre lignes suivantes dans f() pr norm
+		if (tk_cpy[i] == '\'') //mettre lignes suivantes dans f() pr norm
 		{
 			i++;
 			while (tk_cpy[i] != '\'' && tk_cpy[i])
 				i++;
 		}
-		else if (tk_cpy[i] == '$' && tk_cpy[i + 1])
-			i += insert_var_in_str(&tk_cpy, i, shell);
-		i++;
+		if (tk_cpy[i])
+			i++;
+	// dprintf(1, "2 - i = %d\tlen = %zu\t%s\n", i, ft_strlen(tk_cpy), tk_cpy);
 	}
 	return (tk_cpy);
 }
@@ -200,7 +207,7 @@ void arg_syntax_processing(t_token **cmd_array, t_shell *shell)
 	{
 		token = cmd_array[i];
 		while (token)
-		{	
+		{
 			if (token->redir == 0)
 				replace_token_with_var(&token->word, shell);
 			token = token->next;

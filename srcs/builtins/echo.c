@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:07:59 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 13:01:36 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 13:09:21 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	process_n_flag(char ***argv, int *flag)
 			i = 2;
 			while ((**argv)[i] && (**argv)[i] == 'n')
 				i++;
-			if ((**argv)[i] == 0)
+			if ((**argv)[i] == '\0')
 			{
 				(*argv)++;
 				*flag = 1;

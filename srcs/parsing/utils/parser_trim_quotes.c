@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_trim_quotes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 12:21:58 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/16 16:34:49 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/08/26 13:17:47 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static void	remove_quotes_char(char *word, t_shell *shell)
 			while (word[i] && word[i] != closing_quote)
 				i++;
 			if (word[i] == closing_quote)
+			{
 				ft_memmove(word + i, word + i + 1, ft_strlen(word + i));
+				i--;
+			}
 		}
 		i++;
 	}
