@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/20 16:02:38 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 10:56:33 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,11 @@ void	parse(t_shell *shell)
 		free(no_token_after_redir);
 		return ;
 	}
+	// print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 	arg_syntax_processing(shell->cmd_array, shell);
 	remove_empty_tokens(shell->cmd_array, shell);
 	split_multiple_words_into_tokens(shell);
+	// print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 	first_word_is_cmd_flag(shell->cmd_array);
 	// check_and_create_redirections(shell->cmd_array, shell);
 	remove_quotes(shell->cmd_array, shell);

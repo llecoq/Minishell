@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:07:59 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/24 15:30:24 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 13:01:36 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,40 @@
 // echo * fais un ls trimmé 
 
 // global sera errno
+void	process_n_flag(char ***argv, int *flag)
+{
+	int	i;
+
+	while (**argv)
+	{
+		if (ft_strncmp((**argv), "-n", 2) == 0)
+		{
+			i = 2;
+			while ((**argv)[i] && (**argv)[i] == 'n')
+				i++;
+			if ((**argv)[i] == 0)
+			{
+				(*argv)++;
+				*flag = 1;
+			}
+			else
+				return;
+		}
+		else
+			return;
+	}
+}
+
 int	ft_echo(t_shell *shell, char **argv)
 {
 	int	flag;
 	int	fd;
 
-	// (void)shell;
+	(void)shell;
 	flag = 0;
 	fd = redir_single_builtin_cmd("echo", argv[0]);   // si argv[0] != "echo" alors fd a rediriger
 	argv++;
-	while (*argv && ft_strncmp(*argv, "-n", 2) == 0)
-	{
-		argv++;
-		flag = 1;
-	}
-	if (*argv && ft_strncmp(*argv, "~", 1) == 0)
-	{
-		ft_printf(STDOUT_FILENO, "%s", get_env(shell, "HOME"));
-		(*argv)++;
-	}
+	process_n_flag(&argv, &flag);
 	while (*argv)
 	{
 		ft_printf(fd, "%s", *argv);
