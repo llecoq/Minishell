@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 17:14:56 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 16:18:51 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 18:18:16 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ static void	execution_child_process(t_shell *shell, t_cmd *cmd)
 	if (path_is_unset(shell, &path_list)
 		&& path_is_not_absolute(argv, &path_list))
 		error_quit(shell, SYSCALL_ERROR, *argv);
+	if (ft_strncmp(*argv, ".", 2) == 0)
+		error_quit(shell, FILENAME_ARGUMENT_REQUIRED, NULL);
+	if (ft_strncmp(*argv, "..", 3) == 0)
+		error_quit(shell, CMD_NOT_FOUND, "..");
 	if (path_is_a_directory(*argv))
 		error_quit(shell, IS_A_DIRECTORY, *argv);
 	while (path_list != NULL)
@@ -101,7 +105,7 @@ int	evaluator(t_shell *shell, t_cmd *cmd, int nb_of_cmds)
 	if (nb_of_cmds == 1 && find_builtin_function(cmd->argv[0], cmd))
 		return (execute_single_builtin_cmd(shell, cmd, cmd->argv));
 	i = -1;
-	while (++i < nb_of_cmds)
+	while (++i < nb_of_cmds && cmd)
 	{
 		create_pipe(shell, cmd);
 		pid = fork();

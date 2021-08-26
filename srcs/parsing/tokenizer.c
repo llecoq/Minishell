@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/18 19:03:37 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 17:10:12 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,11 @@ void	tokenize(t_shell *shell, const char *input)
 
 	if (input[0] == '\0')
 		return ;
+	if (input[0] == '|' || input[0] == ';')
+	{
+		err_clear(shell, NOTHING_BEFORE_REDIR, (char *)input);
+		return ;
+	}
 	if (finished_by_spaces(input))
 		return ;
 	nb_of_cmds = count_commands(input);

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 16:24:08 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 18:06:42 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ enum	e_errors
 	NO_CLOSING_QUOTE = -1,
 	INVALID_ARGS_OR_OPTIONS = 2,
 	NOTHING_AFTER_REDIR = -2,
+	NOTHING_BEFORE_REDIR = 258,
 	REDIR_ISNT_1_WORD = -3,
 	CMD_IS_WRONG = -4,
 	CANT_OPEN_FILE = -5,
@@ -181,6 +182,7 @@ enum	e_env
 	ADDED_TO_EXPORT_LIST = 4,
 	NOT_A_VALID_IDENTIFIER = 1,
 	NO_SUCH_FILE_OR_DIRECTORY = 5,
+	FILENAME_ARGUMENT_REQUIRED = 2,
 };
 
 /*

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:00:50 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/18 15:30:01 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 18:43:28 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	initialize_flags_values(t_token **cmd_array)
 			cpy->cmd = -1;
 			cpy->arg = -1;
 			cpy->redir = -1;
-			// cpy->fd = 0;
 			cpy->error = 0;
 			cpy = cpy->next;
 		}
@@ -72,10 +71,10 @@ static char	*create_error_str(char *next_token)
 {
 	char		*error_str;
 
-	error_str = calloc(ft_strlen(next_token) + 3, sizeof(char));
-	error_str[0] = '`';
-	ft_strlcat(error_str, next_token, ft_strlen(next_token) + 3);
-	error_str[ft_strlen(next_token) + 1] = '\'';
+	error_str = calloc(ft_strlen(next_token) + 1, sizeof(char));
+	// error_str[0] = '`';
+	ft_strlcat(error_str, next_token, ft_strlen(next_token) + 1);
+	// error_str[ft_strlen(next_token) + 1] = '\'';
 	return (error_str);
 }
 
