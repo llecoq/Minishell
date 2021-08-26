@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 11:05:37 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 15:42:18 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ void		split_multiple_words_into_tokens(t_shell *shell);
 char		*get_env(t_shell *shell, const char *name);
 char		*join_args(char	**argv, char *flag);
 int			put_env(t_shell *shell, char *string);
-int			invalid_args_or_options(char **argv, char *name);
+int			invalid_args_or_options(char **argv, char *name, int builtin_type);
 int			valid_name(char *argv, char *built_name);
 size_t		env_size(t_list *env_list);
 

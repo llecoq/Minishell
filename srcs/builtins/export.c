@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:32:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/24 17:06:01 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 15:43:15 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,45 @@ char	*join_args(char	**argv, char *flag)
 	return (full_argument);
 }
 
+void	print_variable_name(char *full_var, int *i)
+{
+	while (full_var[*i] && full_var[*i] != '=')
+	{
+		ft_putchar_fd(full_var[*i], 1);
+		(*i)++;
+	}
+}
+
+void	print_variable_value(char *full_var, int *i)
+{
+	ft_putstr_fd("=\"", STDOUT_FILENO);
+	(*i)++;
+	while (full_var[*i])
+	{
+		ft_putchar_fd(full_var[*i], 1);
+		(*i)++;
+	}
+	ft_printf(STDOUT_FILENO, "\"\n");
+}
+
 int	print_export_list(t_list *export_list)
 {
+	int		i;
+	char	*full_var;
+
 	while (export_list)
 	{
+		i = 0;
 		if (export_list->variable == IS_SET)
-			ft_printf(1, "declare -x %s\n", export_list->content);
+		{
+			ft_printf(1, "declare -x ");
+			full_var = (char *)export_list->content;
+			print_variable_name(full_var, &i);
+			if (full_var[i] == '=')
+				print_variable_value(full_var, &i);
+			else
+				ft_putchar_fd('\n', STDOUT_FILENO);
+		}
 		export_list = export_list->next;
 	}
 	return (0);
@@ -66,7 +99,7 @@ int	ft_export(t_shell *shell, char **argv)
 {
 	char	*export_name_and_value;
 	
-	if (invalid_args_or_options(argv, "export"))
+	if (invalid_args_or_options(argv, "export", EXPORT))
 		return (1);
 	if (!argv[1])
 		return (print_export_list(shell->export_list));
@@ -83,8 +116,8 @@ int	ft_export(t_shell *shell, char **argv)
 	}
 	else
 	{
-		errno = 1;
+		exit_status = 1;
 		ft_printf(2, "minishell: export: `%s': not a valid identifier\n", argv[1]);
 	}
-	return (errno);
+	return (exit_status);
 }

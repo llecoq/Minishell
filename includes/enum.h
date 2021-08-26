@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 18:09:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/19 12:58:16 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 15:41:54 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ enum	e_export
 {
 	EXPORT_LIST,
 	ENV_LIST,
+};
+
+enum	e_builtins
+{
+	CD,
+	ENV,
+	PWD,
+	UNSET,
+	EXPORT,
 };
 
 #endif

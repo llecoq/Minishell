@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 13:53:34 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/20 18:49:02 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 15:43:29 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_pwd(t_shell *shell, char **argv)
 
 	(void)shell;
 	fd = redir_single_builtin_cmd("pwd", argv[0]);
-	if (invalid_args_or_options(argv, "pwd"))
+	if (invalid_args_or_options(argv, "pwd", PWD))
 		return (-1);
 	pwd = getcwd(NULL, 0);
 	if (!pwd)

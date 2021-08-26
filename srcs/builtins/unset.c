@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:42:24 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/20 15:05:46 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/26 15:52:50 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,25 @@ void	unset_variable(t_shell *shell, t_list *env_list, char *name)
 	}
 }
 
-int	invalid_args_or_options(char **argv, char *name)
+int	invalid_args_or_options(char **argv, char *name, int builtin_type)
 {
 	if (argv[1] && *argv[1] == '-')
 	{
 		ft_printf(2, "minishell: %s: -%c: invalid option\n", name, argv[1][1]);
-		if (strncmp(name, "pwd", 3) == 0)
+		if (builtin_type == PWD)
 		{
-			ft_printf(1, "pwd: usage: pwd\n");
+			ft_printf(STDERR_FILENO, "pwd: usage: pwd\n");
 			errno = 1;
 			return (1);
 		}
-		ft_printf(2, "%s: usage: %s [name", name, name);
-		if (strncmp(name, "export", ft_strlen(name)) == 0)
-			ft_putstr_fd("[=value]", 2);
-		ft_putstr_fd(" ...]\n", 2);
-		errno = 2;
+		if (builtin_type == EXPORT)
+			ft_printf(STDERR_FILENO, "export: usage: export [-nf] [name[=value] ...] or export -p\n");
+		else
+			ft_printf(2, "%s: usage: %s [name ...]\n", name, name);
+		exit_status = 2;
 		return (1);
 	}
-	if (!argv[1] && ft_strncmp(name, "unset", ft_strlen(name)) == 0)
+	else if (!argv[1] && builtin_type == UNSET)
 		return (1);
 	return (IS_VALID);
 }
@@ -80,7 +80,7 @@ int	invalid_args_or_options(char **argv, char *name)
 // to indicate the cause of the error.
 int	ft_unset(t_shell *shell, char **argv)
 {
-	if (invalid_args_or_options(argv, "unset"))
+	if (invalid_args_or_options(argv, "unset", UNSET))
 		return (-1);
 	if (argv[1] && valid_name(argv[1], "unset"))
 	{
