@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/26 17:10:12 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 13:50:34 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static char	*create_redirection_token(int i, const char *input, t_shell *shell)
 	token = calloc_sh(shell, 3);
 	if (is_redirection(input, i) == PIPE)
 		ft_strlcpy(token, "|", 2);
+	if (is_redirection(input, i) == SEMICOLON)
+		ft_strlcpy(token, ";", 2);
 	else if (is_redirection(input, i) == TRUNC)
 		ft_strlcpy(token, ">", 2);
 	else if (is_redirection(input, i) == APPEND)
@@ -100,6 +102,7 @@ static void	split_into_tokens(int nb_of_cmds, const char *input, t_shell *shell)
 {
 	int		i;
 	int		j;
+	int		redir_type;
 	char	*token;
 
 	i = 0;
@@ -112,11 +115,13 @@ static void	split_into_tokens(int nb_of_cmds, const char *input, t_shell *shell)
 		if (!input[i] && i != 0)
 			break;
 		token = return_token(i, input, shell);
-		//ft_printf(1, "token = %s|\n", token);
 		add_token_tail(&shell->cmd_array[j], create_new_token(token, shell));
 		i += ft_strlen(token);
-		if (is_redirection(return_tail_token(shell->cmd_array[j])->word, 0) == PIPE)
+		redir_type = is_redirection(return_tail_token(shell->cmd_array[j])->word, 0);
+		if (redir_type == PIPE)
 			j++;
+		// else if (redir_type == SEMICOLON)
+		// 	break ;
 		free_set_null((void **)&token);
 	}
 }
@@ -142,15 +147,14 @@ void	tokenize(t_shell *shell, const char *input)
 	if (finished_by_spaces(input))
 		return ;
 	nb_of_cmds = count_commands(input);
+	// ft_printf(1, "nb of cmds = %d\n", nb_of_cmds);
 	shell->nb_of_cmds = nb_of_cmds;
 	if (nb_of_cmds == NO_CLOSING_QUOTE)
 	{
 		err_clear(shell, NO_CLOSING_QUOTE, NULL);
 		return ;
 	}
-	//ft_printf(1, "nb of cmds = %d\n", nb_of_cmds);
 	split_into_tokens(nb_of_cmds, input, shell);
-	
 	// print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 	//ft_printf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);//verify that is null
 }

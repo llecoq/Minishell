@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 20:49:09 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 14:46:43 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,46 +24,47 @@ static void	set_shell_var_to_null(t_shell *shell)
 	exit_status = 0;
 }
 
-int	count_cmds(char *input, int *nb_of_cmds)
-{
-	int		i;
-	char	closing_quote;
+// int	count_cmds(char *input, int *nb_of_cmds)
+// {
+// 	int		i;
+// 	char	closing_quote;
 
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == QUOTE || input[i] == DOUBLE_QUOTE)
-		{
-			closing_quote = input[i];
-			i++;
-			while (input[i] && input[i] != closing_quote)
-				i++;
-			if (input[i] == closing_quote)
-				i++;
-		}
-		if (input[i] == SEMICOLON && input[i + 1])
-			*nb_of_cmds += 1;
-		if (input[i])
-			i++;
-	}
-	return (*nb_of_cmds);
-}
+// 	i = 0;
+// 	while (input[i])
+// 	{
+// 		if (input[i] == QUOTE || input[i] == DOUBLE_QUOTE)
+// 		{
+// 			closing_quote = input[i];
+// 			i++;
+// 			while (input[i] && input[i] != closing_quote)
+// 				i++;
+// 			if (input[i] == closing_quote)
+// 				i++;
+// 		}
+// 		if (input[i] == SEMICOLON && input[i + 1])
+// 			*nb_of_cmds += 1;
+// 		if (input[i])
+// 			i++;
+// 	}
+// 	return (*nb_of_cmds);
+// }
 
-char	*fill_split_with_cmd(t_shell *shell, char *input, int i, int j)
+char	*fill_command_line(t_shell *shell, char *input, int start, int end)
 {
 	char	*split_cmd;
 	
-	split_cmd = calloc_sh(shell, sizeof(char) * (j - i + 1));
-	j--;
-	while (j >= i)
+	split_cmd = calloc_sh(shell, sizeof(char) * (end - start + 1));
+	end--;
+	while (end >= start)
 	{
-		split_cmd[j - i] = input[j];
-		j--;
+		split_cmd[end - start] = input[end];
+		end--;
 	}
 	return (split_cmd);
 }
 
-void	find_cmd_line(char *input, int *i)
+
+void	find_command_line(char *input, int *i)
 {
 	char	closing_quote;
 
@@ -86,95 +87,105 @@ void	find_cmd_line(char *input, int *i)
 		(*i)++;
 	}
 }
+// char	**split_by_semicolons(t_shell *shell, char *input)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		nb_of_cmds;
+// 	int		cmd_nb;
+// 	char	**split_cmds;
 
-char	**split_by_semicolons(t_shell *shell, char *input)
+// 	cmd_nb = 0;
+// 	nb_of_cmds = 1;
+// 	split_cmds = NULL;
+// 	count_cmds(input, &nb_of_cmds);
+// 	split_cmds = calloc_sh(shell, sizeof(char *) * (nb_of_cmds + 1));
+// 	i = 0;
+// 	j = 0;
+// 	while (nb_of_cmds > 0)
+// 	{
+// 		find_cmd_line(input, &j);
+// 		split_cmds[cmd_nb] = fill_split_with_cmd(shell, input, i, j);
+// 		i = j + 1;
+// 		if (input[j])
+// 			j++;
+// 		nb_of_cmds--;
+// 		cmd_nb++;
+// 	}
+// 	return (split_cmds);
+// }
+
+t_list	*split_by_semicolons(t_shell *shell, char *input)
 {
-	int		i;
-	int		j;
-	int		nb_of_cmds;
-	int		cmd_nb;
-	char	**split_cmds;
+	t_list	*split_cmds;
+	char	*cmd_line;
+	int		start;
+	int		end;
 
-	cmd_nb = 0;
-	nb_of_cmds = 1;
+	end = 0;
+	start = 0;
 	split_cmds = NULL;
-	count_cmds(input, &nb_of_cmds);
-	split_cmds = calloc_sh(shell, sizeof(char *) * (nb_of_cmds + 1));
-	i = 0;
-	j = 0;
-	while (nb_of_cmds > 0)
+	cmd_line = NULL;
+	while (input[end])
 	{
-		find_cmd_line(input, &j);
-		split_cmds[cmd_nb] = fill_split_with_cmd(shell, input, i, j);
-		i = j + 1;
-		if (input[j])
-			j++;
-		nb_of_cmds--;
-		cmd_nb++;
+		find_command_line(input, &end);
+		cmd_line = fill_command_line(shell, input, start, end);
+		ft_lstadd_back(&split_cmds, ft_lstnew(cmd_line));
+		start = end + 1;
+		if (input[end])
+			end++;
 	}
 	return (split_cmds);
-}
-
-void	print_char_tab(char **char_tab)
-{
-	int	i;
-
-	i = 0;
-	while (char_tab[i])
-	{
-		ft_printf(STDOUT_FILENO, "%s\n", char_tab[i]);
-		i++;	
-	}
 }
 
 static void process_input(t_shell *shell, int flag)
 {		
 	int		i;
-	char	**split_cmds;
+	t_list	*split_cmds;
 	
 	split_cmds = split_by_semicolons(shell, shell->input);
 	if (flag == PROMPT)
 		free_set_null((void **)&shell->input);
-	// print_char_tab(split_cmds);
+	// print_list(split_cmds);
 	i = 0;
-	while (split_cmds[i])
+	while (split_cmds)
 	{
-		tokenize(shell, split_cmds[i]);
-		free_set_null((void **)&split_cmds[i]);
+		tokenize(shell, split_cmds->content);
+		free_set_null((void **)&split_cmds->content);
 		if (shell->cmd_array == NULL)
 			return ;
-		parse(shell);
+		parse(shell, split_cmds);
 		if (&shell->cmd_array[0])
 			exit_status = evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
 		clear_nonessential_memory(shell);
-		i++;
+		split_cmds = split_cmds->next;
 	}
-	free_split(split_cmds);
+	ft_lstclear(&split_cmds, del);
 }
 
-void	execute_minishell_script(t_shell *shell, char **argv, char **envp)
-{
-	int		fd;
-	int		ret;
+// void	execute_minishell_script(t_shell *shell, char **argv, char **envp)
+// {
+// 	int		fd;
+// 	int		ret;
 
-	fd = open(argv[1], O_RDONLY);
-	ret = 1;
-	while (ret > 0)
-	{
-		ret = get_next_line(fd, &shell->input);
-		if (ret <= 0)
-			ft_exit(shell, NULL);
-		store_environment(shell, envp);
-		tokenize(shell, shell->input);
-		if (shell->cmd_array == NULL) //in case of missing closing bracket / empty input
-			return ;
-		parse(shell);
-		if (&shell->cmd_array[0])
-			exit_status = evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
-		clear_nonessential_memory(shell);
-	}
-	clear_memory(shell);
-}
+// 	fd = open(argv[1], O_RDONLY);
+// 	ret = 1;
+// 	while (ret > 0)
+// 	{
+// 		ret = get_next_line(fd, &shell->input);
+// 		if (ret <= 0)
+// 			ft_exit(shell, NULL);
+// 		store_environment(shell, envp);
+// 		tokenize(shell, shell->input);
+// 		if (shell->cmd_array == NULL) //in case of missing closing bracket / empty input
+// 			return ;
+// 		parse(shell);
+// 		if (&shell->cmd_array[0])
+// 			exit_status = evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
+// 		clear_nonessential_memory(shell);
+// 	}
+// 	clear_memory(shell);
+// }
 
 void	execute_minishell_from_string(t_shell *shell, char *arg, char **envp)
 {
@@ -204,8 +215,8 @@ int	main(int argc, char **argv, char **envp)
 			process_input(&shell, PROMPT);
 		}
 	}
-	else if (argc == 2 && ft_strncmp(argv[1], "./", 2) == 0)
-		execute_minishell_script(&shell, argv, envp);
+	// else if (argc == 2 && ft_strncmp(argv[1], "./", 2) == 0)
+	// 	execute_minishell_script(&shell, argv, envp);
 	else if (argc >= 3 && ft_strncmp(argv[1], "-c", 3) == 0)
 		execute_minishell_from_string(&shell, argv[2], envp);
 	else

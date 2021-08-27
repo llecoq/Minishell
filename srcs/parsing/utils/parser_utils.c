@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:01:41 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/17 14:44:06 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 13:10:36 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ void	turn_on_flag(int flag, t_token *cpy)
 		cpy->arg = 1;
 	else
 		cpy->arg = 0;
-	if (flag >= IS_REDIR)
+	if (flag == SEMICOLON)
+		cpy->redir = flag;
+	else if (flag >= IS_REDIR)
 		cpy->redir = flag;
 	else
 		cpy->redir = 0;

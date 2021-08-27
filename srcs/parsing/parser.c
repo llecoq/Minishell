@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/26 17:04:52 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 14:37:57 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,19 +108,21 @@ EVAL	8) on passe a la commande suivante
 
 */
 
-void	parse(t_shell *shell)
+void	parse(t_shell *shell, t_list *semicolon_cmd)
 {
 	char		*no_token_after_redir;
 
 	set_redir_arg_flags(shell->cmd_array);
 	no_token_after_redir = NULL;
-	set_flag_after_redirection(shell->cmd_array, &no_token_after_redir);
+	// dprintf(2, "before set flag after redir\n");
+	set_flag_after_redirection(shell->cmd_array, &no_token_after_redir, semicolon_cmd);
 	if (no_token_after_redir)
 	{
 		err_clear(shell, NOTHING_AFTER_REDIR, no_token_after_redir);
 		free(no_token_after_redir);
 		return ;
 	}
+	// dprintf(2, "after set flag after redir\n");
 	arg_syntax_processing(shell->cmd_array, shell);
 	remove_empty_tokens(shell->cmd_array, shell);
 	split_multiple_words_into_tokens(shell);
