@@ -1,9 +1,0 @@
-echo ''''''''''$USER''''''''''
-echo """"""""$USER""""""""
-echo '" ' " """
-echo "$USER""$USER""$USER"
-echo "$USER""Users/$USER/file""'$USER'"'$USER'
-echo '$USER'"$USER"'$USER'
-echo '"$USER"''$USER'"""$USER"
-echo " $USER "'$PWD'
-echo " $USER $ "'$PWD'
