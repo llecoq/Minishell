@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:00:50 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/27 14:36:28 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 16:20:53 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ static char	*create_error_str(char *next_token)
 	return (error_str);
 }
 
-static char	*check_after_redir(t_token *cpy, t_token *next_cmd, t_list *semi_cmd)
+static char	*check_after_redir(t_token *cpy, t_token *next_cmd)
 {
 	if (cpy->redir == PIPE && next_cmd == NULL)
 		return (create_error_str("newline"));
-	else if (cpy->redir == SEMICOLON && semi_cmd->next)
+	else if (cpy->redir == SEMICOLON)
 		return (NULL);
 	else if (cpy->redir != PIPE)
 	{
@@ -108,7 +108,7 @@ void	set_next_flag(t_token *token, int redir_type)
 		turn_on_flag(IS_FILE, token);
 }
 
-void	set_flag_after_redirection(t_token **cmd_array, char **error_str, t_list *cmd)
+void	set_flag_after_redirection(t_token **cmd_array, char **error_str)
 {
 	int			i;
 	t_token		*cpy;
@@ -121,7 +121,7 @@ void	set_flag_after_redirection(t_token **cmd_array, char **error_str, t_list *c
 		{
 			if (cpy->redir >= IS_REDIR)
 			{
-				*error_str = check_after_redir(cpy, cmd_array[i + 1], cmd);
+				*error_str = check_after_redir(cpy, cmd_array[i + 1]);
 				if (*error_str)
 					return ;
 				if (cpy->redir != PIPE && cpy->redir != SEMICOLON)

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 14:46:03 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 16:15:51 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,23 @@ void	store_list(t_list **list, char *const *env)
 	{
 		line = ft_strdup(*env);
 		if (ft_strncmp(*env, "_=", 2) == 0)
+		{
+			free(line);
 			line = ft_strdup("_=/usr/bin/env");
+		}
 		if (ft_strncmp(*env, "SHLVL=", 6) == 0)
 		{
 			shell_level = ft_atoi(getenv("SHLVL"));
 			new_shell_level = ft_itoa(shell_level + 1);
+			free(line);
 			line = ft_strjoin("SHLVL=", new_shell_level);
 			free(new_shell_level);
 		}
-		if (ft_strncmp(*env, "OLDPWD", 6) == 0)
+		if (ft_strncmp(*env, "OLDPWD=", 7) == 0)
+		{
+			free(line);
 			line = ft_strdup("OLDPWD");
+		}
 		ft_lstadd_back(list, ft_lstnew(line));
 		env++;
 	}
@@ -85,6 +92,8 @@ void	store_environment_tab(t_shell *shell, t_list *env_list, int len)
 	len = -1;
 	while (env_list)
 	{
+		if (ft_strncmp(env_list->content, "OLDPWD", 6) == 0)
+			env_list->variable = IS_UNSET;
 		if (env_list->variable == IS_SET)
 			shell->envp[++len] = env_list->content;
 		env_list = env_list->next;
@@ -95,6 +104,9 @@ void	store_environment(t_shell *shell, char *const *envp)
 {
 	store_list(&shell->env_list, envp);
 	store_list(&shell->export_list, envp);
+	// if (get_env(shell, "OLDPWD") == NULL)
+	// 	pu
+	// print_list(shell->export_list);
 	sort_alphabetically_list(&shell->export_list);
 	store_environment_tab(shell, shell->env_list, env_size(shell->env_list));
 	store_path_list(shell, getenv("PATH"));

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/27 14:37:57 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 16:21:24 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,14 @@ EVAL	8) on passe a la commande suivante
 
 */
 
-void	parse(t_shell *shell, t_list *semicolon_cmd)
+void	parse(t_shell *shell)
 {
 	char		*no_token_after_redir;
 
 	set_redir_arg_flags(shell->cmd_array);
 	no_token_after_redir = NULL;
 	// dprintf(2, "before set flag after redir\n");
-	set_flag_after_redirection(shell->cmd_array, &no_token_after_redir, semicolon_cmd);
+	set_flag_after_redirection(shell->cmd_array, &no_token_after_redir);
 	if (no_token_after_redir)
 	{
 		err_clear(shell, NOTHING_AFTER_REDIR, no_token_after_redir);

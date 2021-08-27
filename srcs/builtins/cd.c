@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 09:29:01 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 20:48:17 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 15:35:15 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ int	valid_args(t_shell *shell, char **argv, char **new_path)
 		return (1);
 	if (!argv[1] || *argv[1] == 0)
 		return (0);
-	if ((ft_strncmp(argv[1], "--", 3) == 0)
-		|| (ft_strncmp(argv[1], "~", 2) == 0))
+	if ((ft_strncmp(argv[1], "--", 3) == 0))
 	{
 		if (home_is_set(shell, new_path))
 			return (1);

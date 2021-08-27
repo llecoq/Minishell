@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 13:53:34 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 15:43:29 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 15:01:17 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ int	ft_pwd(t_shell *shell, char **argv)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 		return (-1);		// fail
-	ft_printf(fd, "%s\n", pwd);
+	if (ft_strncmp(pwd, "/", 2) == 0)
+		ft_printf(fd, "//\n");
+	else if (ft_strncmp(pwd, "/private", 8) == 0)
+		ft_printf(fd, "%s\n", pwd + 8);
+	else
+		ft_printf(fd, "%s\n", pwd);
 	free(pwd);
 	return (0);				// success
 }

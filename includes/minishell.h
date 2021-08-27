@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/27 14:26:41 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 16:21:30 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,7 @@ void		print_argv(t_cmd *cmd_list);
 void		store_environment(t_shell *shell, char *const *envp);
 void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
-void		parse(t_shell *shell, t_list *semicolon_cmd);
+void		parse(t_shell *shell);
 char		*process_variables(char *token, t_shell *shell);
 
 /*
@@ -296,7 +296,7 @@ void		erase_current_cmd(t_token **cmd_array, int i, t_shell *shell);
 ** parser_flags
 */
 
-void		set_flag_after_redirection(t_token **cmd_array, char **error_str, t_list *semi_cmd);
+void		set_flag_after_redirection(t_token **cmd_array, char **error_str);
 void		set_redir_arg_flags(t_token **cmd_array);
 
 /*

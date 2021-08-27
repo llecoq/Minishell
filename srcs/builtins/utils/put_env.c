@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/24 17:03:06 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 17:35:40 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,14 @@ int	found_var(t_list *env_list, char *name, t_list **variable_ptr, size_t len)
 {
 	char	*content;
 
+	// dprintf(2, "name = %s\n", name);
 	while (env_list)
 	{
 		content = (char *)env_list->content;
+		// dprintf(2, "content = %s\n", content);
+		// if (env_list->variable == IS_UNSET && ft_strncmp(name, content, 6) == 0
+		// 	&& ft_strncmp(name, "OLDPWD", 6) == 0)
+		// 	dprintf(2, "OOOH\n");
 		if (ft_strncmp(content, name, len) == 0 && content[len] == '=')
 		{
 			free(env_list->content);
@@ -73,7 +78,7 @@ void	insert_into_list(t_shell *shell, char *string, char *name, int type)
 	t_list	*list;
 	t_list	*variable_ptr;
 
-	list = NULL;
+	list = NULL; 
 	if (type == EXPORT_LIST)
 		list = shell->export_list;
 	else if (type == ENV_LIST)

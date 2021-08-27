@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/27 14:46:43 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/08/27 16:21:37 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,6 @@ static void	set_shell_var_to_null(t_shell *shell)
 	shell->cmd_array = NULL;
 	exit_status = 0;
 }
-
-// int	count_cmds(char *input, int *nb_of_cmds)
-// {
-// 	int		i;
-// 	char	closing_quote;
-
-// 	i = 0;
-// 	while (input[i])
-// 	{
-// 		if (input[i] == QUOTE || input[i] == DOUBLE_QUOTE)
-// 		{
-// 			closing_quote = input[i];
-// 			i++;
-// 			while (input[i] && input[i] != closing_quote)
-// 				i++;
-// 			if (input[i] == closing_quote)
-// 				i++;
-// 		}
-// 		if (input[i] == SEMICOLON && input[i + 1])
-// 			*nb_of_cmds += 1;
-// 		if (input[i])
-// 			i++;
-// 	}
-// 	return (*nb_of_cmds);
-// }
 
 char	*fill_command_line(t_shell *shell, char *input, int start, int end)
 {
@@ -87,33 +62,6 @@ void	find_command_line(char *input, int *i)
 		(*i)++;
 	}
 }
-// char	**split_by_semicolons(t_shell *shell, char *input)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		nb_of_cmds;
-// 	int		cmd_nb;
-// 	char	**split_cmds;
-
-// 	cmd_nb = 0;
-// 	nb_of_cmds = 1;
-// 	split_cmds = NULL;
-// 	count_cmds(input, &nb_of_cmds);
-// 	split_cmds = calloc_sh(shell, sizeof(char *) * (nb_of_cmds + 1));
-// 	i = 0;
-// 	j = 0;
-// 	while (nb_of_cmds > 0)
-// 	{
-// 		find_cmd_line(input, &j);
-// 		split_cmds[cmd_nb] = fill_split_with_cmd(shell, input, i, j);
-// 		i = j + 1;
-// 		if (input[j])
-// 			j++;
-// 		nb_of_cmds--;
-// 		cmd_nb++;
-// 	}
-// 	return (split_cmds);
-// }
 
 t_list	*split_by_semicolons(t_shell *shell, char *input)
 {
@@ -154,7 +102,7 @@ static void process_input(t_shell *shell, int flag)
 		free_set_null((void **)&split_cmds->content);
 		if (shell->cmd_array == NULL)
 			return ;
-		parse(shell, split_cmds);
+		parse(shell);
 		if (&shell->cmd_array[0])
 			exit_status = evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
 		clear_nonessential_memory(shell);
@@ -220,7 +168,10 @@ int	main(int argc, char **argv, char **envp)
 	else if (argc >= 3 && ft_strncmp(argv[1], "-c", 3) == 0)
 		execute_minishell_from_string(&shell, argv[2], envp);
 	else
-		ft_printf(2, "minishell: Wrong use. Try again !\n"); // quel exit number ?
+	{
+		ft_printf(2, "minishell: Wrong use. Try again !\n");
+		exit_status = 42;
+	}
 	clear_memory(&shell);
 	return (exit_status);
 }
