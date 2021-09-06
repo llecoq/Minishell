@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 14:54:41 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/20 17:44:58 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/06 16:07:14 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	create_file(t_cmd *cmd, char *file_name, int redir_type)
 	else if (redir_type == TRUNC)
 		cmd->redir.into_file
 			= open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (cmd->redir.into_file == FAILED)
+	if (cmd->redir.into_file == -1)
 	{
 		close(cmd->redir.into_file);
 		if (errno == EBADF)
@@ -54,7 +54,7 @@ static char *search_for_file_name(t_token *token)
 	return (NULL);
 }
 
-void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *token)
+void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *token, int process)
 {
 	char	*file_name;
 	int		redir_status;
@@ -68,7 +68,16 @@ void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *token)
 		else if (token->redir == APPEND || token->redir == TRUNC)
 			redir_status = create_file(cmd, file_name, token->redir);
 		if (redir_status >= IS_NOT_VALID)
-			error_quit(shell, SYSCALL_ERROR, file_name);
+		{
+			if (process == CHILD_PROCESS)
+				error_quit(shell, SYSCALL_ERROR, file_name);
+			else if (process == SINGLE_BUILTIN)
+			{
+				error(shell, SYSCALL_ERROR, file_name);
+				cmd->ft_builtin = NULL;
+				return ;
+			}
+		}
 		if (token->redir == PIPE)
 			cmd->redir.into_stdin = EXISTENT;
 		token = token->next;

@@ -80,6 +80,12 @@ void	err_clear(t_shell *shell, int error_type, char *str)
 
 void	error(t_shell *shell, int error_type, char *str)
 {
+	if (error_type == SYSCALL_ERROR && str)
+	{
+		exit_status = errno;
+		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
+		return ;
+	}
 	if (error_type == 0) //errno pour les built-in 
 		ft_printf(2, "%s\n", strerror(errno));
 	else if (error_type == REDIR_ISNT_1_WORD)

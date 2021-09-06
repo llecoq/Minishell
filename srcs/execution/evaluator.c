@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 17:14:56 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 20:56:22 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/06 16:07:31 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	execution_child_process(t_shell *shell, t_cmd *cmd)
 	t_list	*path_list;
 
 	argv = cmd->argv;
-	create_redirection(shell, cmd, cmd->token_list);
+	create_redirection(shell, cmd, cmd->token_list, CHILD_PROCESS);
 	dup_input_redirection(shell, cmd);
 	dup_output_redirection(shell, cmd);
 	if (find_builtin_function(cmd->argv[0], cmd))
@@ -92,7 +92,9 @@ static void	close_pipefds(t_cmd *cmd)
 
 static int	execute_single_builtin_cmd(t_shell *shell, t_cmd *cmd, char **argv)
 {
-	create_redirection(shell, cmd, cmd->token_list);
+	create_redirection(shell, cmd, cmd->token_list, SINGLE_BUILTIN);
+	if (cmd->ft_builtin == NULL) // si single builtin et redir failed
+		return (exit_status);
 	if (cmd->redir.from_file >= EXISTENT)
 		close(cmd->redir.from_file);
 	else if (cmd->redir.from_heredoc >= EXISTENT)

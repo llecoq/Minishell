@@ -1,8 +1,0 @@
-.gitignore
-.DS_Store
-minishell
-.objs
-srcs/main_test_ariane.c
-a.out
-main.c
-minishell_tester

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/27 16:21:30 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/06 15:27:45 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ void	create_pipe(t_shell *shell, t_cmd *cmd);
 int	last_child_status(pid_t last_child_pid);
 void	dup_input_redirection(t_shell *shell, t_cmd *cmd);
 void	dup_output_redirection(t_shell *shell, t_cmd *cmd);
-void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *token);
+void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *token, int process);
 int	path_is_unset(t_shell *shell, t_list **path_list);
 int	path_is_not_absolute(char **argv, t_list **path_list);
 void	build_file_path(t_list **path_list, t_file *file, char ***argv);

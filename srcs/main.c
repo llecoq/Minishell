@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/27 16:21:37 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/06 16:53:14 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,23 @@ t_list	*split_by_semicolons(t_shell *shell, char *input)
 	return (split_cmds);
 }
 
+int	exit_failed(t_cmd *cmd)
+{
+	if (ft_strncmp(cmd->argv[0], "exit", 5) == 0 && exit_status == 1)
+		return (1);
+	return (0);
+}
+
 static void process_input(t_shell *shell, int flag)
 {		
-	int		i;
 	t_list	*split_cmds;
+	t_list	*split_cmds_head;
 	
 	split_cmds = split_by_semicolons(shell, shell->input);
+	split_cmds_head = split_cmds;
 	if (flag == PROMPT)
 		free_set_null((void **)&shell->input);
 	// print_list(split_cmds);
-	i = 0;
 	while (split_cmds)
 	{
 		tokenize(shell, split_cmds->content);
@@ -105,10 +112,12 @@ static void process_input(t_shell *shell, int flag)
 		parse(shell);
 		if (&shell->cmd_array[0])
 			exit_status = evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
+		if (exit_failed(shell->cmds_list))
+			break ;
 		clear_nonessential_memory(shell);
 		split_cmds = split_cmds->next;
 	}
-	ft_lstclear(&split_cmds, del);
+	ft_lstclear(&split_cmds_head, del);
 }
 
 // void	execute_minishell_script(t_shell *shell, char **argv, char **envp)

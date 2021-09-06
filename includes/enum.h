@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 18:09:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 20:32:46 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/06 15:27:22 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ enum	e_process
 {
 	CHILD_PROCESS,
 	PARENT_PROCESS,
+	SINGLE_BUILTIN,
 };
 
 enum	e_redir
