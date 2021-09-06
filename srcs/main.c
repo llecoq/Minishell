@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/06 16:53:14 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/06 17:37:25 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ t_list	*split_by_semicolons(t_shell *shell, char *input)
 	start = 0;
 	split_cmds = NULL;
 	cmd_line = NULL;
-	while (input[end])
+	while (input[start])
 	{
 		find_command_line(input, &end);
 		cmd_line = fill_command_line(shell, input, start, end);
 		ft_lstadd_back(&split_cmds, ft_lstnew(cmd_line));
-		start = end + 1;
+		start = end;
 		if (input[end])
 			end++;
 	}
@@ -88,7 +88,14 @@ t_list	*split_by_semicolons(t_shell *shell, char *input)
 
 int	exit_failed(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->argv[0], "exit", 5) == 0 && exit_status == 1)
+	if (cmd && ft_strncmp(cmd->argv[0], "exit", 5) == 0 && exit_status == 1)
+		return (1);
+	return (0);
+}
+
+int	syntax_error(t_shell *shell)
+{
+	if (shell->cmds_list == NULL)
 		return (1);
 	return (0);
 }
@@ -112,7 +119,7 @@ static void process_input(t_shell *shell, int flag)
 		parse(shell);
 		if (&shell->cmd_array[0])
 			exit_status = evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
-		if (exit_failed(shell->cmds_list))
+		if (exit_failed(shell->cmds_list) || syntax_error(shell))
 			break ;
 		clear_nonessential_memory(shell);
 		split_cmds = split_cmds->next;

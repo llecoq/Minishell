@@ -23,7 +23,12 @@ void	error_quit(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "minishell: %s: command not found\n", str);
 	}
 	if (error_type == SYSCALL_ERROR && str) //syscall errors
+	{
 		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
+		if (errno == ENOENT && exit_status == CMD_NOT_FOUND)
+			errno = CMD_NOT_FOUND;
+	}
+
 	if (error_type == IS_A_DIRECTORY)
 	{
 		errno = IS_A_DIRECTORY;
