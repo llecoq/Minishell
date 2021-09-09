@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/09 11:32:17 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/09 14:48:58 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,22 @@ int	found_var(t_list *env_list, char *name, t_list **variable_ptr, size_t len)
 {
 	char	*content;
 
-	// dprintf(2, "name = %s\n", name);
 	while (env_list)
 	{
 		content = (char *)env_list->content;
-		// dprintf(2, "content = %s\n", content);
-		// if (env_list->variable == IS_UNSET && ft_strncmp(name, content, 6) == 0
-		// 	&& ft_strncmp(name, "OLDPWD", 6) == 0)
-		// 	dprintf(2, "OOOH\n");
-		if (ft_strncmp(content, name, len) == 0 && content[len] == '=')
+		if (ft_strncmp(content, name, len) == 0)
 		{
-			// free(env_list->content);
-			// env_list->content = NULL;
-			*variable_ptr = env_list;
-			return (1);
+			if (content[len] == '=')
+			{
+				*variable_ptr = env_list;
+				return (1);
+			}
+			// else if (ft_strncmp(content, "OLDPWD", 6) == 0
+			// 	&& content[6] == 0)
+			// {
+			// 	env_list->variable = IS_UNSET;
+			// 	return (0);
+			// }
 		}
 		env_list = env_list->next;
 	}

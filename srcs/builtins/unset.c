@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:42:24 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/07 10:07:00 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/09 15:27:16 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ int	invalid_args_or_options(char **argv, char *name, int builtin_type)
 			ft_printf(STDERR_FILENO, "export: usage: export [-nf] [name[=value] ...] or export -p\n");
 		else if (builtin_type == UNSET)
 			ft_printf(STDERR_FILENO, "unset: usage: unset [-f] [-v] [name ...]\n");
-		// else
-		// 	ft_printf(2, "%s: usage: %s [name ...]\n", name, name);
 		return (2);
 	}
 	return (IS_VALID);

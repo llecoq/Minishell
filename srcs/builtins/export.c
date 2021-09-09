@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:32:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/09 12:14:36 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/09 14:57:07 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	print_variable_value(char *full_var, int *i)
 		ft_putchar_fd(full_var[*i], 1);
 		(*i)++;
 	}
-	ft_printf(STDOUT_FILENO, "\"\n");
+	ft_printf(STDOUT_FILENO, "\"");
 }
 
 int	print_export_list(t_list *export_list)
@@ -85,10 +85,9 @@ int	print_export_list(t_list *export_list)
 			ft_printf(1, "declare -x ");
 			full_var = (char *)export_list->content;
 			print_variable_name(full_var, &i);
-			if (full_var[i] == '=')
+			if (ft_strncmp(full_var, "OLDPWD=", 8) && full_var[i] == '=')
 				print_variable_value(full_var, &i);
-			else
-				ft_putchar_fd('\n', STDOUT_FILENO);
+			ft_putchar_fd('\n', STDOUT_FILENO);
 		}
 		export_list = export_list->next;
 	}

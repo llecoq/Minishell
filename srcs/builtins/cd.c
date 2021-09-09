@@ -6,21 +6,26 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 09:29:01 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/27 15:35:15 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/09 15:49:59 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	add_new_path_to_env(t_shell *shell, char **new_path)
+void	add_new_path_to_env(t_shell *shell, char **new_path, char *path)
 {
 	char	*tmp;
 
 	free(*new_path);
-	*new_path = getcwd(NULL, 0);
-	tmp = *new_path;
-	*new_path = ft_strjoin("PWD=", *new_path);
-	free(tmp);
+	if (path && ft_strncmp(path, "//", 3) == 0)
+		*new_path = ft_strdup("PWD=//");
+	else
+	{
+		*new_path = getcwd(NULL, 0);
+		tmp = *new_path;
+		*new_path = ft_strjoin("PWD=", *new_path);
+		free(tmp);
+	}
 	put_env(shell, *new_path);
 	free(*new_path);
 	shell->change_directory = 1;
@@ -28,11 +33,7 @@ void	add_new_path_to_env(t_shell *shell, char **new_path)
 
 void	add_old_path_to_env(t_shell *shell, char **old_path)
 {
-	char	*tmp;
-
-	tmp = *old_path;
 	*old_path = ft_strjoin("OLDPWD=", *old_path);
-	free(tmp);
 	put_env(shell, *old_path);
 	free(*old_path);
 }
@@ -88,19 +89,20 @@ int	ft_cd(t_shell *shell, char **argv)
 		return (0);
 	if (valid_args(shell, argv, &new_path))
 	{
-		old_path = getcwd(NULL, 0);
+		old_path = get_env(shell, "PWD");
 		if (chdir(new_path) == -1)
 		{
-			free_set_null((void **)&old_path);
-			free_set_null((void **)&new_path);
+			// free_set_null((void **)&old_path);
+			// free_set_null((void **)&new_path);
 			ft_printf(2, "minishell: cd: %s: %s\n", argv[1], strerror(errno));
 			exit_status = 1;
 			return (exit_status);
 		}
 	}
-	else
-		return (-1);
+	else if (argv[1] && *argv[1] == 0)
+		old_path = get_env(shell, "PWD");
+	// dprintf(2, "argv[1] = %s\n", argv[1]);
 	add_old_path_to_env(shell, &old_path);
-	add_new_path_to_env(shell, &new_path);
+	add_new_path_to_env(shell, &new_path, argv[1]);
 	return (0);
 }
