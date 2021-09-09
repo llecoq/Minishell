@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 15:11:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/06 16:36:19 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/09 16:24:48 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,24 @@ static int	arg_is_numeric(char *arg)
 	return (ARG_IS_NOT_NUMERIC);
 }
 
+int	arg_long_overflow(char *arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i])
+		i++;
+	if (i > 19)
+		return (1);
+	else if (i == 19)
+	{
+		arg = &arg[i - 1];
+		if (ft_atoi(arg) >= 8)
+			return (1);
+	}
+	return (0);
+}
+
 // dois traiter les args
 int	ft_exit(t_shell *shell, char **argv)
 {
@@ -46,6 +64,12 @@ int	ft_exit(t_shell *shell, char **argv)
 				return (1);
 			}
 			exit_status = (unsigned char)ft_atoi(argv[1]);
+			if (arg_long_overflow(argv[1]))
+			{
+				ft_printf(STDERR_FILENO, "minishell: exit: %s:\
+ numeric argument required\n", argv[1]);
+				exit_status = 255;
+			}
 		}
 		else if (argv[1])
 		{

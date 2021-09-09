@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 15:19:21 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/23 17:04:48 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/09 16:11:03 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char			*ft_strnstr(const char *haystack, const char *needle,
 					size_t len);
 void			*ft_memset(void *b, int c, size_t len);
 void			*ft_memcpy(void *dst, const void *src, size_t n);
-int				ft_atoi(const char *str);
+long long int	ft_atoi(const char *str);
 void			ft_bzero(void *s, size_t n);
 void			*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void			*ft_memmove(void *dst, const void *src, size_t len);
