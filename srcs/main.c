@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/06 17:37:25 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/09 13:29:25 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,21 @@ void	find_command_line(char *input, int *i)
 	{
 		if (input[*i] == QUOTE || input[*i] == DOUBLE_QUOTE)
 		{
-			(*i)++;
 			closing_quote = input[*i];
+			(*i)++;
 			while (input[*i] && input[*i] != closing_quote)
 				(*i)++;
 			if (input[*i] == closing_quote)
 				(*i)++;
 		}
-		if (input[*i] == SEMICOLON)
+		if (input[*i] && input[*i] == SEMICOLON)
 		{
 			(*i)++;
 			return ;
 		}
-		(*i)++;
+		if (input[*i]
+			&& (input[*i] != QUOTE && input[*i] != DOUBLE_QUOTE))
+			(*i)++;
 	}
 }
 
@@ -83,6 +85,7 @@ t_list	*split_by_semicolons(t_shell *shell, char *input)
 		if (input[end])
 			end++;
 	}
+	// print_list(split_cmds);
 	return (split_cmds);
 }
 

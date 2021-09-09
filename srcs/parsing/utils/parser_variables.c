@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/06 15:14:19 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/06 17:59:13 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	if ((*str)[i + j] == QUESTION_MARK)
 		j++;
 	value = get_var_value(i, j, *str, shell);
-	if (!value) //if !var, replace var name by nothing in str
+	if (!value || *value == '\0') //if !var, replace var name by nothing in str
 	{
 		ft_memmove(*str + i, *str + i + j, ft_strlen(*str));
 		return (0);

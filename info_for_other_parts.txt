@@ -295,3 +295,5 @@ $(NAME):	$(OBJS)
 			cp ft_printf/libftprintf.a $(NAME)
 			ar rcs $(NAME) $(OBJS)
 			ranlib $(NAME)
+
+PROBLEM AFFICHAGE QUAND CTRL+V

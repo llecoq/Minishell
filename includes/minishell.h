@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/06 15:27:45 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/09 11:33:45 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ enum	e_env
 {
 	IS_SET = 1,
 	IS_UNSET = 0,
+	APPEND_VALUE = 6,
 	ILLEGAL_OPTION = 2,
 	IS_A_DIRECTORY = 126,
 	IS_NOT_A_DIRECTORY = 0,
@@ -201,6 +202,9 @@ void	build_file_path(t_list **path_list, t_file *file, char ***argv);
 // int	cmd_is_builtin(t_cmd *cmd, int **ft_builtin);
 // void	execute_builtin_and_exit(t_shell *shell, t_cmd *cmd, char **argv);
 int	find_builtin_function(char *cmd_name, t_cmd *cmd);
+int	found_var(t_list *env_list, char *name, t_list **variable_ptr, size_t len);
+int	process_value_to_append(t_shell *shell, char *string, char **name);
+
 
 int	wexitstatus(int status);
 

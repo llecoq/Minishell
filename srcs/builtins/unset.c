@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:42:24 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 16:27:00 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/07 10:07:00 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@
 // referred to as an identifier.
 int	valid_name(char *argv, char *built_name)
 {
+	if (!ft_isalpha(*argv) && *argv != '_')
+		return (0);
 	if (ft_isalpha(*argv) || *argv == '_')
 		argv++;
 	if (*argv >= '0' && *argv <= '9')
 		return (0);
 	while (ft_isalnum(*argv) || *argv == '_')
 		argv++;
-	if (*argv == '=' && ft_strncmp(built_name, "export", 6) == 0)
+	if (ft_strncmp(built_name, "export", 6) == 0
+		&& (*argv == '=' || ft_strncmp(argv, "+=", 2) == 0))
 		return (1);
 	if (*argv)
 		return (0);

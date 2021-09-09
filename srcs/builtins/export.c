@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:32:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 16:25:19 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/09 12:14:36 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,29 +95,30 @@ int	print_export_list(t_list *export_list)
 	return (0);
 }
 
+// attention, export test="ui        ah" non gere
 int	ft_export(t_shell *shell, char **argv)
 {
 	char	*export_name_and_value;
 	
 	if (invalid_args_or_options(argv, "export", EXPORT))
 		return (INVALID_ARGS_OR_OPTIONS);
-	if (!argv[1])
+	if (argv[1] == NULL)
 		return (print_export_list(shell->export_list));
-	if (valid_name(argv[1], "export"))
+	argv++;
+	while (*argv)
 	{
-		export_name_and_value = ft_strdup(argv[1]);
-		if (count_args(argv) > 2)
+		if (valid_name(*argv, "export"))
 		{
+			export_name_and_value = ft_strdup(*argv);
+			exit_status = put_env(shell, export_name_and_value);
 			free_set_null((void **)&export_name_and_value);
-			export_name_and_value = join_args(argv, NULL);
 		}
-		exit_status = put_env(shell, export_name_and_value);
-		free_set_null((void **)&export_name_and_value);
-	}
-	else
-	{
-		exit_status = 1;
-		ft_printf(2, "minishell: export: `%s': not a valid identifier\n", argv[1]);
+		else
+		{
+			exit_status = 1;
+			ft_printf(2, "minishell: export: `%s': not a valid identifier\n", *argv);
+		}
+		argv++;
 	}
 	return (exit_status);
 }

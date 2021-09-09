@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/27 17:35:40 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/09 11:32:17 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,6 @@
 
 // EXPORTED VAR ARE RANDOMLY ADDED INSIDE THE ENV, WHAT'S THE LOGIC ?
 // Our fonction just add them at the end of the list so far
-int	valid_var_name(t_shell *shell, char *string, char **name)
-{
-	int		i;
-	t_list	*new_elem;
-
-	if (ft_isdigit(string[0]))
-		return (NOT_A_VALID_IDENTIFIER);		// if first character is digit, export: not an identifier: $name
-	i = 0;
-	while (string[i] && string[i] != '=')
-		i++;
-	if (string[i] != '=')
-	{
-		new_elem = ft_lstnew(ft_strdup(string));
-		new_elem->variable = IS_SET;
-		ft_lstadd_back(&shell->export_list, new_elem);
-		sort_alphabetically_list(&shell->export_list);
-		return (ADDED_TO_EXPORT_LIST);		// only visible in export, but not in env
-	}
-	i++;
-	*name = calloc_sh(shell, i);
-	ft_strlcpy(*name, string, i);
-	return (IS_VALID);
-}
 
 int	found_var(t_list *env_list, char *name, t_list **variable_ptr, size_t len)
 {
@@ -63,12 +40,25 @@ int	found_var(t_list *env_list, char *name, t_list **variable_ptr, size_t len)
 		// 	dprintf(2, "OOOH\n");
 		if (ft_strncmp(content, name, len) == 0 && content[len] == '=')
 		{
-			free(env_list->content);
+			// free(env_list->content);
+			// env_list->content = NULL;
 			*variable_ptr = env_list;
 			return (1);
 		}
 		env_list = env_list->next;
 	}
+	return (0);
+}
+
+int	plus_equal_operator(char *string, int i)
+{
+	char	*ptr;
+
+	ptr = &string[i];
+	if (i > 0)
+		ptr--;
+	if (ft_strncmp(ptr, "+=", 2) == 0)
+		return (1);
 	return (0);
 }
 
@@ -78,7 +68,7 @@ void	insert_into_list(t_shell *shell, char *string, char *name, int type)
 	t_list	*list;
 	t_list	*variable_ptr;
 
-	list = NULL; 
+	list = NULL;
 	if (type == EXPORT_LIST)
 		list = shell->export_list;
 	else if (type == ENV_LIST)
@@ -86,14 +76,70 @@ void	insert_into_list(t_shell *shell, char *string, char *name, int type)
 	len = ft_strlen(name);
 	if (found_var(list, name, &variable_ptr, len))
 	{
+		free(variable_ptr->content);
 		variable_ptr->content = ft_strdup(string);
 		variable_ptr->variable = IS_SET;
 		if (ft_strncmp(name, "PATH", 5) == 0)
 			shell->path->variable = IS_SET;
 	}
 	else
-		ft_lstadd_back(&shell->env_list, ft_lstnew(ft_strdup(string)));
+		ft_lstadd_back(&list, ft_lstnew(ft_strdup(string)));
 }
+
+// int	process_value_to_append(t_shell *shell, char *string, char **name)
+// {
+// 	size_t	len;
+// 	t_list	*list;
+// 	t_list	*variable_ptr;
+
+// 	// list = shell->env_list;
+// 	find_name(shell, name, string);
+// 	len = ft_strlen(*name);
+// 	if (found_var(shell->env_list, *name, &variable_ptr, len))
+// 	{
+// 		format_plus_equal_string(shell, &string, variable_ptr->content);
+// 		free(variable_ptr->content);
+// 		variable_ptr->content = string;
+// 		variable_ptr->variable = IS_SET;
+// 	}
+// 	else
+// 	{
+// 		format_plus_equal_string(shell, &string, NULL);
+// 		ft_lstadd_back(&shell->env_list, ft_lstnew(string));
+// 		// ft_lstadd_back(&shell->export_list, ft_lstnew(strdup(string)));
+// 	}
+// 	free(*name);
+// 	store_environment_tab(shell, shell->env_list, env_size(shell->env_list));
+// 	sort_alphabetically_list(&shell->export_list);
+// 	return (APPEND_VALUE);
+// }
+
+int	valid_var_name(t_shell *shell, char *string, char **name)
+{
+	int		i;
+	t_list	*new_elem;
+
+	if (ft_isdigit(string[0]))
+		return (NOT_A_VALID_IDENTIFIER);		// if first character is digit, export: not an identifier: $name
+	i = 0;
+	while (string[i] && string[i] != '=')
+		i++;
+	if (plus_equal_operator(string, i))
+		return (process_value_to_append(shell, string, name));
+	if (string[i] != '=')
+	{
+		new_elem = ft_lstnew(ft_strdup(string));
+		new_elem->variable = IS_SET;
+		ft_lstadd_back(&shell->export_list, new_elem);
+		sort_alphabetically_list(&shell->export_list);
+		return (ADDED_TO_EXPORT_LIST);		// only visible in export, but not in env
+	}
+	i++;
+	*name = calloc_sh(shell, i);
+	ft_strlcpy(*name, string, i);
+	return (IS_VALID);
+}
+
 
 int	put_env(t_shell *shell, char *string)
 {
@@ -114,6 +160,7 @@ int	put_env(t_shell *shell, char *string)
 		insert_into_list(shell, string, name, EXPORT_LIST);
 		free(name);
 		store_environment_tab(shell, shell->env_list, env_size(shell->env_list));
+		sort_alphabetically_list(&shell->export_list);
 	}
 	if (return_value == ADDED_TO_EXPORT_LIST)
 		return_value = IS_VALID;

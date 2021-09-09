@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:11:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/27 16:15:51 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/07 15:16:31 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,15 @@ void	store_path_list(t_shell *shell, char *path)
 	free(path_tab);
 }
 
-void	store_list(t_list **list, char *const *env)
+void	add_oldpwd_to_list(t_list **list)
+{
+	char	*line;
+
+	line = ft_strdup("OLDPWD");
+	ft_lstadd_back(list, ft_lstnew(line));
+}
+
+void	store_list(t_list **list, char *const *env, int list_type)
 {
 	char	*line;
 	char	*new_shell_level;
@@ -53,28 +61,30 @@ void	store_list(t_list **list, char *const *env)
 
 	while (*env)
 	{
-		line = ft_strdup(*env);
-		if (ft_strncmp(*env, "_=", 2) == 0)
-		{
-			free(line);
-			line = ft_strdup("_=/usr/bin/env");
-		}
-		if (ft_strncmp(*env, "SHLVL=", 6) == 0)
-		{
-			shell_level = ft_atoi(getenv("SHLVL"));
-			new_shell_level = ft_itoa(shell_level + 1);
-			free(line);
-			line = ft_strjoin("SHLVL=", new_shell_level);
-			free(new_shell_level);
-		}
 		if (ft_strncmp(*env, "OLDPWD=", 7) == 0)
+			env++;
+		if (*env)
 		{
-			free(line);
-			line = ft_strdup("OLDPWD");
+			line = ft_strdup(*env);
+			if (ft_strncmp(*env, "_=", 2) == 0)
+			{
+				free(line);
+				line = ft_strdup("_=/usr/bin/env");
+			}
+			if (ft_strncmp(*env, "SHLVL=", 6) == 0)
+			{
+				shell_level = ft_atoi(getenv("SHLVL"));
+				new_shell_level = ft_itoa(shell_level + 1);
+				free(line);
+				line = ft_strjoin("SHLVL=", new_shell_level);
+				free(new_shell_level);
+			}
+			ft_lstadd_back(list, ft_lstnew(line));
+			env++;
 		}
-		ft_lstadd_back(list, ft_lstnew(line));
-		env++;
 	}
+	if (list_type == EXPORT_LIST)
+		add_oldpwd_to_list(list);
 }
 
 // store the environment in a tab, by sending it a linked list.
@@ -102,8 +112,8 @@ void	store_environment_tab(t_shell *shell, t_list *env_list, int len)
 
 void	store_environment(t_shell *shell, char *const *envp)
 {
-	store_list(&shell->env_list, envp);
-	store_list(&shell->export_list, envp);
+	store_list(&shell->env_list, envp, ENV_LIST);
+	store_list(&shell->export_list, envp, EXPORT_LIST);
 	// if (get_env(shell, "OLDPWD") == NULL)
 	// 	pu
 	// print_list(shell->export_list);
