@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 15:19:21 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/09 16:11:03 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:06:14 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "ft_printf/ft_printf.h"
+# include <stdlib.h>
+# include <fcntl.h>
 
 typedef struct s_list
 {
@@ -24,12 +26,7 @@ typedef struct s_list
 	struct s_list	*next;
 }				t_list;
 
-
 # define BUFFER_SIZE 2048
-
-# include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
 
 char			*substr_gnl(char *s, unsigned int start, size_t len);
 char			*strjoin_free1(char *s1, char *s2);

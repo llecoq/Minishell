@@ -6,13 +6,13 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 10:48:39 by abonnel           #+#    #+#             */
-/*   Updated: 2021/07/01 16:03:26 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:08:20 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void			init_struct(t_printf *t_data, int fd)
+void	init_struct(t_printf *t_data, int fd)
 {
 	t_data->flag = 'z';
 	t_data->width = -1;
@@ -21,13 +21,13 @@ void			init_struct(t_printf *t_data, int fd)
 	t_data->fd = fd;
 }
 
-void			ft_putchar(char c, t_printf *t_data)
+void	ft_putchar(char c, t_printf *t_data)
 {
 	write(t_data->fd, &c, 1);
 	(t_data->nb_char)++;
 }
 
-void			print_padding(int padding, t_printf *t_data)
+void	print_padding(int padding, t_printf *t_data)
 {
 	if (padding <= 0)
 		return ;
@@ -40,7 +40,7 @@ void			print_padding(int padding, t_printf *t_data)
 	}
 }
 
-void			print_perc(t_printf *t_data)
+void	print_perc(t_printf *t_data)
 {
 	if (t_data->flag == '-')
 	{
@@ -54,7 +54,7 @@ void			print_perc(t_printf *t_data)
 	}
 }
 
-int				ft_printf(int fd, const char *format, ...)
+int	ft_printf(int fd, const char *format, ...)
 {
 	int			i;
 	t_printf	t_data;

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 13:59:41 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/09 16:10:46 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:05:06 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 long long int	ft_atoi(const char *str)
 {
 	long long int	i;
-	long long int 	neg;
+	long long int	neg;
 	long long int	retour;
 
 	neg = 1;

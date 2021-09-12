@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_conversion.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 11:12:42 by abonnel           #+#    #+#             */
-/*   Updated: 2020/12/22 13:49:44 by abonnel          ###   ########lyon.fr   */
+/*   Updated: 2021/09/12 16:07:53 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int				specifier_is(t_printf *t_data, int i)
+int	specifier_is(t_printf *t_data, int i)
 {
 	while (ft_isalpha((t_data->format)[i]) == 0 && (t_data->format)[i] != '%')
 		i++;
@@ -20,7 +20,7 @@ int				specifier_is(t_printf *t_data, int i)
 	return (++i);
 }
 
-void			find_flag(t_printf *t_data, int *i, char *format)
+void	find_flag(t_printf *t_data, int *i, char *format)
 {
 	if (format[*i] == '-')
 	{
@@ -44,9 +44,9 @@ void			find_flag(t_printf *t_data, int *i, char *format)
 		*i += 1;
 }
 
-void			find_width(t_printf *t_data, int *i, char *format)
+void	find_width(t_printf *t_data, int *i, char *format)
 {
-	int				nb;
+	int	nb;
 
 	if (format[*i] == '*')
 	{
@@ -64,7 +64,7 @@ void			find_width(t_printf *t_data, int *i, char *format)
 	}
 }
 
-void			find_format(t_printf *t_data, int i, char *format)
+void	find_format(t_printf *t_data, int i, char *format)
 {
 	find_flag(t_data, &i, format);
 	find_width(t_data, &i, format);
@@ -76,14 +76,14 @@ void			find_format(t_printf *t_data, int i, char *format)
 		else if (ft_isdigit(format[i]) == 1)
 			t_data->prec = ft_atoi(format + i);
 		if (t_data->flag == '0' && t_data->prec >= 0 && t_data->spec != 's'
-				&& t_data->spec != '%')
+			&& t_data->spec != '%')
 			t_data->flag = 'z';
 	}
 }
 
-void			print_conversion(t_printf *t_data, int *i)
+void	print_conversion(t_printf *t_data, int *i)
 {
-	int				after_spec;
+	int	after_spec;
 
 	after_spec = specifier_is(t_data, *i);
 	find_format(t_data, *i, t_data->format);
@@ -95,7 +95,7 @@ void			print_conversion(t_printf *t_data, int *i)
 	else if (t_data->spec == 's')
 		printf_string(t_data);
 	else if (t_data->spec == 'd' || t_data->spec == 'i'
-			|| t_data->spec == 'u' || t_data->spec == 'p'
-			|| t_data->spec == 'x' || t_data->spec == 'X')
+		|| t_data->spec == 'u' || t_data->spec == 'p'
+		|| t_data->spec == 'x' || t_data->spec == 'X')
 		print_nb(t_data);
 }

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 10:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/23 17:04:42 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:08:42 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include "../libft.h"
 
-typedef	struct	s_printf
+typedef struct s_printf
 {
 	va_list		parg;
 	char		*format;

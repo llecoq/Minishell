@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_type_nb.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 13:00:57 by abonnel           #+#    #+#             */
-/*   Updated: 2020/12/22 13:47:41 by abonnel          ###   ########lyon.fr   */
+/*   Updated: 2021/09/12 16:11:13 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void		precise_nb(t_printf *t_data, char *nb, int nb_len)
+void	precise_nb(t_printf *t_data, char *nb, int nb_len)
 {
 	int			i;
 
@@ -39,7 +39,7 @@ void		precise_nb(t_printf *t_data, char *nb, int nb_len)
 	}
 }
 
-int			padding_nb(t_printf t_data, char *nb, int nb_len)
+int	padding_nb(t_printf t_data, char *nb, int nb_len)
 {
 	int			padding;
 
@@ -52,7 +52,7 @@ int			padding_nb(t_printf t_data, char *nb, int nb_len)
 	return ((padding > 0) ? padding : -1);
 }
 
-void		flag_print(t_printf *t_data, char *nb, int nb_len, int padding)
+void	flag_print(t_printf *t_data, char *nb, int nb_len, int padding)
 {
 	if (t_data->flag == '-')
 	{
@@ -71,7 +71,7 @@ void		flag_print(t_printf *t_data, char *nb, int nb_len, int padding)
 	}
 }
 
-char		*get_arg_diuxp(t_printf *t_data, char *nb)
+char	*get_arg_diuxp(t_printf *t_data, char *nb)
 {
 	if (t_data->spec == 'u')
 	{
@@ -81,14 +81,14 @@ char		*get_arg_diuxp(t_printf *t_data, char *nb)
 	else if (t_data->spec == 'p')
 	{
 		if (!(nb = ft_itoabase(va_arg(t_data->parg, unsigned long long)
-						, "0123456789abcdef")))
+					, "0123456789abcdef")))
 			return (0);
 	}
 	else if (t_data->spec == 'x' || t_data->spec == 'X')
 	{
 		if (!(nb = ft_itoabase(va_arg(t_data->parg, unsigned int),
-						(t_data->spec == 'X') ? "0123456789ABCDEF" :
-						"0123456789abcdef")))
+					(t_data->spec == 'X') ? "0123456789ABCDEF" :
+					"0123456789abcdef")))
 			return (0);
 	}
 	else
@@ -99,7 +99,7 @@ char		*get_arg_diuxp(t_printf *t_data, char *nb)
 	return (nb);
 }
 
-void		print_nb(t_printf *t_data)
+void	print_nb(t_printf *t_data)
 {
 	int			padding;
 	char		*nb;
@@ -113,7 +113,7 @@ void		print_nb(t_printf *t_data)
 		if (t_data->spec == 'p' && t_data->flag == '-')
 			put_0x(t_data);
 		print_padding((t_data->spec == 'p') ? t_data->width - 2 : t_data->width,
-				t_data);
+			t_data);
 		if (t_data->spec == 'p' && t_data->flag != '-')
 			put_0x(t_data);
 		free(nb);

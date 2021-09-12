@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_type_char.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 11:06:25 by abonnel           #+#    #+#             */
-/*   Updated: 2020/12/17 11:23:21 by abonnel          ###   ########lyon.fr   */
+/*   Updated: 2021/09/12 16:08:54 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void			print_char(t_printf *t_data)
+void	print_char(t_printf *t_data)
 {
 	char		c;
 	int			padding;

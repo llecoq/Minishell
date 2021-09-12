@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_type_str.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 11:30:12 by abonnel           #+#    #+#             */
-/*   Updated: 2020/12/21 12:00:52 by abonnel          ###   ########lyon.fr   */
+/*   Updated: 2021/09/12 16:11:24 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void		precise_str(t_printf *t_data, char *s, int s_len)
+void	precise_str(t_printf *t_data, char *s, int s_len)
 {
 	int			i;
 
@@ -27,7 +27,7 @@ void		precise_str(t_printf *t_data, char *s, int s_len)
 			ft_putchar(s[i++], t_data);
 }
 
-void		printf_string(t_printf *t_data)
+void	printf_string(t_printf *t_data)
 {
 	int			padding;
 	int			s_len;

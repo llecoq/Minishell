@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_type_hexa.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 15:30:11 by abonnel           #+#    #+#             */
-/*   Updated: 2020/12/22 13:39:46 by abonnel          ###   ########lyon.fr   */
+/*   Updated: 2021/09/12 16:09:18 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void			put_0x(t_printf *t_data)
+void	put_0x(t_printf *t_data)
 {
 	ft_putchar('0', t_data);
 	ft_putchar('x', t_data);
 }
 
-int				hexa_len(unsigned long long nb)
+int	hexa_len(unsigned long long nb)
 {
 	int						nb_len;
 
@@ -31,7 +31,7 @@ int				hexa_len(unsigned long long nb)
 	return (nb_len);
 }
 
-char			*ft_itoabase(unsigned long long nb, char *base)
+char	*ft_itoabase(unsigned long long nb, char *base)
 {
 	int						nb_len;
 	char					*nb_string;
