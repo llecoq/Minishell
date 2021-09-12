@@ -286,3 +286,5 @@ $(NAME):	$(OBJS)
 PROBLEM AFFICHAGE QUAND CTRL+V
 
 gerer option -ljkhio dans pwd
+
+Makefile ne recompil pas si je change enum dans .h

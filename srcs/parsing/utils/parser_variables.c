@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/12 16:43:55 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 18:36:22 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,6 @@ char	*process_variables(char *token, t_shell *shell)
 		}
 		if (tk_cpy[i])
 			i++;
-	// dprintf(1, "2 - i = %d\tlen = %zu\t%s\n", i, ft_strlen(tk_cpy), tk_cpy);
 	}
 	return (tk_cpy);
 }

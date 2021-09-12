@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 17:48:29 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 17:56:50 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 19:02:38 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ enum	e_put_env
 	IS_SET = 1,
 	IS_UNSET = 0,
 	APPEND_VALUE = 6,
-	IS_A_DIRECTORY = 3,
+	IS_A_DIRECTORY = 126,
 	IS_NOT_A_DIRECTORY = 0,
 	NOT_A_VALID_IDENTIFIER = 1,
 	FILENAME_ARGUMENT_REQUIRED = 2,

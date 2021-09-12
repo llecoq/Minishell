@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/12 16:35:48 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 18:34:01 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static char	*create_word_token(int i, const char *input, t_shell *shell)
 	char	closing_quote;
 
 	start = i;
-	//ft_printf(1, "input[start] == %c\n", input[start]);
 	while (input[i])
 	{	
 		if (is_quote(input[i]))

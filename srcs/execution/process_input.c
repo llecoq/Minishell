@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 18:10:35 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 18:11:47 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 18:32:15 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ static int	syntax_error(t_shell *shell)
 	return (0);
 }
 
-void process_input(t_shell *shell, int flag)
+void	process_input(t_shell *shell, int flag)
 {		
 	t_list	*split_cmds;
 	t_list	*split_cmds_head;
-	
+
 	split_cmds = split_by_semicolons(shell, shell->input);
 	split_cmds_head = split_cmds;
 	if (flag == PROMPT)
