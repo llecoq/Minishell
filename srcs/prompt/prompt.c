@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:54:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/09 16:55:15 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:16:11 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,11 @@ void	get_user_dir(t_shell *shell)
 
 void	prompt(t_shell *shell)
 {
-	get_signal();			// intercepte les signaux
+	get_signal();
 	if (shell->change_directory == 1)
 		get_user_dir(shell);
 	shell->input = readline(shell->user_dir);
-	// shell->input = readline(NULL);
-	if (!shell->input)   	// control + D flush stdin et pointe sur NULL
+	if (!shell->input)
 		ft_exit(shell, NULL);
 	if (*shell->input)
 		add_history(shell->input);

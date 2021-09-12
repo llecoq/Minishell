@@ -6,12 +6,11 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 16:49:43 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/18 19:02:25 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:36:51 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /*---------------------------------------------------------------------------*/
 /*------------------- CHAR **ARGV CREATION ----------------------------------*/
@@ -46,7 +45,7 @@ static void	link_arg_pointers(t_token *token, char **argv)
 {
 	t_token		*head;
 	int			i;
-	
+
 	head = token;
 	while (token)
 	{
@@ -74,10 +73,10 @@ static void	link_arg_pointers(t_token *token, char **argv)
 void	create_argument_list(t_token **cmd_array, t_shell *shell)
 {
 	int			i;
+	int			argv_nb;
 	t_token		*token;
 	t_cmd		*cmd;
-	int			argv_nb;
-	
+
 	i = 0;
 	cmd = shell->cmds_list;
 	while (cmd_array[i])
@@ -98,5 +97,4 @@ void	create_argument_list(t_token **cmd_array, t_shell *shell)
 		cmd = cmd->next;
 		i++;
 	}
-	//print_argv(cmd_array); //A ENLEVER
 }

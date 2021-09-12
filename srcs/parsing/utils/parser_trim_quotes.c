@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 12:21:58 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/26 13:17:47 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:41:14 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	remove_quotes_char(char *word, t_shell *shell)
 {
 	int			i;
 	char		closing_quote;
-	
+
 	i = 0;
 	while (word[i])
 	{
@@ -43,7 +43,7 @@ void	remove_quotes(t_token **cmd_array, t_shell *shell)
 {
 	int			i;
 	t_token		*token;
-	
+
 	i = 0;
 	while (cmd_array[i])
 	{

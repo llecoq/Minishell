@@ -6,12 +6,11 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:00:50 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/27 16:20:53 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:40:05 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /*---------------------------------------------------------------------------*/
 /*------------------- FLAG ASSIGNATION---------------------------------------*/
@@ -20,7 +19,6 @@
 // We first initialize flags values by default to -1 bc it will 
 // allow us to make sure they have all been properly set
 // Then we set each to 1 or 0
-
 
 static void	initialize_flags_values(t_token **cmd_array)
 {
@@ -48,7 +46,7 @@ void	set_redir_arg_flags(t_token **cmd_array)
 	int			i;
 	int			redir_type;
 	t_token		*cpy;
-	
+
 	initialize_flags_values(cmd_array);
 	i = 0;
 	while (cmd_array[i])
@@ -61,8 +59,6 @@ void	set_redir_arg_flags(t_token **cmd_array)
 				turn_on_flag(redir_type, cpy);
 			else
 				turn_on_flag(ARG, cpy);
-			// if (redir_type == SEMICOLON)
-			// 	return;
 			cpy = cpy->next;
 		}
 		i++;
@@ -74,9 +70,7 @@ static char	*create_error_str(char *next_token)
 	char		*error_str;
 
 	error_str = calloc(ft_strlen(next_token) + 1, sizeof(char));
-	// error_str[0] = '`';
 	ft_strlcat(error_str, next_token, ft_strlen(next_token) + 1);
-	// error_str[ft_strlen(next_token) + 1] = '\'';
 	return (error_str);
 }
 
@@ -112,7 +106,7 @@ void	set_flag_after_redirection(t_token **cmd_array, char **error_str)
 {
 	int			i;
 	t_token		*cpy;
-	
+
 	i = 0;
 	while (cmd_array[i])
 	{

@@ -6,15 +6,14 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:12:40 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/26 16:43:11 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:17:05 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sig_handler(int signum)
+static void	sig_handler(int signum)
 {
-	// ft_printf(1, "\nsignum = %d", signum);
 	if (signum == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);   // printf peut poser pb à cause du buffer
@@ -27,9 +26,6 @@ void	sig_handler(int signum)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	// if (signum == 15651)  // trouver CONTROL L
-	// 		printf("\e[1;1H\e[2J"); // clear le terminal
-	// gerer control \    pour l'instant abort
 }
 
 void	get_signal(void)

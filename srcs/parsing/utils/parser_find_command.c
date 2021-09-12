@@ -6,12 +6,11 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:49:52 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/18 19:12:29 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:38:33 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	find_builtin_function(char *cmd_name, t_cmd *cmd)
 {
@@ -35,70 +34,3 @@ int	find_builtin_function(char *cmd_name, t_cmd *cmd)
 		return (1);
 	return (0);
 }
-
-// static char	*look_for_cmd_path(char *cmd_name, t_list *env_path)
-// {
-// 	int			fd;
-// 	char		*path_with_cmd_name;
-	
-// 	fd = 0;
-// 	while (env_path)
-// 	{
-// 		path_with_cmd_name = ft_strjoin(env_path->content, cmd_name);
-// 		fd = open(path_with_cmd_name, O_RDONLY);
-// 		if (fd > 0)
-// 		{
-// 			close(fd);
-// 			return (path_with_cmd_name);
-// 		}
-// 		free(path_with_cmd_name);
-// 		env_path = env_path->next;
-// 	}
-// 	return (NULL);
-// }
-
-// static int	cmd_search(t_token *cmd, t_shell *shell)
-// {
-// 	if (cmd->word[0] == '\0' || !is_word(cmd->word))
-// 	{
-// 		error(shell, CMD_NOT_FOUND, cmd->word);
-// 		return (CMD_NOT_FOUND);
-// 	}
-// 	find_builtin_function(cmd->word, cmd);
-// 	if (cmd->ft_builtin == NULL)
-// 	{
-// 		cmd->cmd_path = look_for_cmd_path(cmd->word, shell->path);
-// 		if (cmd->cmd_path == NULL)
-// 		{
-// 			error(shell, CMD_NOT_FOUND, cmd->word);
-// 			return (CMD_NOT_FOUND);
-// 		}
-// 	}
-// 	return (0);
-// }
-
-// void	find_command(t_token **cmd_array, t_shell *shell)
-// {
-// 	int			i;
-// 	t_token		*token;
-	
-// 	i = 0;
-// 	while (cmd_array[i])
-// 	{
-// 		if (cmd_array[i]->error == 0)
-// 			token = cmd_array[i];
-// 		else
-// 			token = NULL;
-// 		while (token)
-// 		{	
-// 			if (token->cmd == 1)
-// 			{
-// 				if (cmd_search(token, shell) == CMD_NOT_FOUND)
-// 					cmd_array[i]->error = 1;
-// 				break;
-// 			}
-// 			token = token->next;
-// 		}
-// 		i++;
-// 	}
-// }

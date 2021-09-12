@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/09/12 15:44:40 by llecoq           ###   ########.fr        #
+#    Updated: 2021/09/12 17:02:19 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ SRCS_FILES	=	main.c\
 				parsing/tokenizer.c\
 				parsing/parser.c\
 				parsing/utils/store_environment.c\
+				parsing/utils/store_env_list.c\
 				parsing/utils/parser_arg_list.c\
 				parsing/utils/parser_find_command.c\
-				parsing/utils/parser_redirections.c\
 				parsing/utils/parser_utils.c\
 				parsing/utils/parser_trim_quotes.c\
 				parsing/utils/parser_flags.c\
@@ -45,6 +45,7 @@ SRCS_FILES	=	main.c\
 				builtins/utils/sort_list.c\
 				builtins/utils/format_plus_equal_str.c\
 				builtins/utils/redir_single_builtin_cmd.c\
+				builtins/utils/invalid_args_or_options.c\
 				builtins/utils/append_value_to_var.c\
 				builtins/exit.c\
 				builtins/cd.c\

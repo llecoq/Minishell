@@ -6,11 +6,11 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 14:41:29 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 15:49:06 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:37:44 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 enum	e_env
 {
@@ -32,7 +32,7 @@ void	print_env(t_shell *shell, int fd)
 		ft_printf(fd, "%s\n", (char *)shell->envp[i]);
 }
 
-int	search_for_changing_dir(char *argv)
+static int	search_for_changing_dir(char *argv)
 {
 	int	i;
 
@@ -43,7 +43,7 @@ int	search_for_changing_dir(char *argv)
 	return (0);
 }
 
-int	process_env_args(char **argv)
+static int	process_env_args(char **argv)
 {
 	int		fd;
 	int		ret;

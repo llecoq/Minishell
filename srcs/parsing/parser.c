@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/27 16:21:24 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:34:57 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	first_word_is_cmd_flag(t_token **cmd_array)
 {
 	int			i;
 	t_token		*token;
-	
+
 	i = 0;
 	while (cmd_array[i])
 	{
@@ -30,7 +30,7 @@ static void	first_word_is_cmd_flag(t_token **cmd_array)
 			if (token->arg == 1)
 			{
 				turn_on_flag(CMD, token);
-				break;
+				break ;
 			}
 			token = token->next;
 		}
@@ -43,8 +43,7 @@ void	remove_empty_tokens(t_token **cmd_array, t_shell *shell)
 {
 	int			i;
 	t_token		*token;
-	
-	
+
 	i = 0;
 	while (cmd_array[i])
 	{
@@ -114,7 +113,6 @@ void	parse(t_shell *shell)
 
 	set_redir_arg_flags(shell->cmd_array);
 	no_token_after_redir = NULL;
-	// dprintf(2, "before set flag after redir\n");
 	set_flag_after_redirection(shell->cmd_array, &no_token_after_redir);
 	if (no_token_after_redir)
 	{
@@ -122,24 +120,14 @@ void	parse(t_shell *shell)
 		free(no_token_after_redir);
 		return ;
 	}
-	// dprintf(2, "after set flag after redir\n");
 	arg_syntax_processing(shell->cmd_array, shell);
 	remove_empty_tokens(shell->cmd_array, shell);
 	split_multiple_words_into_tokens(shell);
 	first_word_is_cmd_flag(shell->cmd_array);
-	// check_and_create_redirections(shell->cmd_array, shell);
-	// print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
 	remove_quotes(shell->cmd_array, shell);
-	// print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
-	// find_command(shell->cmd_array, shell);
 	create_empty_cmds_list(shell, shell->nb_of_cmds);
 	create_argument_list(shell->cmd_array, shell);
 	create_heredoc(shell, shell->cmd_array, shell->cmds_list);
-
-	// print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
-	// print_argv(shell->cmds_list);
-	//-->EVALUATOR--> execution de la commande sur la toute derniere redirection
-	//NON car si cat << first << second alors first compte quand mm
 }
 
 //OK en dessous--------------------------------------------------------------

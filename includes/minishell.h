@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 15:44:01 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 17:01:54 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ int	find_builtin_function(char *cmd_name, t_cmd *cmd);
 int	found_var(t_list *env_list, char *name, t_list **variable_ptr, size_t len);
 int	process_value_to_append(t_shell *shell, char *string, char **name);
 void	format_plus_equal_string(t_shell *shell, char **string, char *var);
+void	store_list(t_list **list, char *const *env);
 
 
 int	wexitstatus(int status);
@@ -229,7 +230,7 @@ void		free_cmd_array(t_token **cmd_array);
 void		error_quit(t_shell *shell, int error_type, char *str);
 void		err_clear(t_shell *shell, int error_type, char *str);
 void		error(t_shell *shell, int error_type, char *str);
-void		sig_handler(int signum);
+// void		sig_handler(int signum);
 void		get_signal(void);
 void		print_list(t_list *list);
 void		print_env(t_shell *shell, int fd);

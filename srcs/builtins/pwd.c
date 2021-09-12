@@ -6,11 +6,11 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 13:53:34 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 15:58:09 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:37:53 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 // original pwd does not care if there is any arguments after the command
 // it will only take into consideration an option (ex : -p)

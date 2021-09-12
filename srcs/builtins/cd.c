@@ -6,13 +6,13 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 09:29:01 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 15:47:36 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:37:33 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-void	add_new_path_to_env(t_shell *shell, char **new_path, char *path)
+static void	add_new_path_to_env(t_shell *shell, char **new_path, char *path)
 {
 	char	*tmp;
 
@@ -31,14 +31,14 @@ void	add_new_path_to_env(t_shell *shell, char **new_path, char *path)
 	shell->change_directory = 1;
 }
 
-void	add_old_path_to_env(t_shell *shell, char **old_path)
+static void	add_old_path_to_env(t_shell *shell, char **old_path)
 {
 	*old_path = ft_strjoin("OLDPWD=", *old_path);
 	put_env(shell, *old_path);
 	free(*old_path);
 }
 
-int	home_is_set(t_shell *shell, char **new_path)
+static int	home_is_set(t_shell *shell, char **new_path)
 {
 	char	*home;
 
@@ -54,7 +54,7 @@ int	home_is_set(t_shell *shell, char **new_path)
 	return (1);
 }
 
-int	valid_args(t_shell *shell, char **argv, char **new_path)
+static int	valid_args(t_shell *shell, char **argv, char **new_path)
 {
 	if (!argv[1] && home_is_set(shell, new_path))
 		return (1);

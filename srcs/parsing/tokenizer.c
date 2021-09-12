@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/27 13:50:34 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:35:48 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*create_word_token(int i, const char *input, t_shell *shell)
 	int		start;
 	char	*token;
 	char	closing_quote;
-	
+
 	start = i;
 	//ft_printf(1, "input[start] == %c\n", input[start]);
 	while (input[i])
@@ -56,7 +56,7 @@ static char	*create_word_token(int i, const char *input, t_shell *shell)
 				i++;
 		}
 		if (input[i] == ' ' || is_redirection(input, i))
-			break;
+			break ;
 		i++;
 	}
 	token = (char *)calloc_sh(shell, sizeof(char) * (i - start + 1));
@@ -67,7 +67,7 @@ static char	*create_word_token(int i, const char *input, t_shell *shell)
 static char	*create_redirection_token(int i, const char *input, t_shell *shell)
 {
 	char	*token;
-	
+
 	token = NULL;
 	token = calloc_sh(shell, 3);
 	if (is_redirection(input, i) == PIPE)
@@ -82,13 +82,13 @@ static char	*create_redirection_token(int i, const char *input, t_shell *shell)
 		ft_strlcpy(token, "<", 2);
 	else if (is_redirection(input, i) == HEREDOC)
 		ft_strlcpy(token, "<<", 3);
-	return (token);	
+	return (token);
 }
 
 static char	*return_token(int start, const char *input, t_shell *shell)
 {
 	char	*token;
-	
+
 	if (input[start] == '\0')
 		return (calloc_sh(shell, 1));
 	else if (is_redirection(input, start))
@@ -113,15 +113,14 @@ static void	split_into_tokens(int nb_of_cmds, const char *input, t_shell *shell)
 		while (input[i] == ' ' && input[i])
 			i++;
 		if (!input[i] && i != 0)
-			break;
+			break ;
 		token = return_token(i, input, shell);
 		add_token_tail(&shell->cmd_array[j], create_new_token(token, shell));
 		i += ft_strlen(token);
-		redir_type = is_redirection(return_tail_token(shell->cmd_array[j])->word, 0);
+		redir_type = is_redirection(return_tail_token(shell->cmd_array[j])->word\
+, 0);
 		if (redir_type == PIPE)
 			j++;
-		// else if (redir_type == SEMICOLON)
-		// 	break ;
 		free_set_null((void **)&token);
 	}
 }

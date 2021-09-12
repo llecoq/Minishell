@@ -6,12 +6,11 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/06 17:59:13 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:43:55 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /*---------------------------------------------------------------------------*/
 /*------------------- VAR EXPANSION -----------------------------------------*/
@@ -97,7 +96,6 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	}
 	//dst len = src_len + diff between var name and var value + 1 for \0
 	dst_len = ft_strlen(*str) - j + ft_strlen(value) + 1;
-	// dprintf(1, "j = %d  strlen_str = %zu dst_len = %d\n", j ,ft_strlen(*str), dst_len);
 	dst = calloc_sh(shell, dst_len);
 	ft_strlcpy(dst, *str, i + 1); //copy str until $ to dst
 	ft_strlcat(dst, value, dst_len); //append var value

@@ -6,11 +6,11 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:07:59 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 15:55:35 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:37:39 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 // bash-3.2$ export VAR="   sansespaces"
 // bash-3.2$ echo $VAR
@@ -21,7 +21,7 @@
 // "-e not supported, usage = echo -p <msg>"
 // ou simplement ne rien faire ?
 // echo * fais un ls trimmé 
-void	process_n_flag(char ***argv, int *flag)
+static void	process_n_flag(char ***argv, int *flag)
 {
 	int	i;
 
