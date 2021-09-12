@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/27 13:17:32 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 17:27:22 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token	*return_tail_token(t_token *token_lst)
 void	add_token_tail(t_token **head, t_token *new_token)
 {
 	t_token	*last_token;
-	
+
 	last_token = NULL;
 	if (*head)
 	{
@@ -52,7 +52,7 @@ void	add_token_tail(t_token **head, t_token *new_token)
 t_token	*create_new_token(char *token, t_shell *shell)
 {
 	t_token			*new_token;
-	
+
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!(new_token))
 		error_quit(shell, SYSCALL_ERROR, NULL);
@@ -158,46 +158,10 @@ void	print_argv(t_cmd *cmds_list)
 	}
 }
 
-// static void	print_current_argv(t_token *cmd)
-// {
-// 	int				i;
-
-// 	i = 0;
-// 	while (cmd->argv[i])
-// 	{
-// 		ft_printf(1, "%s, ", cmd->argv[i]);
-// 		i++;
-// 	}
-// 	ft_printf(1, "NULL");
-// 	ft_printf(1, "\n");
-// }
-
-// void	print_argv(t_token **cmd_array)
-// {
-// 	int				i;
-// 	t_token			*token;
-
-// 	i = 0;
-// 	while (cmd_array[i])
-// 	{
-// 		token = cmd_array[i];
-// 		while (token)
-// 		{
-// 			if (token->cmd == 1)
-// 			{
-// 				ft_printf(1, "COMMAND #%d\n", i);
-// 				print_current_argv(token);
-// 			}
-// 			token = token->next;
-// 		}
-// 		i++;
-// 	}
-// }
-
 void	erase_token(t_token **token, t_token **head, t_shell *shell)
 {
-	t_token 		*prev;
-	t_token			*next;
+	t_token	*prev;
+	t_token	*next;
 
 	prev = (*token)->previous;
 	next = (*token)->next;

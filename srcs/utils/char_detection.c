@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 10:40:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/08/27 13:28:38 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 17:23:28 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	finished_by_spaces(const char *str)
 //to test words 
 int	is_word_char(int c, int mode)
 {
-
 	if (mode == OTHER_LETTERS)
 	{
 		if (ft_isalnum(c) || c == UNDERSCORE)
@@ -88,5 +87,5 @@ int	is_word(const char *str)
 		i++;
 	if (!str[i])
 		return (1);
-	return (0);	
+	return (0);
 }

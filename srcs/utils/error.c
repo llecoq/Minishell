@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_typeor.c                                            :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/06/18 15:28:00 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/12 17:26:18 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@ void	error_quit(t_shell *shell, int error_type, char *str)
 		errno = CMD_NOT_FOUND;
 		ft_printf(2, "minishell: %s: command not found\n", str);
 	}
-	if (error_type == SYSCALL_ERROR && str) //syscall errors
+	if (error_type == SYSCALL_ERROR && str)
 	{
 		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
 		if (errno == ENOENT && exit_status == CMD_NOT_FOUND)
 			errno = CMD_NOT_FOUND;
 	}
-
 	if (error_type == IS_A_DIRECTORY)
 	{
 		errno = IS_A_DIRECTORY;
@@ -40,14 +39,9 @@ void	error_quit(t_shell *shell, int error_type, char *str)
 		ft_printf(STDERR_FILENO, "minishell: .: filename argument required\n\
 .: usage: . filename [arguments]\n");
 	}
-	// else if (error_type == 1)
-	// 	ft_printf(2, "");
-	// else if (error_type == 2)
-	// 	ft_printf(2, "");
 	clear_memory(shell);
 	exit(errno);
 }
-
 
 /*
 For NOTHING_AFTER_REDIR
@@ -63,7 +57,8 @@ void	err_clear(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "%s\n", strerror(errno));
 	else if (error_type == NO_CLOSING_QUOTE)
 	{
-		ft_printf(2, "minishell: unexpected EOF while looking for matching `''\n");
+		ft_printf(2, "minishell: unexpected EOF while looking for matching\
+ `''\n");
 		ft_printf(2, "minishell: syntax error: unexpected end of file");
 	}
 	else if (error_type == NOTHING_AFTER_REDIR
@@ -72,12 +67,6 @@ void	err_clear(t_shell *shell, int error_type, char *str)
 		exit_status = 258;
 		ft_printf(2, "minishell: syntax error near unexpected token `%s'", str);
 	}
-	// else if (error_type == 4)
-	// 	ft_printf(2, "");
-	// else if (error_type == 5)
-	// 	ft_printf(2, "");
-	// else if (error_type == 6)
-	// 	ft_printf(2, "");
 	ft_printf(2, "\n");
 	clear_nonessential_memory(shell);
 	//must stop current command and go back to prompt

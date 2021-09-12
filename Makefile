@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/09/12 17:21:20 by llecoq           ###   ########.fr        #
+#    Updated: 2021/09/12 18:11:43 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,10 @@ SRCS_FILES	=	main.c\
 				parsing/utils/parser_variables.c\
 				parsing/utils/parser_heredoc.c\
 				parsing/utils/parser_store_commands_list.c\
+				parsing/utils/parser_split_semicolon.c\
 				parsing/utils/split_words_into_token.c\
 				execution/evaluator.c\
+				execution/process_input.c\
 				execution/utils/create_pipe.c\
 				execution/utils/exit_status.c\
 				execution/utils/dup_redirections.c\

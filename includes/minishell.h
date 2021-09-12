@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 17:20:30 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 18:20:49 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,50 +30,16 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
-# include "enum.h"
-
-#define RESET   "\033[0m"
-#define BLACK   "\033[30m"      /* Black */
-#define RED     "\033[31m"      /* Red */
-#define GREEN   "\033[32m"      /* Green */
-#define YELLOW  "\033[33m"      /* Yellow */
-#define BLUE    "\033[34m"      /* Blue */
-#define MAGENTA "\033[35m"      /* Magenta */
-#define CYAN    "\033[36m"      /* Cyan */
-#define WHITE   "\033[37m"      /* White */
-#define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black */
-#define BOLDRED     "\033[1m\033[31m"      /* Bold Red */
-#define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
-#define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow */
-#define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue */
-#define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
-#define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
-#define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
+# include "prompt.h"
+# include "evaluator.h"
+# include "builtin.h"
+# include "utils.h"
 
 int	exit_status;
 
 typedef int 	t_bool;
 typedef int 	t_flag;
 typedef struct 	s_shell t_shell;
-
-typedef struct s_redir
-{
-	int				into_file;
-	int				into_stdin;
-	int				from_heredoc;
-	int				from_file;
-}				t_redir;
-
-typedef struct s_cmd
-{
-	char			**argv;
-	int				(*ft_builtin)(t_shell *, char **);
-	int				pipefd[2];
-	struct s_redir	redir;
-	struct s_token	*token_list;
-	struct s_cmd	*previous;
-	struct s_cmd	*next;
-}				t_cmd;
 
 typedef struct 	s_token
 {
@@ -82,21 +48,9 @@ typedef struct 	s_token
 	t_flag			arg;
 	t_flag			redir;
 	t_flag			error;
-	// int				fd;										//delete
-	// int				(*ft_builtin)(t_shell *, char **);		//delete
-	// char			*cmd_path;								//delete
-	// char			**argv;									//delete
 	struct s_token	*next;
 	struct s_token	*previous;
 }				t_token;
-
-typedef struct s_file
-{
-	char			*file;
-	char			*tmp;
-	char			**argv;
-	int				arg_type;
-}				t_file;
 
 typedef struct	s_shell
 {
@@ -123,7 +77,6 @@ enum	e_redirections
 	INPUT_REDIR = 9,
 };
 
-//REDIR = 2 already exists
 enum	e_flags
 {
 	ARG = 0,
@@ -160,92 +113,6 @@ enum	e_word_chars
 	OTHER_LETTERS = 2,
 };
 
-enum	e_split_token
-{
-	IS_SINGLE,
-	IS_MULTIPLE,
-	DOUBLE_QUOTE = 34,
-	QUOTE = 39,
-	TILDE = 126,
-	QUESTION_MARK = 63,
-	UNDERSCORE = 95,
-	SEMICOLON = 59,
-};
-
-enum	e_put_env
-{
-	IS_SET = 1,
-	IS_UNSET = 0,
-	APPEND_VALUE = 6,
-	IS_A_DIRECTORY = 3,
-	IS_NOT_A_DIRECTORY = 0,
-	NOT_A_VALID_IDENTIFIER = 1,
-	FILENAME_ARGUMENT_REQUIRED = 2,
-};
-
-/*
-** EVALUATOR ------------------------------------------------------------
-*/
-int	evaluator(t_shell *shell, t_cmd *cmds_list, int nb_of_cmds);
-void	create_pipe(t_shell *shell, t_cmd *cmd);
-int	last_child_status(pid_t last_child_pid);
-void	dup_input_redirection(t_shell *shell, t_cmd *cmd);
-void	dup_output_redirection(t_shell *shell, t_cmd *cmd);
-void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *token, int process);
-int	path_is_unset(t_shell *shell, t_list **path_list);
-int	path_is_not_absolute(char **argv, t_list **path_list);
-void	build_file_path(t_list **path_list, t_file *file, char ***argv);
-// int	cmd_is_builtin(t_cmd *cmd, int **ft_builtin);
-// void	execute_builtin_and_exit(t_shell *shell, t_cmd *cmd, char **argv);
-int	find_builtin_function(char *cmd_name, t_cmd *cmd);
-int	found_var(t_list *env_list, char *name, t_list **variable_ptr, size_t len);
-int	process_value_to_append(t_shell *shell, char *string, char **name);
-void	format_plus_equal_string(t_shell *shell, char **string, char *var);
-void	store_list(t_list **list, char *const *env);
-void	execute_builtin_and_exit(t_shell *shell, t_cmd *cmd, char **argv);
-int	execute_single_builtin_cmd(t_shell *shell, t_cmd *cmd, char **argv);
-void	execution_child_process(t_shell *shell, t_cmd *cmd);
-
-
-int	wexitstatus(int status);
-
-//PARSING
-void	create_empty_cmds_list(t_shell *shell, int nb_of_cmds);
-void	create_heredoc(t_shell *shell, t_token **cmd_array, t_cmd *cmds_list);
-
-int	redir_single_builtin_cmd(char *cmd_name, char *argv);
-
-
-/*
-** ------------------------------------------------------------ EVALUATOR
-*/
-
-/*
-** UTILS ----------------------------------------------------------------
-*/
-
-void		*calloc_sh(t_shell *shell, int size);
-void		prompt(t_shell *shell);
-void		del(void *content);
-void		clear_memory(t_shell *shell);
-void		clear_nonessential_memory(t_shell *shell);
-void		free_cmd_array(t_token **cmd_array);
-void		error_quit(t_shell *shell, int error_type, char *str);
-void		err_clear(t_shell *shell, int error_type, char *str);
-void		error(t_shell *shell, int error_type, char *str);
-// void		sig_handler(int signum);
-void		get_signal(void);
-void		print_list(t_list *list);
-void		print_env(t_shell *shell, int fd);
-void		sort_alphabetically_list(t_list **export_list);
-void		split_multiple_words_into_tokens(t_shell *shell);
-char		*get_env(t_shell *shell, const char *name);
-char		*join_args(char	**argv, char *flag);
-int			put_env(t_shell *shell, char *string);
-int			invalid_args_or_options(char **argv, char *name, int builtin_type);
-int			valid_name(char *argv, char *built_name);
-size_t		env_size(t_list *env_list);
-
 /*
  ** char_detection.c  
  */
@@ -267,18 +134,12 @@ void		print_cmd_array(t_token **cmd_array, int flags);
 void		reset_previous_pointers(t_token *head);
 void		erase_token(t_token **token, t_token **head, t_shell *shell);
 void		erase_cmd(t_token *cmd);
-// void		print_argv(t_token **cmd_array);
 void		print_argv(t_cmd *cmd_list);
-
-
 
 /*
 ** ------------------------------------------------------------------ UTILS
 */
 
-/*
-** PARSING ----------------------------------------------------------------
-*/
 
 /*
 ** parsing
@@ -296,6 +157,8 @@ char		*process_variables(char *token, t_shell *shell);
 
 void		turn_on_flag(int flag, t_token *cpy);
 void		erase_current_cmd(t_token **cmd_array, int i, t_shell *shell);
+void		create_empty_cmds_list(t_shell *shell, int nb_of_cmds);
+void		create_heredoc(t_shell *shell, t_token **cmd_array, t_cmd *cmds_list);
 
 /*
 ** parser_flags
@@ -312,10 +175,10 @@ void 		arg_syntax_processing(t_token **cmd_array, t_shell *shell);
 void		replace_token_with_var(char **token, t_shell *shell);
 
 /*
-** parser_redirection
+** parser_split_semicolon
 */
 
-void		check_and_create_redirections(t_token **cmd_array, t_shell *shell);
+t_list	*split_by_semicolons(t_shell *shell, char *input);
 
 /*
 ** parser_trim_quotes
@@ -338,17 +201,5 @@ void		create_argument_list(t_token **cmd_array, t_shell *shell);
 /*
 ** ---------------------------------------------------------------- PARSING
 */
-
-/*
-** builtins
-*/
-
-int			ft_exit(t_shell *shell, char **argv);
-int			ft_echo(t_shell *shell, char **argv);
-int			ft_cd(t_shell *shell, char **argv);
-int			ft_pwd(t_shell *shell, char **argv);
-int			ft_export(t_shell *shell, char **argv);
-int			ft_unset(t_shell *shell, char **argv);
-int			ft_env(t_shell *shell, char **argv);
 
 #endif

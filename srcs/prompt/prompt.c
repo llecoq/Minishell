@@ -6,13 +6,13 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:54:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 16:16:11 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 17:32:38 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*format_and_add_colors(char *user, char *directory)
+static char	*format_and_add_colors(char *user, char *directory)
 {
 	char	*formated_line;
 	char	*tmp;
@@ -40,7 +40,7 @@ char	*format_and_add_colors(char *user, char *directory)
 	return (formated_line);
 }
 
-void	get_directory(char **directory, const char *path)
+static void	get_directory(char **directory, const char *path)
 {
 	while (*path)
 		path++;
@@ -50,7 +50,7 @@ void	get_directory(char **directory, const char *path)
 	*directory = (char *)path;
 }
 
-void	get_user_dir(t_shell *shell)
+static void	get_user_dir(t_shell *shell)
 {
 	char	*user;
 	char	*directory;
