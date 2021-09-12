@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 14:54:41 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/06 16:07:14 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 17:08:25 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	check_for_existing_file(t_cmd *cmd, char *file_name)
 	return (errno);
 }
 
-static char *search_for_file_name(t_token *token)
+static char	*search_for_file_name(t_token *token)
 {
 	while (token)
 	{
@@ -54,32 +54,29 @@ static char *search_for_file_name(t_token *token)
 	return (NULL);
 }
 
-void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *token, int process)
+void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *tk, int process)
 {
 	char	*file_name;
 	int		redir_status;
 
 	redir_status = IS_VALID;
-	while (token)
+	while (tk)
 	{
-		file_name = search_for_file_name(token);
-		if (token->redir == INPUT_REDIR)
+		file_name = search_for_file_name(tk);
+		if (tk->redir == INPUT_REDIR)
 			redir_status = check_for_existing_file(cmd, file_name);
-		else if (token->redir == APPEND || token->redir == TRUNC)
-			redir_status = create_file(cmd, file_name, token->redir);
-		if (redir_status >= IS_NOT_VALID)
+		else if (tk->redir == APPEND || tk->redir == TRUNC)
+			redir_status = create_file(cmd, file_name, tk->redir);
+		if (redir_status >= IS_NOT_VALID && process == CHILD_PROCESS)
+			error_quit(shell, SYSCALL_ERROR, file_name);
+		else if (redir_status >= IS_NOT_VALID && process == SINGLE_BUILTIN)
 		{
-			if (process == CHILD_PROCESS)
-				error_quit(shell, SYSCALL_ERROR, file_name);
-			else if (process == SINGLE_BUILTIN)
-			{
-				error(shell, SYSCALL_ERROR, file_name);
-				cmd->ft_builtin = NULL;
-				return ;
-			}
+			error(shell, SYSCALL_ERROR, file_name);
+			cmd->ft_builtin = NULL;
+			return ;
 		}
-		if (token->redir == PIPE)
+		if (tk->redir == PIPE)
 			cmd->redir.into_stdin = EXISTENT;
-		token = token->next;
+		tk = tk->next;
 	}
 }
