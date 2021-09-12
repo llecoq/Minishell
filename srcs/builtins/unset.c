@@ -6,16 +6,16 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:42:24 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/09 15:27:16 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:00:31 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // name :
-// A word consisting solely of letters, numbers, and underscores, and beginning with
-// a letter or underscore. Names are used as shell variable and function names. Also
-// referred to as an identifier.
+// A word consisting solely of letters, numbers, and underscores, and beginning
+// with a letter or underscore. Names are used as shell variable and function
+// names. Also referred to as an identifier.
 int	valid_name(char *argv, char *built_name)
 {
 	if (!ft_isalpha(*argv) && *argv != '_')
@@ -65,18 +65,21 @@ int	invalid_args_or_options(char **argv, char *name, int builtin_type)
 			return (1);
 		}
 		if (builtin_type == EXPORT)
-			ft_printf(STDERR_FILENO, "export: usage: export [-nf] [name[=value] ...] or export -p\n");
+			ft_printf(STDERR_FILENO, "export: usage: export [-nf] [name[=value]\
+ ...] or export -p\n");
 		else if (builtin_type == UNSET)
-			ft_printf(STDERR_FILENO, "unset: usage: unset [-f] [-v] [name ...]\n");
+			ft_printf(STDERR_FILENO, "unset: usage: unset [-f] [-v] [name ...]\
+\n");
 		return (2);
 	}
 	return (IS_VALID);
 }
-// The unsetenv() function deletes the variable name from the environment. If name
-// does not exist in the environment, then the function succeeds, and the environment
-// is unchanged.
-// The unsetenv() function returns zero on success, or -1 on error, with errno set
-// to indicate the cause of the error.
+
+// The unsetenv() function deletes the variable name from the environment. 
+// If name does not exist in the environment, then the function succeeds, 
+// and the environment is unchanged.
+// The unsetenv() function returns zero on success, or -1 on error, with 
+// errno set to indicate the cause of the error.
 int	ft_unset(t_shell *shell, char **argv)
 {
 	if (invalid_args_or_options(argv, "unset", UNSET))
@@ -90,7 +93,8 @@ int	ft_unset(t_shell *shell, char **argv)
 	}
 	else
 	{
-		ft_printf(2, "minishell: unset: `%s': not a valid identifier\n", argv[1]);
+		ft_printf(2, "minishell: unset: `%s': not a valid identifier\n"\
+, argv[1]);
 		return (1);
 	}
 	store_environment_tab(shell, shell->env_list, env_size(shell->env_list));

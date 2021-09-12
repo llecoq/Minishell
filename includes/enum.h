@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 18:09:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/06 15:27:22 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 15:35:21 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ enum	e_export
 {
 	EXPORT_LIST,
 	ENV_LIST,
+	ADDED_TO_EXPORT_LIST = 4,
 };
 
 enum	e_builtins

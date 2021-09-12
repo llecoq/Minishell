@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/09 13:29:25 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 15:45:53 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ static void process_input(t_shell *shell, int flag)
 	split_cmds_head = split_cmds;
 	if (flag == PROMPT)
 		free_set_null((void **)&shell->input);
-	// print_list(split_cmds);
 	while (split_cmds)
 	{
 		tokenize(shell, split_cmds->content);
@@ -159,12 +158,6 @@ void	execute_minishell_from_string(t_shell *shell, char *arg, char **envp)
 	shell->input = arg;
 	store_environment(shell, envp);
 	process_input(shell, STRING);
-	// tokenize(shell, shell->input);
-	// if (shell->cmd_array == NULL) //in case of missing closing bracket / empty input
-	// 	return ;
-	// parse(shell);
-	// if (&shell->cmd_array[0] != NULL)
-	// 	exit_status = evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
 	ft_exit(shell, NULL);
 }
 

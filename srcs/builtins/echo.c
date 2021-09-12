@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:07:59 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/26 16:29:01 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 15:55:35 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 // "-e not supported, usage = echo -p <msg>"
 // ou simplement ne rien faire ?
 // echo * fais un ls trimmé 
-
-// global sera errno
 void	process_n_flag(char ***argv, int *flag)
 {
 	int	i;
@@ -40,10 +38,10 @@ void	process_n_flag(char ***argv, int *flag)
 				*flag = 1;
 			}
 			else
-				return;
+				return ;
 		}
 		else
-			return;
+			return ;
 	}
 }
 
@@ -54,7 +52,7 @@ int	ft_echo(t_shell *shell, char **argv)
 
 	(void)shell;
 	flag = 0;
-	fd = redir_single_builtin_cmd("echo", argv[0]);   // si argv[0] != "echo" alors fd a rediriger
+	fd = redir_single_builtin_cmd("echo", argv[0]);
 	argv++;
 	process_n_flag(&argv, &flag);
 	while (*argv)
@@ -66,31 +64,5 @@ int	ft_echo(t_shell *shell, char **argv)
 	}
 	if (flag == 0)
 		ft_putchar_fd('\n', fd);
-	exit_status = 0;
 	return (0);
 }
-
-// int	ft_echo(t_shell *shell, char **argv)
-// {
-// 	char	*full_argument;
-// 	int		flag;
-
-// 	(void)shell;
-// 	flag = 0;
-// 	full_argument = NULL;
-// 	if (argv[1] && ft_strncmp(argv[1], "-p", 3) == 0)
-// 	{
-// 		full_argument = join_args(argv, "-p");
-// 		flag = 1;
-// 	}
-// 	else if (argv[1])
-// 		full_argument = join_args(argv, NULL);
-// 	if (full_argument)
-// 	{
-// 		ft_printf(1, "%s", full_argument);
-// 		free_set_null((void **)&full_argument);
-// 	}
-// 	if (flag == 0)
-// 		ft_putchar_fd('\n', 1);
-// 	return (1);
-// }

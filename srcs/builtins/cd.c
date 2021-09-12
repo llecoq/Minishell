@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 09:29:01 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/09 15:49:59 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/12 15:47:36 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int	valid_args(t_shell *shell, char **argv, char **new_path)
 	return (0);
 }
 
-//    Returns 0 if the directory is changed, and if $PWD is set successfully when
-//    -P is used; non-zero otherwise.
-//	  still have to handle options, what error message should we print ?
+// Returns 0 if the directory is changed, and if $PWD is set successfully 
+// when -P is used; non-zero otherwise.
+// still have to handle options, what error message should we print ?
 int	ft_cd(t_shell *shell, char **argv)
 {
 	char	*new_path;
@@ -85,23 +85,19 @@ int	ft_cd(t_shell *shell, char **argv)
 
 	new_path = NULL;
 	if (argv[1] && (ft_strncmp(argv[1], "./", 3) == 0
-		|| ft_strncmp(argv[1], ";", 2) == 0))
+			|| ft_strncmp(argv[1], ";", 2) == 0))
 		return (0);
 	if (valid_args(shell, argv, &new_path))
 	{
 		old_path = get_env(shell, "PWD");
 		if (chdir(new_path) == -1)
 		{
-			// free_set_null((void **)&old_path);
-			// free_set_null((void **)&new_path);
 			ft_printf(2, "minishell: cd: %s: %s\n", argv[1], strerror(errno));
-			exit_status = 1;
-			return (exit_status);
+			return (1);
 		}
 	}
 	else if (argv[1] && *argv[1] == 0)
 		old_path = get_env(shell, "PWD");
-	// dprintf(2, "argv[1] = %s\n", argv[1]);
 	add_old_path_to_env(shell, &old_path);
 	add_new_path_to_env(shell, &new_path, argv[1]);
 	return (0);

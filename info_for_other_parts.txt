@@ -243,18 +243,13 @@ open semble gerer ca automatiquement
 ATTENTION A CLOSE TOUS LES FD, DANS TOUTES LES FORKS, EN CAS D'ERREUR AUSSI
 ET SANS DOUBLON
 
-command not found error code = 127
-
 variable d'environnement devrait etre gerer a l'exec ?
 Car si bash: export VAR=ZOB | echo $VAR
-
 
 creer buff pour printf, write doit s'executer d'un seul coup
 rl_clear_history()
 
 gerer script
-
-ATTENTION A CLOSE TOOUUUUS LES FDS DANS TOUS LES CMDS LIST DANS TOUS LES FORKS
 
 si unset ou export dans pipe, alors changements non effectifs... faire R
 => gere automatiquement puisque dans un child process ca ne modifie pas les
@@ -276,17 +271,9 @@ attention a revoir peutetre fonctionnement prompt avec ctrl + d par exemple
 readline rajoute un \n alors que bash non
 
 errno = last_child_status
-lorsque echo $?  = print errno
 pour l'instant le token se fait tej de la liste
-$? print sur quelle sortie ?
 
 lorsque CRT+D dans heredoc, saute une ligne
-
-replace insert_var_in_str ne prends pas en compte $? OK
-
-reste a gerer tous les retours d'erreur et zbouub
-env est zobe
-
 
 $(NAME):	$(OBJS)
 			$(MAKE) -C ./gnl
@@ -297,3 +284,5 @@ $(NAME):	$(OBJS)
 			ranlib $(NAME)
 
 PROBLEM AFFICHAGE QUAND CTRL+V
+
+gerer option -ljkhio dans pwd
