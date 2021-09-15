@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/15 14:37:08 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 16:08:36 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ void	print_cmd_array(t_token **cmd_array, int flags)
 	{
 		cpy = cmd_array[i];
 		x = 0;
-		if (cpy->error)
-			ft_printf(1, "\033[1m\033[31m");
 		ft_printf(1, "%d\n", i);
 		while (cpy)
 		{
@@ -121,8 +119,6 @@ void	print_cmd_array(t_token **cmd_array, int flags)
 			cpy = cpy->next;
 			x++;
 		}
-		if (cmd_array[i]->error)
-			ft_printf(1, "\033[0m");
 		i++;
 	}
 	ft_printf(1, "====^ Print cmd array ^====\n");

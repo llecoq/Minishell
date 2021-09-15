@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 14:07:51 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 16:11:04 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	execute_minishell_from_string(t_shell *shell, char *arg, char **envp)
 	shell->input = arg;
 	store_environment(shell, envp);
 	process_input(shell, STRING);
-	ft_exit(shell, NULL);
 }
 
 int	main(int argc, char **argv, char **envp)
