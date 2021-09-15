@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_words_into_token.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 09:57:27 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/16 16:37:03 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/15 13:59:29 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,16 @@ static int	find_multiple_words(char *word)
 	return (IS_SINGLE);
 }
 
+static int	cmd_is_export(t_token *token)
+{
+	if (token->cmd == 1)
+	{
+		if (ft_strncmp(token->word, "export", 7) == 0)
+			return (1);
+	}
+	return (0);
+}
+
 void	split_multiple_words_into_tokens(t_shell *shell)
 {
 	t_token	*head;
@@ -74,6 +84,8 @@ void	split_multiple_words_into_tokens(t_shell *shell)
 		head = shell->cmd_array[i];
 		while (shell->cmd_array[i])
 		{
+			if (cmd_is_export(shell->cmd_array[i]))
+				break ;
 			nb_of_words = find_multiple_words(shell->cmd_array[i]->word);
 			if (nb_of_words == IS_MULTIPLE)
 				split_token(shell, &shell->cmd_array[i], i);

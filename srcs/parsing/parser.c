@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:01:55 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/12 16:34:57 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 14:03:25 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ void	parse(t_shell *shell)
 	}
 	arg_syntax_processing(shell->cmd_array, shell);
 	remove_empty_tokens(shell->cmd_array, shell);
-	split_multiple_words_into_tokens(shell);
 	first_word_is_cmd_flag(shell->cmd_array);
+	split_multiple_words_into_tokens(shell);
 	remove_quotes(shell->cmd_array, shell);
 	create_empty_cmds_list(shell, shell->nb_of_cmds);
 	create_argument_list(shell->cmd_array, shell);

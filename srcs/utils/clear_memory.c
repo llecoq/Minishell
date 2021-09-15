@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:41:28 by llecoq            #+#    #+#             */
-/*   Updated: 2021/08/18 14:59:30 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 14:42:21 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	free_cmd_array(t_token **cmd_array)
 		{
 			tmp = cmd_array[i]->next;
 			free_set_null((void **)&cmd_array[i]->word);
-			// if (cmd_array[i]->cmd_path)
-			// 	free_set_null((void **)&cmd_array[i]->cmd_path);
 			free_set_null((void **)&cmd_array[i]);
 			cmd_array[i] = tmp;
 		}
@@ -76,5 +74,4 @@ void	clear_memory(t_shell *shell)
 	if (shell->cmds_list)
 		free_cmd_list(&shell->cmds_list);
 	clear_nonessential_memory(shell);
-	//ft_printf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);
 }

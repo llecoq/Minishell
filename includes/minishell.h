@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 10:38:15 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 11:44:02 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct 	s_token
 	t_flag			cmd;
 	t_flag			arg;
 	t_flag			redir;
-	t_flag			error;
+	t_flag			error; // utile ?
 	struct s_token	*next;
 	struct s_token	*previous;
 }				t_token;
