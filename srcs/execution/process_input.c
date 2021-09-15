@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 18:10:35 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 13:58:38 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 15:38:26 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	process_input(t_shell *shell, int flag)
 	while (split_cmds)
 	{
 		tokenize(shell, split_cmds->content);
-		free_set_null((void **)&split_cmds->content);
+		// free_set_null((void **)&split_cmds->content);
 		if (shell->cmd_array == NULL)
 			return ;
 		parse(shell);

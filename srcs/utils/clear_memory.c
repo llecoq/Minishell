@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:41:28 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 14:42:21 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 16:02:38 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	free_cmd_list(t_cmd **lst)
 	while (*lst)
 	{
 		tmp = (*lst)->next;
+		if ((*lst)->argv)
+			free_set_null((void **)&(*lst)->argv);
 		free((*lst));
 		(*lst) = NULL;
 		*lst = tmp;
