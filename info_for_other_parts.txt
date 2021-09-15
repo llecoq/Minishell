@@ -291,3 +291,5 @@ Makefile ne recompil pas si je change enum dans .h
 checker leeaks en enlever waitpid et avec -c
 
 est-ce que l'on se sert de error dans la struct token ?
+
+echo $NONEXISTENTVAR leaks de taille 16 (2 * 8 (char *))

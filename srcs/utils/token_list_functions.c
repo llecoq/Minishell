@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/15 16:08:36 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 17:34:47 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,10 @@ void	print_cmd_array(t_token **cmd_array, int flags)
 					ft_printf(1, "flag : %s, ", redir_type);
 				}
 			}
+			if (flags == 2)
+			{
+				ft_printf(2, "%p\n", cpy->word);
+			}
 			ft_printf(1, "token n*%d = |%s|\n", x, cpy->word);
 			cpy = cpy->next;
 			x++;
@@ -165,6 +169,7 @@ void	erase_token(t_token **token, t_token **head, t_shell *shell)
 		prev->next = next;
 	if (next)
 		next->previous = prev;
+	free((*token)->word); // AAAAAAAAAAAAAAAAAAAAAAAAAAH
 	free_set_null((void **)token);
 	(*token) = next;
 	if (prev == NULL)
