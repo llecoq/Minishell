@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 14:54:41 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 17:08:25 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 10:52:04 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	create_file(t_cmd *cmd, char *file_name, int redir_type)
 	else if (redir_type == TRUNC)
 		cmd->redir.into_file
 			= open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (cmd->redir.into_file == -1)
+	if (cmd->redir.into_file == FAILED)
 	{
 		close(cmd->redir.into_file);
 		if (errno == EBADF)

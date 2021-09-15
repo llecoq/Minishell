@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 18:20:49 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 10:38:15 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ enum	e_errors
 	CANT_OPEN_FILE = -5,
 	CMD_NOT_FOUND = 127,
 	FILE_IS_DIR = -7,
-	FAILED = -8,
+	FAILED = -1,
 };
 
 enum	e_word_chars

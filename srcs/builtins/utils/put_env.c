@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 10:30:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 18:48:23 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 11:09:18 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ int	put_env(t_shell *shell, char *string)
 		return (NOT_A_VALID_IDENTIFIER);
 	}
 	return_value = valid_var_name(shell, string, &name);
-	dprintf(2, "return = %d\n", return_value);
 	if (return_value == IS_VALID)
 	{
 		insert_into_list(shell, string, name, ENV_LIST);
