@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 16:08:01 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 16:30:11 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct	s_shell
 	const char		***cmd_argv;
 	t_cmd			*cmds_list;
 	t_list			*env_list;
+	t_list			*split_cmds_by_semicolons;
 	t_list			*export_list;
 	t_list			*path;
 	t_token 		**cmd_array; //last cmd_array is set to NULL;

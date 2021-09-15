@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 11:30:22 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 15:45:01 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 16:20:10 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	append_into_list(t_shell *shell, char *string, char **name, int type)
 	else
 	{
 		format_plus_equal_string(shell, &string, NULL);
-		ft_lstadd_back(&list, ft_lstnew(ft_strdup(string)));
+		ft_lstadd_back(&list, ft_lstnew(string));
 	}
 }
 

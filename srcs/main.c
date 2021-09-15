@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 16:11:04 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 16:31:37 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	set_shell_var_to_null(t_shell *shell)
 	shell->path = NULL;
 	shell->cmd_array = NULL;
 	shell->cmds_list = NULL;
+	shell->split_cmds_by_semicolons = NULL;
 	exit_status = 0;
 }
 

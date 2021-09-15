@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 18:10:35 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 16:11:32 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 16:32:57 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,9 @@ static int	syntax_error(t_shell *shell)
 void	process_input(t_shell *shell, int flag)
 {		
 	t_list	*split_cmds;
-	t_list	*split_cmds_head;
 
 	split_cmds = split_by_semicolons(shell, shell->input);
-	split_cmds_head = split_cmds;
+	shell->split_cmds_by_semicolons = split_cmds;
 	if (flag == PROMPT)
 		free_set_null((void **)&shell->input);
 	while (split_cmds)
@@ -48,5 +47,5 @@ void	process_input(t_shell *shell, int flag)
 		clear_nonessential_memory(shell);
 		split_cmds = split_cmds->next;
 	}
-	ft_lstclear(&split_cmds_head, del);
+	ft_lstclear(&shell->split_cmds_by_semicolons, del);
 }

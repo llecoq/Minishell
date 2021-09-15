@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/12 17:26:18 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/15 16:26:55 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ happens bc of multiline that we do not have to handle
 */
 void	err_clear(t_shell *shell, int error_type, char *str)
 {
-	if (error_type == 0) //errno pour les built-in 
-		ft_printf(2, "%s\n", strerror(errno));
-	else if (error_type == NO_CLOSING_QUOTE)
+	// if (error_type == 0) //errno pour les built-in 
+	// 	ft_printf(2, "%s\n", strerror(errno));
+	if (error_type == NO_CLOSING_QUOTE)
 	{
 		ft_printf(2, "minishell: unexpected EOF while looking for matching\
  `''\n");
