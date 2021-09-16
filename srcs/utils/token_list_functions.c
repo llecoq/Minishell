@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/15 17:34:47 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/16 14:52:15 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ void	erase_token(t_token **token, t_token **head, t_shell *shell)
 	if (next)
 		next->previous = prev;
 	free((*token)->word); // AAAAAAAAAAAAAAAAAAAAAAAAAAH
+	(*token)->word = NULL;
 	free_set_null((void **)token);
 	(*token) = next;
 	if (prev == NULL)

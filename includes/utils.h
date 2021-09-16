@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 18:14:34 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 18:15:59 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/16 14:51:12 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void		print_list(t_list *list);
 void		print_env(t_shell *shell, int fd);
 void		sort_alphabetically_list(t_list **export_list);
 void		split_multiple_words_into_tokens(t_shell *shell);
+void		free_split_cmds_by_semicolons(t_shell *shell);
 char		*get_env(t_shell *shell, const char *name);
 char		*join_args(char	**argv, char *flag);
 int			put_env(t_shell *shell, char *string);

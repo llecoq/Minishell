@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/15 16:26:55 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/16 14:50:23 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	err_clear(t_shell *shell, int error_type, char *str)
 	}
 	ft_printf(2, "\n");
 	clear_nonessential_memory(shell);
+	free_split_cmds_by_semicolons(shell);
 	//must stop current command and go back to prompt
 }
 

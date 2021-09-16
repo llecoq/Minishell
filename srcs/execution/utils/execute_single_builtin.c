@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 17:14:39 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 14:21:02 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/16 14:56:27 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int	execute_single_builtin_cmd(t_shell *shell, t_cmd *cmd, char **argv)
 		close(cmd->redir.from_heredoc);
 	if (cmd->redir.into_file >= EXISTENT)
 	{
-		free (*argv);
-		*argv = ft_itoa(cmd->redir.into_file);
+		// free (*argv);
+		// (*argv) = NULL;
+		(*argv) = ft_itoa(cmd->redir.into_file);
 	}
 	return (cmd->ft_builtin(shell, argv));
 }
