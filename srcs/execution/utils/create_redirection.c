@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 14:54:41 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 10:52:04 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/17 15:16:15 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	create_file(t_cmd *cmd, char *file_name, int redir_type)
 {
+	if (cmd->redir.into_file >= EXISTENT)
+		close(cmd->redir.into_file);
 	if (redir_type == APPEND)
 		cmd->redir.into_file
 			= open(file_name, O_CREAT | O_RDWR | O_APPEND, 0644);
@@ -34,6 +36,8 @@ static int	check_for_existing_file(t_cmd *cmd, char *file_name)
 {
 	int		fd;
 
+	if (cmd->redir.from_file >= EXISTENT)
+		close(cmd->redir.from_file);
 	fd = open(file_name, O_RDONLY);
 	if (fd > 0)
 	{
