@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 18:10:35 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/16 14:47:07 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/17 18:31:35 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,5 @@ void	process_input(t_shell *shell, int flag)
 		clear_nonessential_memory(shell);
 		split_cmds = split_cmds->next;
 	}
-	// if (shell->split_cmds_by_semicolons)
 	ft_lstclear(&shell->split_cmds_by_semicolons, del);
 }

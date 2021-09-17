@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 17:39:23 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 18:18:17 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/17 18:34:51 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ enum	e_file
 	IS_NOT_VALID,
 	EXISTENT,
 	NONEXISTENT = -1,
+	AMBIGUOUS_REDIRECT = 4,
 };
 
 typedef struct s_redir
 {
+	char			*file_name;
 	int				into_file;
 	int				into_stdin;
 	int				from_heredoc;
@@ -80,6 +82,7 @@ int		find_builtin_function(char *cmd_name, t_cmd *cmd);
 int		last_child_status(pid_t last_child_pid);
 int		path_is_unset(t_shell *shell, t_list **path_list);
 int		path_is_not_absolute(char **argv, t_list **path_list);
+int		ambiguous_redirect(t_cmd *cmd, char *file_name);
 int		wexitstatus(int status);
 void	create_pipe(t_shell *shell, t_cmd *cmd);
 void	dup_input_redirection(t_shell *shell, t_cmd *cmd);
@@ -88,5 +91,6 @@ void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *tk, int proc);
 void	build_file_path(t_list **path_list, t_file *file, char ***argv);
 void	execute_builtin_and_exit(t_shell *shell, t_cmd *cmd, char **argv);
 void	execution_child_process(t_shell *shell, t_cmd *cmd);
+char	*search_and_expand_file_name(t_shell *shell, t_cmd *cmd, t_token *tk);
 
 #endif

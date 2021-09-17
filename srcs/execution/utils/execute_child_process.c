@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 17:19:59 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 17:21:25 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/17 18:33:07 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	path_is_a_directory(char *path)
 	return (IS_A_DIRECTORY);
 }
 
-static int	error_management(t_shell *shell, char **argv, t_list **path_list)
+static void	error_management(t_shell *shell, char **argv, t_list **path_list)
 {
 	if (path_is_unset(shell, path_list)
 		&& path_is_not_absolute(argv, path_list))
@@ -54,9 +54,6 @@ static int	error_management(t_shell *shell, char **argv, t_list **path_list)
 		error_quit(shell, FILENAME_ARGUMENT_REQUIRED, NULL);
 	if (ft_strncmp(*argv, "..", 3) == 0)
 		error_quit(shell, CMD_NOT_FOUND, "..");
-	if (ft_strncmp(*argv, "cd;", 4) == 0)
-		return (1);
-	return (0);
 }
 
 void	execution_child_process(t_shell *shell, t_cmd *cmd)
@@ -70,8 +67,7 @@ void	execution_child_process(t_shell *shell, t_cmd *cmd)
 	dup_output_redirection(shell, cmd);
 	if (find_builtin_function(cmd->argv[0], cmd))
 		return (execute_builtin_and_exit(shell, cmd, cmd->argv));
-	if (error_management(shell, argv, &path_list))
-		return ;
+	error_management(shell, argv, &path_list);
 	if (path_is_a_directory(*argv))
 		error_quit(shell, IS_A_DIRECTORY, *argv);
 	while (path_list != NULL)

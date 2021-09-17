@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/09/16 14:42:06 by llecoq           ###   ########.fr        #
+#    Updated: 2021/09/17 18:35:06 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,9 @@ SRCS_FILES	=	main.c\
 				execution/utils/create_redirection.c\
 				execution/utils/execute_single_builtin.c\
 				execution/utils/execute_child_process.c\
+				execution/utils/search_expand_file_name.c\
 				execution/utils/path_is_unset.c\
+				execution/utils/ambiguous_redirect.c\
 				execution/utils/build_file_path.c\
 				prompt/prompt.c\
 				prompt/sig_handler.c\

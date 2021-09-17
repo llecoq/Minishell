@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/16 14:50:23 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/17 18:02:41 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ void	error_quit(t_shell *shell, int error_type, char *str)
 		errno = FILENAME_ARGUMENT_REQUIRED;
 		ft_printf(STDERR_FILENO, "minishell: .: filename argument required\n\
 .: usage: . filename [arguments]\n");
+	}
+	if (error_type == AMBIGUOUS_REDIRECT)
+	{
+		errno = 1;
+		ft_printf(STDERR_FILENO, "minishell: %s: ambiguous redirect\n", str);
 	}
 	clear_memory(shell);
 	exit(errno);
@@ -81,17 +86,21 @@ void	error(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
 		return ;
 	}
+	if (error_type == AMBIGUOUS_REDIRECT)
+	{
+		exit_status = 1;
+		ft_printf(2, "minishell: %s: ambiguous redirect\n", str);
+	}
 	if (error_type == 0) //errno pour les built-in 
 		ft_printf(2, "%s\n", strerror(errno));
 	else if (error_type == REDIR_ISNT_1_WORD)
-		ft_printf(2, "minishell: %s: ambiguous redirect", str);
+		ft_printf(2, "minishell: %s: ambiguous redirect\n", str);
 	else if (error_type == CANT_OPEN_FILE)
-		ft_printf(2, "minishell: %s: %s", str, strerror(errno));
+		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
 	else if (error_type == CMD_NOT_FOUND)
-		ft_printf(2, "minishell: %s: command not found", str);
+		ft_printf(2, "minishell: %s: command not found\n", str);
 	else if (error_type == FILE_IS_DIR)
-		ft_printf(2, "minishell: %s: Is a directory", str);
-	ft_printf(2, "\n");
+		ft_printf(2, "minishell: %s: Is a directory\n", str);
 	(void)shell;
 	//must stop current command and go back to prompt
 }

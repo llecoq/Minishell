@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/15 17:15:51 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/17 17:34:18 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ void arg_syntax_processing(t_token **cmd_array, t_shell *shell)
 		token = cmd_array[i];
 		while (token)
 		{
-			// if (token->redir == 0)
+			if (token->redir == 0)
 				replace_token_with_var(&token->word, shell);
 			token = token->next;
 		}

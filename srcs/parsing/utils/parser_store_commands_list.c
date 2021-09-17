@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 17:34:53 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 14:36:42 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/17 16:55:11 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	init_redir(t_cmd *cmd)
 {
+	cmd->redir.file_name = NULL;
 	cmd->redir.from_heredoc = NONEXISTENT;
 	cmd->redir.into_file = NONEXISTENT;
 	cmd->redir.into_stdin = NONEXISTENT;
