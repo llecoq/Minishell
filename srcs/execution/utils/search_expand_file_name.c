@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:22:08 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/18 17:14:59 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/18 20:21:10 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 static char	*search_for_file_name(t_cmd *cmd, t_token *token)
 {
-	while (token)
-	{
-		if (token->redir == IS_FILE)
+	// if (cmd->redir.file_name == NULL)
+	// {
+		while (token)
 		{
-			cmd->redir.file_name = token->word;
-			return (token->word);
+			if (token->redir == IS_FILE)
+			{
+				cmd->redir.file_name = token->word;
+				return (token->word);
+			}
+			token = token->next;
 		}
-		token = token->next;
-	}
+	// }
 	return (NULL);
 }
 
