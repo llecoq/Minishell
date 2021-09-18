@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 14:54:41 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/17 18:33:51 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/18 17:26:43 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	create_file(t_cmd *cmd, char *file_name, int redir_type)
 	else if (redir_type == TRUNC)
 		cmd->redir.into_file
 			= open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	free_set_null((void **)&file_name);
 	if (cmd->redir.into_file == FAILED)
 	{
 		close(cmd->redir.into_file);
@@ -39,6 +40,7 @@ static int	check_for_existing_file(t_cmd *cmd, char *file_name)
 	if (cmd->redir.from_file >= EXISTENT)
 		close(cmd->redir.from_file);
 	fd = open(file_name, O_RDONLY);
+	free_set_null((void **)&file_name);
 	if (fd > 0)
 	{
 		cmd->redir.from_file = fd;
@@ -65,12 +67,12 @@ void	create_redirection(t_shell *shell, t_cmd *cmd, t_token *tk, int process)
 	char	*file_name;
 	int		redir_status;
 
-	file_name = search_and_expand_file_name(shell, cmd, tk);
-	if (ambiguous_redirect(cmd, file_name))
-		return (redir_error(shell, cmd, AMBIGUOUS_REDIRECT, process));
 	redir_status = IS_VALID;
 	while (tk)
 	{
+		file_name = search_and_expand_file_name(shell, cmd, tk);
+		if (ambiguous_redirect(cmd, file_name))
+			return (redir_error(shell, cmd, AMBIGUOUS_REDIRECT, process));
 		if (tk->redir == INPUT_REDIR)
 			redir_status = check_for_existing_file(cmd, file_name);
 		else if (tk->redir == APPEND || tk->redir == TRUNC)
