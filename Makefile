@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/09/17 18:35:06 by llecoq           ###   ########.fr        #
+#    Updated: 2021/09/18 17:35:21 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,8 @@ CC		= gcc
 
 RM		= rm -rf
 
-CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror 
+# -g3 -fsanitize=address
 
 DIR		=	.objs/parsing\
 			.objs/parsing/utils\

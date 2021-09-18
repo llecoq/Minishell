@@ -1,0 +1,39 @@
+cd '/////' 2>/dev/null
+cd "doesntexist" 2>/dev/null
+cd "wtf" 2>/dev/null 
+
+
+
+
+
+static void	interpret_string(t_shell *shell, char **tk_cpy, int *i)
+{
+	(*i)++;
+	while ((*tk_cpy)[*i] != DOUBLE_QUOTE && (*tk_cpy)[*i])
+	{
+		if ((*tk_cpy)[*i] == '$' && (*tk_cpy)[*i + 1])
+		{
+			*i += insert_var_in_str(tk_cpy, *i, shell);
+			if ((*tk_cpy)[*i] == QUOTE)
+				return ;
+		}
+		(*i)++;
+	}
+}
+
+static int	process_tilde(t_shell *shell, int *i, char **tk_cpy)
+{
+	if (ft_strncmp((*tk_cpy), "~", 2) == 0
+		|| ft_strncmp((*tk_cpy), "~/", 3) == 0)
+	{
+		free((*tk_cpy));
+		(*tk_cpy) = ft_strdup(get_env(shell, "HOME"));
+		return (TRUE);
+	}
+	else if (ft_strncmp((*tk_cpy), "~/", 2) == 0)
+	{
+		*i += insert_home_directory_in_str(shell, &(*tk_cpy));
+		return (TRUE);
+	}
+	return (FALSE);
+}

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 09:29:01 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 16:37:33 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/18 18:28:12 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int	ft_cd(t_shell *shell, char **argv)
 		old_path = get_env(shell, "PWD");
 		if (chdir(new_path) == -1)
 		{
+			free_set_null((void **)&new_path);
 			ft_printf(2, "minishell: cd: %s: %s\n", argv[1], strerror(errno));
 			return (1);
 		}
@@ -100,5 +101,5 @@ int	ft_cd(t_shell *shell, char **argv)
 		old_path = get_env(shell, "PWD");
 	add_old_path_to_env(shell, &old_path);
 	add_new_path_to_env(shell, &new_path, argv[1]);
-	return (0);
+	return (EXIT_SUCCESS);
 }

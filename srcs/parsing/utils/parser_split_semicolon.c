@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 18:03:53 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 18:06:51 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/18 19:17:30 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	find_command_line(char *input, int *i)
 
 	while (input[*i])
 	{
-		if (input[*i] == QUOTE || input[*i] == DOUBLE_QUOTE)
+		if (input[*i] == SINGLE_QUOTE || input[*i] == DOUBLE_QUOTE)
 		{
 			closing_quote = input[*i];
 			(*i)++;
@@ -47,7 +47,7 @@ static void	find_command_line(char *input, int *i)
 			return ;
 		}
 		if (input[*i]
-			&& (input[*i] != QUOTE && input[*i] != DOUBLE_QUOTE))
+			&& (input[*i] != SINGLE_QUOTE && input[*i] != DOUBLE_QUOTE))
 			(*i)++;
 	}
 }

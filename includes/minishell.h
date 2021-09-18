@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 16:30:11 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/18 19:16:03 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ enum	e_flags
 
 enum	e_quotes
 {
-	SINGLE_QUOTE = 1,
-	DBLE_QUOTE = 2,
+	SINGLE_QUOTE = 39,
+	DOUBLE_QUOTE = 34,
 };
 
 enum	e_errors

@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 09:57:27 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 13:59:29 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/18 19:17:46 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	find_multiple_words(char *word)
 	int	i;
 
 	i = 0;
-	if (*word != QUOTE && *word != DOUBLE_QUOTE)
+	if (*word != SINGLE_QUOTE && *word != DOUBLE_QUOTE)
 	{
 		while (word[i] && word[i] != SPACE)
 			i++;

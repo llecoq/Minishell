@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 10:40:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/12 17:23:28 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/18 19:18:25 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_quote(const char c)
 	if (c == '\'')
 		return (SINGLE_QUOTE);
 	else if (c == '"')
-		return (DBLE_QUOTE);
+		return (DOUBLE_QUOTE);
 	return (0);
 }
 

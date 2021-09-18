@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/17 17:34:18 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/18 19:27:27 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,47 @@ int	insert_home_directory_in_str(t_shell *shell, char **str)
 	return (len);
 }
 
+static void	interpret_string(t_shell *shell, char **tk_cpy, int *i)
+{
+	(*i)++;
+	while ((*tk_cpy)[*i] != DOUBLE_QUOTE && (*tk_cpy)[*i])
+	{
+		if ((*tk_cpy)[*i] == '$' && (*tk_cpy)[*i + 1])
+		{
+			*i += insert_var_in_str(tk_cpy, *i, shell);
+			if ((*tk_cpy)[*i] == SINGLE_QUOTE)
+				return ;
+		}
+		(*i)++;
+	}
+}
+
+static void	do_not_interpret_string(char *tk_cpy, int *i)
+{
+	(*i)++;
+	while (tk_cpy[*i] != SINGLE_QUOTE && tk_cpy[*i])
+		(*i)++;
+}
+
+static int	process_tilde(t_shell *shell, int *i, char **tk_cpy)
+{
+	if (ft_strncmp((*tk_cpy), "~", 2) == 0
+		|| ft_strncmp((*tk_cpy), "~/", 3) == 0)
+	{
+		free((*tk_cpy));
+		(*tk_cpy) = ft_strdup(get_env(shell, "HOME"));
+		return (TRUE);
+	}
+	else if (ft_strncmp((*tk_cpy), "~/", 2) == 0)
+	{
+		*i += insert_home_directory_in_str(shell, &(*tk_cpy));
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+// a changer si tu veux, c'etait juste pour avoir un peu plus de visibilite
+// les noms de fonctions sont un peu fallacieuses 
 char	*process_variables(char *token, t_shell *shell) 
 {
 	int			i;
@@ -149,36 +190,16 @@ char	*process_variables(char *token, t_shell *shell)
 	
 	tk_cpy = ft_strdup(token);
 	i = 0;//pour norminette debuter a -1 et str[++i]
-	if (ft_strncmp(tk_cpy, "~", 2) == 0)
-		return (ft_strdup(get_env(shell, "HOME")));
-	if (ft_strncmp(tk_cpy, "~/", 3) == 0)
-		return (ft_strdup(get_env(shell, "HOME")));
-	if (ft_strncmp(tk_cpy, "~/", 2) == 0)
-		i += insert_home_directory_in_str(shell, &tk_cpy);
+	if (process_tilde(shell, &i, &tk_cpy) == TRUE)
+		return (tk_cpy);
 	while (tk_cpy[i])
 	{
 		if (tk_cpy[i] == '$' && tk_cpy[i + 1])
 			i += insert_var_in_str(&tk_cpy, i, shell);
-		else if (tk_cpy[i] == '"')
-		{
-			i++;
-			while (tk_cpy[i] != '"' && tk_cpy[i])
-			{
-				if (tk_cpy[i] == '$' && tk_cpy[i + 1])
-				{
-					i += insert_var_in_str(&tk_cpy, i, shell);
-					if (tk_cpy[i] == '\'')
-						break ;
-				}
-				i++;
-			}
-		}
-		if (tk_cpy[i] == '\'') //mettre lignes suivantes dans f() pr norm
-		{
-			i++;
-			while (tk_cpy[i] != '\'' && tk_cpy[i])
-				i++;
-		}
+		else if (tk_cpy[i] == DOUBLE_QUOTE)
+			interpret_string(shell, &tk_cpy, &i);
+		if (tk_cpy[i] == SINGLE_QUOTE) //mettre lignes suivantes dans f() pr norm
+			do_not_interpret_string(tk_cpy, &i);
 		if (tk_cpy[i])
 			i++;
 	}
