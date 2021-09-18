@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/18 19:27:27 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/18 19:30:03 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,16 +189,16 @@ char	*process_variables(char *token, t_shell *shell)
 	char		*tk_cpy;
 	
 	tk_cpy = ft_strdup(token);
-	i = 0;//pour norminette debuter a -1 et str[++i]
 	if (process_tilde(shell, &i, &tk_cpy) == TRUE)
 		return (tk_cpy);
+	i = 0;
 	while (tk_cpy[i])
 	{
 		if (tk_cpy[i] == '$' && tk_cpy[i + 1])
 			i += insert_var_in_str(&tk_cpy, i, shell);
 		else if (tk_cpy[i] == DOUBLE_QUOTE)
 			interpret_string(shell, &tk_cpy, &i);
-		if (tk_cpy[i] == SINGLE_QUOTE) //mettre lignes suivantes dans f() pr norm
+		if (tk_cpy[i] == SINGLE_QUOTE)
 			do_not_interpret_string(tk_cpy, &i);
 		if (tk_cpy[i])
 			i++;
