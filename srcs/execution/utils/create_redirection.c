@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 14:54:41 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/20 14:50:26 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/20 15:27:41 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	create_file(t_cmd *cmd, char *file_name, int redir_type)
 	free_set_null((void **)&cmd->redir.file_name);
 	if (cmd->redir.into_file == FAILED)
 	{
-		close(cmd->redir.into_file);
 		if (errno == EBADF)
 			errno = ENOENT;
 		return (errno);
@@ -40,9 +39,9 @@ static int	check_for_existing_file(t_cmd *cmd, char *file_name)
 	if (cmd->redir.from_file >= EXISTENT)
 		close(cmd->redir.from_file);
 	fd = open(file_name, O_RDONLY);
-	free_set_null((void **)&cmd->redir.file_name);
 	if (fd > 0)
 	{
+		free_set_null((void **)&cmd->redir.file_name);
 		cmd->redir.from_file = fd;
 		return (IS_VALID);
 	}
@@ -51,11 +50,11 @@ static int	check_for_existing_file(t_cmd *cmd, char *file_name)
 
 void	redir_error(t_shell *shell, t_cmd *cmd, int redir_status, int process)
 {
-	if (cmd->redir.into_file)
+	if (cmd->redir.into_file >= EXISTENT)
 		close(cmd->redir.into_file);
-	if (cmd->redir.from_file)
+	if (cmd->redir.from_file >= EXISTENT)
 		close(cmd->redir.into_file);
-	if (cmd->redir.from_heredoc)
+	if (cmd->redir.from_heredoc >= EXISTENT)
 		close(cmd->redir.from_heredoc);
 	if (redir_status != AMBIGUOUS_REDIRECT)
 		redir_status = SYSCALL_ERROR;

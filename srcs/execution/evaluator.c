@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 17:14:56 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/18 19:44:59 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/20 15:39:41 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	close_pipefds(t_cmd *cmd)
 		close(cmd->previous->pipefd[0]);
 	if (!cmd->next)
 		close(cmd->pipefd[0]);
+	if (cmd->redir.from_heredoc >= EXISTENT)
+		close(cmd->redir.from_heredoc);
 }
 
 int	evaluator(t_shell *shell, t_cmd *cmd, int nb_of_cmds)
