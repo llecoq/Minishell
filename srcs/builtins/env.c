@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 14:41:29 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 16:37:44 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/20 14:39:17 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ int	ft_env(t_shell *shell, char **argv)
 		return (exit_status);
 	}
 	print_env(shell, fd);
-	return (0);
+	close(fd);
+	return (EXIT_SUCCESS);
 }
