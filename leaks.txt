@@ -1,3 +1,7 @@
 cd '/////' 2>/dev/null
 cd "doesntexist" 2>/dev/null
 cd "wtf" 2>/dev/null 
+
+
+attention a checker fd ouverts dans monitor
+dernier fd reste ouvert lors d'une redir

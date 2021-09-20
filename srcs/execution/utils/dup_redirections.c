@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 15:58:53 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 10:53:14 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/18 20:34:31 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ void	dup_output_redirection(t_shell *shell, t_cmd *cmd)
 		if (dup2(cmd->pipefd[1], STDOUT_FILENO) == FAILED)
 			close_fds_and_exit(shell, cmd->pipefd[1], -1);
 	if (cmd->redir.into_file >= EXISTENT)
+	{
 		if (dup2(cmd->redir.into_file, STDOUT_FILENO) == FAILED)
-			close_fds_and_exit(shell, cmd->pipefd[1], -1);
+			close_fds_and_exit(shell, cmd->pipefd[1], cmd->redir.into_file);
+		close(cmd->redir.into_file);
+	}
 	close(cmd->pipefd[1]);
 }
 
