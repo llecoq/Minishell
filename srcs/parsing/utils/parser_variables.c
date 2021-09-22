@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/20 11:29:07 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/22 13:31:21 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	if (!is_word_char((*str)[i + j], FIRST_LETTER)) //if doesn't start by letter or _ or ?
 	{
 		ft_memmove(*str + i, *str + i + 2, ft_strlen(*str));
-		return (1);
+		return (0);
 	}
 	while (is_word_char((*str)[i + j], OTHER_LETTERS)) //j goes at the end of var name
 		j++;
