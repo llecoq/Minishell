@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/22 13:31:21 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/22 14:00:28 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	if (!is_word_char((*str)[i + j], FIRST_LETTER)) //if doesn't start by letter or _ or ?
 	{
 		ft_memmove(*str + i, *str + i + 2, ft_strlen(*str));
-		return (0);
+		return (-1);
 	}
 	while (is_word_char((*str)[i + j], OTHER_LETTERS)) //j goes at the end of var name
 		j++;
@@ -92,7 +92,7 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	if (!value || *value == '\0') //if !var, replace var name by nothing in str
 	{
 		ft_memmove(*str + i, *str + i + j, ft_strlen(*str));
-		return (0);
+		return (-1);
 	}
 	//dst len = src_len + diff between var name and var value + 1 for \0
 	dst_len = ft_strlen(*str) - j + ft_strlen(value) + 1;
