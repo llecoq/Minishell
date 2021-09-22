@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 14:41:29 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/20 16:14:06 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/22 13:37:14 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,16 @@ static int	search_for_changing_dir(char *argv)
 static int	process_env_args(char **argv)
 {
 	int		fd;
-	int		ret;
 	int		denied;
-	char	buff;
 
 	if (*argv[1] == '-')
 		return (ILLEGAL_OPTION);
 	denied = search_for_changing_dir(argv[1]);
 	fd = open(argv[1], O_RDONLY);
-	ret = read(fd, &buff, 1);
 	close (fd);
-	if (ret == -1 && denied == 1)
+	if (fd > 0 && denied == 1)
 		return (PERMISSION_DENIED);
-	if (fd > 1)
+	if (fd > 0 || argv[1])
 		return (NO_SUCH_FILE_OR_DIRECTORY);
 	return (0);
 }
