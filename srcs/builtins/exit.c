@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 15:11:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 18:55:40 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/22 13:05:28 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	arg_long_overflow(char *arg)
 
 static int	process_numeric_arg(char **argv)
 {
-	if (argv[2] && arg_is_numeric(argv[2]))
+	if (argv[2])
 	{
 		ft_printf(STDERR_FILENO, "minishell: exit: too many arguments\n");
 		return (1);
@@ -71,9 +71,9 @@ int	ft_exit(t_shell *shell, char **argv)
 {
 	if (argv && ft_strncmp(argv[0], "exit", 5) == 0)
 	{
-		// ft_printf(STDOUT_FILENO, "exit\n"); // a enlever si minishell -c
+		ft_printf(STDOUT_FILENO, "exit\n"); // a enlever si minishell -c
 		if (argv[1] && arg_is_numeric(argv[1]) && process_numeric_arg(argv))
-			return (1);
+			return (EXIT_FAILURE);
 		else if (argv[1] && !arg_is_numeric(argv[1]))
 		{
 			ft_printf(STDERR_FILENO, "minishell: exit: %s:\
