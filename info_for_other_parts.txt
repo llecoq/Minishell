@@ -238,10 +238,6 @@ bash-3.2$ cat oui
 bash-3.2$ pwd > test/oui
 bash: test/oui: No such file or directory
 
-open semble gerer ca automatiquement
-
-ATTENTION A CLOSE TOUS LES FD, DANS TOUTES LES FORKS, EN CAS D'ERREUR AUSSI
-ET SANS DOUBLON
 
 variable d'environnement devrait etre gerer a l'exec ?
 Car si bash: export VAR=ZOB | echo $VAR
@@ -250,10 +246,6 @@ creer buff pour printf, write doit s'executer d'un seul coup
 rl_clear_history()
 
 gerer script
-
-si unset ou export dans pipe, alors changements non effectifs... faire R
-=> gere automatiquement puisque dans un child process ca ne modifie pas les
-variables du parent
 
 attention stop value dup, mais apres arg quand meme dans cat
 bash-3.2$ cat << stop oui
@@ -270,9 +262,6 @@ oui
 attention a revoir peutetre fonctionnement prompt avec ctrl + d par exemple
 readline rajoute un \n alors que bash non
 
-errno = last_child_status
-pour l'instant le token se fait tej de la liste
-
 lorsque CRT+D dans heredoc, saute une ligne
 
 $(NAME):	$(OBJS)
@@ -285,11 +274,10 @@ $(NAME):	$(OBJS)
 
 PROBLEM AFFICHAGE QUAND CTRL+V
 
-gerer option -ljkhio dans pwd
-
 Makefile ne recompil pas si je change enum dans .h
-checker leeaks en enlever waitpid et avec -c
-
-est-ce que l'on se sert de error dans la struct token ?
 
 echo $NONEXISTENTVAR leaks de taille 16 (2 * 8 (char *))
+
+
+
+echo """hahah 'c nul $VAR' haha"""

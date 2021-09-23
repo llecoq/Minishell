@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 16:10:31 by llecoq            #+#    #+#             */
-/*   Updated: 2021/07/13 16:25:08 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/23 14:10:33 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*get_env(t_shell *shell, const char *name)
 			&& shell->envp[i][len] == '=')
 		{
 			var_value = ft_strchr(shell->envp[i], '=') + 1;
-			while (*var_value == ' ')
+			while (*var_value == SPACE)
 				var_value++;
 			return (var_value);
 		}

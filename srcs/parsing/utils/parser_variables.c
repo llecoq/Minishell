@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/23 14:58:04 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/23 15:01:40 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,7 @@ char	*process_variables(char *token, t_shell *shell)
 		else if (tk_cpy[i] == '$' && tk_cpy[i + 1])
 			i += insert_var_in_str(&tk_cpy, i, shell);
 		else if (tk_cpy[i] == DOUBLE_QUOTE)
+		{
 			interpret_string(shell, &tk_cpy, &i);
 		else if (tk_cpy[i] == SINGLE_QUOTE)
 			do_not_interpret_string(tk_cpy, &i);
@@ -245,6 +246,7 @@ char	*process_variables(char *token, t_shell *shell)
 			i++;
 		// dprintf(1, "ICI\n");
 	}
+	// dprintf(2, "tk_cpy = %s\n", tk_cpy);
 	return (tk_cpy);
 }
 
@@ -253,8 +255,11 @@ void	replace_token_with_var(char **token, t_shell *shell)
 	char		*tk_cpy;
 	
 	tk_cpy = process_variables(*token, shell);
+		if (*token)
+	{
 	free(*token);
 	*token = tk_cpy;
+	}
 }
 
 void arg_syntax_processing(t_token **cmd_array, t_shell *shell)

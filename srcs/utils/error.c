@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/20 15:27:55 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/23 14:58:36 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,12 @@ happens bc of multiline that we do not have to handle
 */
 void	err_clear(t_shell *shell, int error_type, char *str)
 {
-	// if (error_type == 0) //errno pour les built-in 
-	// 	ft_printf(2, "%s\n", strerror(errno));
 	if (error_type == NO_CLOSING_QUOTE)
 	{
 		ft_printf(2, "minishell: unexpected EOF while looking for matching\
  `''\n");
 		ft_printf(2, "minishell: syntax error: unexpected end of file");
+		exit_status = 258;
 	}
 	else if (error_type == NOTHING_AFTER_REDIR
 		|| error_type == NOTHING_BEFORE_REDIR)
@@ -80,18 +79,19 @@ void	err_clear(t_shell *shell, int error_type, char *str)
 
 void	error(t_shell *shell, int error_type, char *str)
 {
+	(void)shell;
 	if (error_type == SYSCALL_ERROR && str)
 	{
 		exit_status = errno;
 		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
 		return ;
 	}
-	if (error_type == AMBIGUOUS_REDIRECT)
+	else if (error_type == AMBIGUOUS_REDIRECT)
 	{
 		exit_status = 1;
 		ft_printf(2, "minishell: %s: ambiguous redirect\n", str);
 	}
-	if (error_type == 0) //errno pour les built-in 
+	else if (error_type == SYSCALL_ERROR) //errno pour les built-in 
 		ft_printf(2, "%s\n", strerror(errno));
 	else if (error_type == REDIR_ISNT_1_WORD)
 		ft_printf(2, "minishell: %s: ambiguous redirect\n", str);
@@ -101,6 +101,5 @@ void	error(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "minishell: %s: command not found\n", str);
 	else if (error_type == FILE_IS_DIR)
 		ft_printf(2, "minishell: %s: Is a directory\n", str);
-	(void)shell;
 	//must stop current command and go back to prompt
 }
