@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 14:54:41 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/20 15:27:41 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/23 15:42:40 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static int	create_file(t_cmd *cmd, char *file_name, int redir_type)
 	else if (redir_type == TRUNC)
 		cmd->redir.into_file
 			= open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	free_set_null((void **)&cmd->redir.file_name);
 	if (cmd->redir.into_file == FAILED)
 	{
 		if (errno == EBADF)
 			errno = ENOENT;
 		return (errno);
 	}
+	free_set_null((void **)&cmd->redir.file_name);
 	return (IS_VALID);
 }
 
@@ -60,6 +60,8 @@ void	redir_error(t_shell *shell, t_cmd *cmd, int redir_status, int process)
 		redir_status = SYSCALL_ERROR;
 	if (process == SINGLE_BUILTIN)
 	{
+		ft_printf(STDERR_FILENO, "minishell: %s: ", cmd->redir.file_name);
+		free_set_null((void **)&cmd->redir.file_name);
 		error(shell, redir_status, cmd->redir.file_name);
 		cmd->ft_builtin = NULL;
 		return ;

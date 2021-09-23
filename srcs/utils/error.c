@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/23 14:58:36 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/23 15:41:09 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,11 @@ void	error(t_shell *shell, int error_type, char *str)
 		exit_status = 1;
 		ft_printf(2, "minishell: %s: ambiguous redirect\n", str);
 	}
-	else if (error_type == SYSCALL_ERROR) //errno pour les built-in 
+	else if (error_type == SYSCALL_ERROR) //errno pour les built-in
+	{
+		exit_status = errno;
 		ft_printf(2, "%s\n", strerror(errno));
+	}
 	else if (error_type == REDIR_ISNT_1_WORD)
 		ft_printf(2, "minishell: %s: ambiguous redirect\n", str);
 	else if (error_type == CANT_OPEN_FILE)
