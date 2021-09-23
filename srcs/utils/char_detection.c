@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   char_detection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 10:40:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/18 19:18:25 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/23 14:33:40 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,10 @@ int	finished_by_spaces(const char *str)
 }
 
 //to test words 
-int	is_word_char(int c, int mode)
+int	is_word_char(int c)
 {
-	if (mode == OTHER_LETTERS)
-	{
-		if (ft_isalnum(c) || c == UNDERSCORE)
-			return (1);
-		else
-			return (0);
-	}
-	else if (mode == FIRST_LETTER)
-	{
-		if (ft_isalpha(c) || c == UNDERSCORE || c == QUESTION_MARK)
-			return (1);
-		else
-			return (0);
-	}
+	if (ft_isalnum(c) || c == UNDERSCORE)
+		return (1);
 	return (0);
 }
 
@@ -89,3 +77,13 @@ int	is_word(const char *str)
 		return (1);
 	return (0);
 }
+
+int is_other_spe_char_except_question_mark(char c)
+{
+	if (c == '!' || (c >= '#' && c <= '&') || (c >= '(' && c <= '/')\
+	|| (c >= ':' && c <= '>') || c == '@' || (c >= '[' && c <= '`')\
+	|| (c >= '{' && c <= '~'))
+		return (1);
+	return (0);
+}
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/18 19:16:03 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/23 14:33:55 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,10 @@ enum	e_word_chars
 int			is_redirection(const char *str, int i);
 int			is_quote(const char c);
 int			finished_by_spaces(const char *str);
-int			is_word_char(int c, int mode);
+int			is_word_char(int c);
 int			is_word(const char *str);
+int 		is_other_spe_char_except_question_mark(char c);
+
 
 /*
 ** token_list_functions.c  

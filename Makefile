@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
+#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/09/20 15:31:56 by llecoq           ###   ########.fr        #
+#    Updated: 2021/09/23 14:48:12 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,8 +78,7 @@ CC		= gcc
 
 RM		= rm -rf
 
-CFLAGS	= -Wall -Wextra -Werror 
-# -g3 -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
 
 DIR		=	.objs/parsing\
 			.objs/parsing/utils\
