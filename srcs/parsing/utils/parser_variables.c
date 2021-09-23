@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/23 14:47:24 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/23 14:58:04 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,21 @@ int	is_not_a_var(char **str, const int i, int *move_i)
 	return (1);
 }
 
+void	move_j_to_end_of_var_name(char *str, const int i, int *j)
+{
+	if (str[i + 1] == QUESTION_MARK)
+		*j = 2;
+	else
+	{
+		*j = 1; // to start after $
+		while (is_word_char(str[i + *j])) //j goes at the end of var name
+			*j += 1;
+	}
+}
+
 //i starts at $
+//echo + special chars that have a function are not to be handled by us
+//per exemple $* or $# or () [] {} ...
 //make it so that i ends up on the next char that needs to be processed
 static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 {
@@ -99,14 +113,7 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 
 	if (is_not_a_var(str, i, &j))
 		return (j);
-	if ((*str)[i + 1] == QUESTION_MARK)
-		j = 2;
-	else
-	{
-		j = 1; // to start after $
-		while (is_word_char((*str)[i + j])) //j goes at the end of var name
-			j++;
-	}
+	move_j_to_end_of_var_name(*str, i, &j);
 	value = get_var_value(i, j, *str, shell);
 	if (!value || *value == '\0') //if !var, replace var name by nothing in str
 	{
@@ -123,55 +130,6 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 	*str = dst;
 	return (ft_strlen(value));//ends up after last letter of added var
 }
-
-//i starts at $
-//echo $$ is not to be handled by us
-//make it so that i ends up on the next char that needs to be processed
-/*
-int	ANCIENT_insert(char **str, const int i, t_shell *shell)
-{
-	int			j;
-	int			dst_len;
-	char		*dst;
-	char		*value;
-
-	j = 1; // to start after $
-	if ((*str)[i + 1] == ' ' || (*str)[i + 1] == '\0')
-		return (1);
-	//en dessous il manque conditions : 
-	//si $ + chiffre alors il fqaut bien faire comme ca
-	//si $ + char special il faut faire avancer i apres $ sans toucher a la string,
-	//ne pas faire avancer a $+char car sinon on risque de ne pas interpreter un single
-	//ou double quote qui pourrait se trouver apres $
-	//SAUF si $$ qui n'est pas a gerer dans ce cas avancer i apres $+char
-	//+ verifier les autres fonctions. En tout cas modif deja faite dans process_variables
-	//i++ n'intervient que si pas entre dans autres conditions
-	if (!is_word_char((*str)[i + j], FIRST_LETTER)) //if doesn't start by letter or _ or ?
-	{
-		ft_memmove(*str + i, *str + i + 2, ft_strlen(*str));
-		return (0);
-	}
-	while (is_word_char((*str)[i + j], OTHER_LETTERS)) //j goes at the end of var name
-		j++;
-	if ((*str)[i + j] == QUESTION_MARK)
-		j++;
-	value = get_var_value(i, j, *str, shell);
-	if (!value || *value == '\0') //if !var, replace var name by nothing in str
-	{
-		ft_memmove(*str + i, *str + i + j, ft_strlen(*str));
-		return (0);
-	}
-	//dst len = src_len + diff between var name and var value + 1 for \0
-	dst_len = ft_strlen(*str) - j + ft_strlen(value) + 1;
-	dst = calloc_sh(shell, dst_len);
-	ft_strlcpy(dst, *str, i + 1); //copy str until $ to dst
-	ft_strlcat(dst, value, dst_len); //append var value
-	ft_strlcat(dst, *str + i + j, dst_len); //append rest of str
-	free_set_null((void **)str);
-	*str = dst;
-	return (ft_strlen(value));//ends up after last letter of added var
-}
-*/
 
 /*--------------------------PROCESS_VARIABLES() -----------------------------*/	
 /*
@@ -210,9 +168,6 @@ int	insert_home_directory_in_str(t_shell *shell, char **str)
 	return (len);
 }
 
-//ISSUE INSIDE OF THIS 
-//echo "haha$5$5ol"
-//echo "haha $5$5lol"
 static void	interpret_string(t_shell *shell, char **tk_cpy, int *i)
 {
 	(*i)++;//goes after double quote
