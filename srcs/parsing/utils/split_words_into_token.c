@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   split_words_into_token.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 09:57:27 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/18 19:17:46 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:44:16 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	add_tokens_to_list(t_shell *shell, t_token *head, char	**word)
-{
-	t_token	*new_token;
-	int		i;
-
-	i = 1;
-	while (word[i])
-	{
-		new_token = create_new_token(word[i], shell);
-		turn_on_flag(ARG, new_token);
-		add_token_tail(&head, new_token);
-		i++;
-	}
-}
 
 static void	setup_first_token(t_token **token, char **splitted_token)
 {

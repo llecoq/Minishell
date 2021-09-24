@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:00:50 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 15:38:14 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 15:45:02 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,6 @@ void	set_redir_arg_flags(t_token **cmd_array)
 		}
 		i++;
 	}
-}
-
-static char	*create_error_str(char *next_token)
-{
-	char		*error_str;
-
-	error_str = calloc(ft_strlen(next_token) + 1, sizeof(char));
-	ft_strlcat(error_str, next_token, ft_strlen(next_token) + 1);
-	return (error_str);
 }
 
 static char	*check_after_redir(t_token *cpy, t_token *next_cmd)

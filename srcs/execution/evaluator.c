@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 17:14:56 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/23 14:28:26 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:48:03 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int	evaluator(t_shell *shell, t_cmd *cmd, int nb_of_cmds)
 			close_pipefds(cmd);
 		cmd = cmd->next;
 	}
-	exit_status = last_child_status(pid);
-	return (exit_status);
+	g_exit_status = last_child_status(pid);
+	return (g_exit_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 14:41:29 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/22 13:37:14 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:48:03 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ int	ft_env(t_shell *shell, char **argv)
 	fd = redir_single_builtin_cmd("env", argv[0]);
 	if (argv[1])
 	{
-		exit_status = process_env_args(argv);
-		if (exit_status == ILLEGAL_OPTION)
+		g_exit_status = process_env_args(argv);
+		if (g_exit_status == ILLEGAL_OPTION)
 			ft_printf(2, "env: illegal option -- %c\nusage: env\n", argv[1][1]);
-		else if (exit_status == PERMISSION_DENIED)
+		else if (g_exit_status == PERMISSION_DENIED)
 			ft_printf(2, "env: %s: Permission denied\n", argv[1]);
-		else if (exit_status == NO_SUCH_FILE_OR_DIRECTORY)
+		else if (g_exit_status == NO_SUCH_FILE_OR_DIRECTORY)
 			ft_printf(2, "env: %s: No such file or directory\n", argv[1]);
-		return (exit_status);
+		return (g_exit_status);
 	}
 	print_env(shell, fd);
 	if (fd > 2)

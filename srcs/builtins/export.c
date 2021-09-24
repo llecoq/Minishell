@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:32:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 15:57:31 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:48:03 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,16 @@ int	ft_export(t_shell *shell, char **argv)
 		if (valid_name(*argv, "export"))
 		{
 			export_name_and_value = ft_strdup(*argv);
-			exit_status = put_env(shell, export_name_and_value);
+			g_exit_status = put_env(shell, export_name_and_value);
 			free_set_null((void **)&export_name_and_value);
 		}
 		else
 		{
-			exit_status = 1;
+			g_exit_status = 1;
 			ft_printf(2, "minishell: export: `%s': not a valid identifier\
 \n", *argv);
 		}
 		argv++;
 	}
-	return (exit_status);
+	return (g_exit_status);
 }

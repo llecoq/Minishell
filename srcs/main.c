@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/24 15:20:22 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:59:45 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	set_shell_var_to_null(t_shell *shell)
 	shell->cmd_array = NULL;
 	shell->cmds_list = NULL;
 	shell->split_cmds_by_semicolons = NULL;
-	exit_status = 0;
+	g_exit_status = 0;
 }
 
 void	execute_minishell_from_string(t_shell *shell, char *arg, char **envp)
@@ -48,15 +48,13 @@ int	main(int argc, char **argv, char **envp)
 			process_input(&shell, PROMPT);
 		}
 	}
-	// else if (argc == 2 && ft_strncmp(argv[1], "./", 2) == 0)
-	// 	execute_minishell_script(&shell, argv, envp);
 	else if (argc >= 3 && ft_strncmp(argv[1], "-c", 3) == 0)
 		execute_minishell_from_string(&shell, argv[2], envp);
 	else
 	{
 		ft_printf(2, "minishell: Wrong use. Try again !\n");
-		exit_status = 42;
+		g_exit_status = 42;
 	}
 	clear_memory(&shell);
-	return (exit_status);
+	return (g_exit_status);
 }

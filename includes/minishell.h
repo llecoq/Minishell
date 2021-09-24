@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/24 15:34:46 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 15:58:59 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@
 # include "builtin.h"
 # include "utils.h"
 
-int	exit_status;
+int						g_exit_status;
 
-typedef int 	t_bool;
-typedef int 	t_flag;
-typedef struct 	s_shell t_shell;
+typedef int				t_flag;
+typedef struct s_shell	t_shell;
 
-typedef struct 	s_token
+typedef struct s_token
 {
 	char			*word;
 	t_flag			cmd;
@@ -49,11 +48,12 @@ typedef struct 	s_token
 	t_flag			redir;
 	struct s_token	*next;
 	struct s_token	*previous;
-}				t_token;
+}						t_token;
 
-typedef struct	s_shell
+//last cmd_array is set to NULL;
+typedef struct s_shell
 {
-	char			*input; // readline
+	char			*input;
 	char			*user_dir;
 	char			**envp;
 	const char		***cmd_argv;
@@ -62,10 +62,10 @@ typedef struct	s_shell
 	t_list			*split_cmds_by_semicolons;
 	t_list			*export_list;
 	t_list			*path;
-	t_token 		**cmd_array; //last cmd_array is set to NULL;
+	t_token			**cmd_array;
 	int				change_directory;
 	int				nb_of_cmds;
-}				t_shell;
+}						t_shell;
 
 enum	e_redirections
 {
@@ -122,8 +122,7 @@ int			is_quote(const char c);
 int			finished_by_spaces(const char *str);
 int			is_word_char(int c);
 int			is_word(const char *str);
-int 		is_other_spe_char_except_question_mark(char c);
-
+int			is_other_spe_char_except_question_mark(char c);
 
 /*
 ** token_list_functions.c  
@@ -139,16 +138,21 @@ void		erase_cmd(t_token *cmd);
 void		print_argv(t_cmd *cmd_list);
 
 /*
-** ------------------------------------------------------------------ UTILS
+** token_list_functions2.c  
 */
 
+void		add_tokens_to_list(t_shell *shell, t_token *head, char	**word);
+
+/*
+** ------------------------------------------------------------------ UTILS
+*/
 
 /*
 ** parsing
 */
 
 void		store_environment(t_shell *shell, char *const *envp);
-void   		store_environment_tab(t_shell *shell, t_list *env_list, int len);
+void		store_environment_tab(t_shell *shell, t_list *env_list, int len);
 void		tokenize(t_shell *shell, const char *input);
 void		parse(t_shell *shell);
 char		*process_variables(char *token, t_shell *shell);
@@ -160,7 +164,8 @@ char		*process_variables(char *token, t_shell *shell);
 void		turn_on_flag(int flag, t_token *cpy);
 void		erase_current_cmd(t_token **cmd_array, int i, t_shell *shell);
 void		create_empty_cmds_list(t_shell *shell, int nb_of_cmds);
-void		create_heredoc(t_shell *shell, t_token **cmd_array, t_cmd *cmds_list);
+void		create_heredoc(t_shell *shell, t_token **cmd_array, \
+t_cmd *cmds_list);
 int			insert_home_directory_in_str(t_shell *shell, char **str);
 int			process_tilde(t_shell *shell, int *i, char **tk_cpy);
 int			dollar_sign_followed_by_quote(char *tk_cpy, const int i);
@@ -176,7 +181,7 @@ void		set_redir_arg_flags(t_token **cmd_array);
 ** parser_variables
 */
 
-void 		arg_syntax_processing(t_token **cmd_array, t_shell *shell);
+void		arg_syntax_processing(t_token **cmd_array, t_shell *shell);
 void		replace_token_with_var(char **token, t_shell *shell);
 
 /*
@@ -189,7 +194,7 @@ int			insert_var_in_str(char **str, const int i, t_shell *shell);
 ** parser_split_semicolon
 */
 
-t_list	*split_by_semicolons(t_shell *shell, char *input);
+t_list		*split_by_semicolons(t_shell *shell, char *input);
 
 /*
 ** parser_trim_quotes

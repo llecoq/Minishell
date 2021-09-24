@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 11:28:56 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/16 14:52:15 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:46:49 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*find_redir_type(int flag)
 	return (redir_type);
 }
 
-void	print_cmd_array(t_token **cmd_array, int flags)
+void	print_cmd_array(t_token **cmd_array, int flags) //TO DELETE
 {
 	int				i;
 	int				x;
@@ -126,67 +126,4 @@ void	print_cmd_array(t_token **cmd_array, int flags)
 		i++;
 	}
 	ft_printf(1, "====^ Print cmd array ^====\n");
-}
-
-static void	print_current_argv(t_cmd *cmd)
-{
-	int				i;
-
-	i = 0;
-	while (cmd->argv[i])
-	{
-		ft_printf(1, "%s, ", cmd->argv[i]);
-		i++;
-	}
-	ft_printf(1, "NULL");
-	ft_printf(1, "\n");
-}
-
-void	print_argv(t_cmd *cmds_list)
-{
-	int				i;
-	t_cmd			*cmd;
-
-	i = 0;
-	cmd = cmds_list;
-	while (cmd)
-	{
-		ft_printf(1, "COMMAND #%d\n", i);
-		print_current_argv(cmd);
-		i++;
-		cmd = cmd->next;
-	}
-}
-
-void	erase_token(t_token **token, t_token **head, t_shell *shell)
-{
-	t_token	*prev;
-	t_token	*next;
-
-	prev = (*token)->previous;
-	next = (*token)->next;
-	if (prev)
-		prev->next = next;
-	if (next)
-		next->previous = prev;
-	free((*token)->word); // AAAAAAAAAAAAAAAAAAAAAAAAAAH
-	(*token)->word = NULL;
-	free_set_null((void **)token);
-	(*token) = next;
-	if (prev == NULL)
-		(*head) = (*token);
-	(void)shell;
-}
-
-void	erase_cmd(t_token *cmd)
-{
-	t_token		*tmp;
-
-	while (cmd)
-	{
-		tmp = cmd;
-		cmd = cmd->next;
-		free_set_null((void **)&tmp->word);
-		free_set_null((void **)&tmp);
-	}
 }

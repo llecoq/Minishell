@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 17:14:39 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/24 15:42:18 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 15:48:03 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	execute_single_builtin_cmd(t_shell *shell, t_cmd *cmd, char **argv)
 	cmd->token_list = *(shell->cmd_array);
 	create_redirection(shell, cmd, cmd->token_list, SINGLE_BUILTIN);
 	if (cmd->ft_builtin == NULL) // si single builtin et redir failed
-		return (exit_status);
+		return (g_exit_status);
 	if (cmd->redir.from_file >= EXISTENT)
 		close(cmd->redir.from_file);
 	else if (cmd->redir.from_heredoc >= EXISTENT)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 18:14:34 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/18 19:16:27 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:59:24 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ enum	e_split_token
 {
 	IS_SINGLE,
 	IS_MULTIPLE,
-	// DOUBLE_QUOTE = 34,
-	// QUOTE = 39,
 	TILDE = 126,
 	QUESTION_MARK = 63,
 	UNDERSCORE = 95,
@@ -37,6 +35,7 @@ void		free_cmd_array(t_token **cmd_array);
 void		error_quit(t_shell *shell, int error_type, char *str);
 void		err_clear(t_shell *shell, int error_type, char *str);
 void		error(t_shell *shell, int error_type, char *str);
+char		*create_error_str(char *next_token);
 void		print_list(t_list *list);
 void		print_env(t_shell *shell, int fd);
 void		sort_alphabetically_list(t_list **export_list);

@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 15:27:35 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 15:38:40 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 15:48:03 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*get_errno_value(void)
 	int			i;
 	int			len;
 
-	errno_itoa = ft_itoa(exit_status);
+	errno_itoa = ft_itoa(g_exit_status);
 	len = ft_strlen(errno_itoa);
 	i = 0;
 	while (i < len)

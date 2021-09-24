@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 13:32:12 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 15:48:03 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	error_quit(t_shell *shell, int error_type, char *str)
 	if (error_type == SYSCALL_ERROR && str)
 	{
 		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
-		if (errno == ENOENT && exit_status == CMD_NOT_FOUND)
+		if (errno == ENOENT && g_exit_status == CMD_NOT_FOUND)
 			errno = CMD_NOT_FOUND;
 	}
 	if (error_type == IS_A_DIRECTORY)
@@ -63,12 +63,12 @@ void	err_clear(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "minishell: unexpected EOF while looking for matching\
  `%c'\n", error_type *= -1);
 		ft_printf(2, "minishell: syntax error: unexpected end of file");
-		exit_status = 258;
+		g_exit_status = 258;
 	}
 	else if (error_type == NOTHING_AFTER_REDIR
 		|| error_type == NOTHING_BEFORE_REDIR)
 	{
-		exit_status = 258;
+		g_exit_status = 258;
 		ft_printf(2, "minishell: syntax error near unexpected token `%s'", str);
 	}
 	ft_printf(2, "\n");
@@ -82,18 +82,18 @@ void	error(t_shell *shell, int error_type, char *str)
 	(void)shell;
 	if (error_type == SYSCALL_ERROR && str)
 	{
-		exit_status = errno;
+		g_exit_status = errno;
 		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
 		return ;
 	}
 	else if (error_type == AMBIGUOUS_REDIRECT)
 	{
-		exit_status = 1;
+		g_exit_status = 1;
 		ft_printf(2, "minishell: %s: ambiguous redirect\n", str);
 	}
 	else if (error_type == SYSCALL_ERROR) //errno pour les built-in
 	{
-		exit_status = errno;
+		g_exit_status = errno;
 		ft_printf(2, "%s\n", strerror(errno));
 	}
 	else if (error_type == REDIR_ISNT_1_WORD)
@@ -105,4 +105,13 @@ void	error(t_shell *shell, int error_type, char *str)
 	else if (error_type == FILE_IS_DIR)
 		ft_printf(2, "minishell: %s: Is a directory\n", str);
 	//must stop current command and go back to prompt
+}
+
+char	*create_error_str(char *next_token)
+{
+	char		*error_str;
+
+	error_str = calloc(ft_strlen(next_token) + 1, sizeof(char));
+	ft_strlcat(error_str, next_token, ft_strlen(next_token) + 1);
+	return (error_str);
 }

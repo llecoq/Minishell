@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 15:11:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/23 14:23:18 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 16:02:27 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,34 +57,33 @@ static int	process_numeric_arg(char **argv)
 		ft_printf(STDERR_FILENO, "minishell: exit: too many arguments\n");
 		return (1);
 	}
-	exit_status = (unsigned char)ft_atoi(argv[1]);
+	g_exit_status = (unsigned char)ft_atoi(argv[1]);
 	if (arg_long_overflow(argv[1]))
 	{
 		ft_printf(STDERR_FILENO, "minishell: exit: %s: numeric argument\
  required\n", argv[1]);
-		exit_status = 255;
+		g_exit_status = 255;
 	}
 	return (0);
 }
 
+// ft_printf(STDOUT_FILENO, "exit\n"); a enlever si minishell -c
 int	ft_exit(t_shell *shell, char **argv)
 {
 	if (argv && ft_strncmp(argv[0], "exit", 5) == 0)
 	{
-		ft_printf(STDOUT_FILENO, "exit\n"); // a enlever si minishell -c
+		ft_printf(STDOUT_FILENO, "exit\n");
 		if (argv[1] && arg_is_numeric(argv[1]) && process_numeric_arg(argv))
 			return (EXIT_FAILURE);
 		else if (argv[1] && !arg_is_numeric(argv[1]))
 		{
 			ft_printf(STDERR_FILENO, "minishell: exit: %s:\
  numeric argument required\n", argv[1]);
-			exit_status = 255;
+			g_exit_status = 255;
 		}
 	}
-	if (argv == NULL) // si argv NULL, alors ft_exit called avec CTRL + D
-	{
-		// ft_printf(STDOUT_FILENO, "exit\n");
-	}
+	if (argv == NULL)
+		ft_printf(STDOUT_FILENO, "exit\n");
 	clear_memory(shell);
-	exit(exit_status);
+	exit(g_exit_status);
 }
