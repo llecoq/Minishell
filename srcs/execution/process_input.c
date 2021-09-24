@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 18:10:35 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/18 20:15:33 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:38:54 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	exit_failed(t_cmd *cmd)
 {
-	if (cmd && ft_strncmp(cmd->argv[0], "exit", 5) == 0 && exit_status == 1)
+	if (exit_status == 1 && cmd && ft_strncmp(cmd->argv[0], "exit", 5) == 0)
 		return (1);
 	return (0);
 }
