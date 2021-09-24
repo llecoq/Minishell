@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/24 16:08:48 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 16:40:58 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ int			is_redirection(const char *str, int i);
 int			is_quote(const char c);
 int			finished_by_spaces(const char *str);
 int			is_word_char(int c);
-int			is_word(const char *str);
 int			is_other_spe_char_except_question_mark(char c);
 
 /*
@@ -214,6 +213,12 @@ void		find_command(t_token **cmd_array, t_shell *shell);
 */
 
 void		create_argument_list(t_token **cmd_array, t_shell *shell);
+
+/*
+** tokenizer_utils
+*/
+
+int			count_commands(const char *input);
 
 /*
 ** ---------------------------------------------------------------- PARSING

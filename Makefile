@@ -6,7 +6,7 @@
 #    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/09/24 15:48:53 by abonnel          ###   ########.fr        #
+#    Updated: 2021/09/24 16:39:51 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS_FILES	=	main.c\
 				parsing/utils/parser_split_semicolon.c\
 				parsing/utils/split_words_into_token.c\
 				parsing/utils/parser_variables_expansions.c\
+				parsing/utils/tokenizer_utils.c\
 				execution/evaluator.c\
 				execution/process_input.c\
 				execution/utils/create_pipe.c\

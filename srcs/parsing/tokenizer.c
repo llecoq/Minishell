@@ -6,38 +6,11 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 16:09:13 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:39:16 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//return -closing_quote to print the error message with corresponding quote
-static int	count_commands(const char *input)
-{
-	int		i;
-	int		nb_of_cmds;
-	char	closing_quote;
-
-	i = 0;
-	nb_of_cmds = 1;
-	while (input[i])
-	{
-		if (is_redirection(input, i) == PIPE)
-			nb_of_cmds++;
-		else if (is_quote(input[i]))
-		{
-			closing_quote = input[i];
-			i++;
-			while (input[i] != closing_quote && input[i])
-				i++;
-			if (!input[i])
-				return (-closing_quote);
-		}
-		i++;
-	}
-	return (nb_of_cmds);
-}
 
 static char	*create_word_token(int i, const char *input, t_shell *shell)
 {
