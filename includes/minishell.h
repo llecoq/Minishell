@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/23 15:01:10 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:34:46 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,9 @@ void		turn_on_flag(int flag, t_token *cpy);
 void		erase_current_cmd(t_token **cmd_array, int i, t_shell *shell);
 void		create_empty_cmds_list(t_shell *shell, int nb_of_cmds);
 void		create_heredoc(t_shell *shell, t_token **cmd_array, t_cmd *cmds_list);
+int			insert_home_directory_in_str(t_shell *shell, char **str);
+int			process_tilde(t_shell *shell, int *i, char **tk_cpy);
+int			dollar_sign_followed_by_quote(char *tk_cpy, const int i);
 
 /*
 ** parser_flags
@@ -175,6 +178,12 @@ void		set_redir_arg_flags(t_token **cmd_array);
 
 void 		arg_syntax_processing(t_token **cmd_array, t_shell *shell);
 void		replace_token_with_var(char **token, t_shell *shell);
+
+/*
+** parser_variables_expansions.c
+*/
+
+int			insert_var_in_str(char **str, const int i, t_shell *shell);
 
 /*
 ** parser_split_semicolon

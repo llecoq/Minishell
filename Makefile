@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
+#    By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/09/23 15:43:11 by llecoq           ###   ########.fr        #
+#    Updated: 2021/09/24 15:40:29 by abonnel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS_FILES	=	main.c\
 				parsing/utils/parser_store_commands_list.c\
 				parsing/utils/parser_split_semicolon.c\
 				parsing/utils/split_words_into_token.c\
+				parsing/utils/parser_variables_expansions.c\
 				execution/evaluator.c\
 				execution/process_input.c\
 				execution/utils/create_pipe.c\
@@ -45,6 +46,7 @@ SRCS_FILES	=	main.c\
 				utils/error.c\
 				utils/char_detection.c\
 				utils/token_list_functions.c\
+				utils/token_list_functions2.c\
 				utils/print_list.c\
 				builtins/utils/get_env.c\
 				builtins/utils/put_env.c\

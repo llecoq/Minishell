@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_flags.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:00:50 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/15 16:08:16 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:38:14 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,11 @@ static char	*check_after_redir(t_token *cpy, t_token *next_cmd)
 	return (NULL);
 }
 
+//turn_on_flag(IS_FILE, token); next token is redir
 void	set_next_flag(t_token *token, int redir_type)
 {
 	if (redir_type == TRUNC)
-		turn_on_flag(IS_FILE, token);//next token is redir
+		turn_on_flag(IS_FILE, token);
 	else if (redir_type == APPEND)
 		turn_on_flag(IS_FILE, token);
 	else if (redir_type == HEREDOC)
