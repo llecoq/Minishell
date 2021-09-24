@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/15 16:46:13 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:20:22 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	set_shell_var_to_null(t_shell *shell)
 	shell->input = NULL;
 	shell->envp = NULL;
 	shell->env_list = NULL;
+	shell->export_list = NULL;
 	shell->path = NULL;
 	shell->cmd_array = NULL;
 	shell->cmds_list = NULL;
