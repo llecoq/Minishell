@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 15:48:03 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:16:25 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	error_quit(t_shell *shell, int error_type, char *str)
 		errno = CMD_NOT_FOUND;
 		ft_printf(2, "minishell: %s: command not found\n", str);
 	}
-	if (error_type == SYSCALL_ERROR && str)
+	else if (error_type == SYSCALL_ERROR && str)
 	{
 		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
 		if (errno == ENOENT && g_exit_status == CMD_NOT_FOUND)
 			errno = CMD_NOT_FOUND;
 	}
-	if (error_type == IS_A_DIRECTORY)
+	else if (error_type == IS_A_DIRECTORY)
 	{
 		errno = IS_A_DIRECTORY;
 		ft_printf(2, "minishell: %s: is a directory\n", str);
@@ -74,9 +74,10 @@ void	err_clear(t_shell *shell, int error_type, char *str)
 	ft_printf(2, "\n");
 	clear_nonessential_memory(shell);
 	free_split_cmds_by_semicolons(shell);
-	//must stop current command and go back to prompt
 }
 
+//must stop current command and go back to prompt
+// else if (error_type == SYSCALL_ERROR) //errno pour les built-in
 void	error(t_shell *shell, int error_type, char *str)
 {
 	(void)shell;
@@ -91,7 +92,7 @@ void	error(t_shell *shell, int error_type, char *str)
 		g_exit_status = 1;
 		ft_printf(2, "minishell: %s: ambiguous redirect\n", str);
 	}
-	else if (error_type == SYSCALL_ERROR) //errno pour les built-in
+	else if (error_type == SYSCALL_ERROR)
 	{
 		g_exit_status = errno;
 		ft_printf(2, "%s\n", strerror(errno));
@@ -104,7 +105,6 @@ void	error(t_shell *shell, int error_type, char *str)
 		ft_printf(2, "minishell: %s: command not found\n", str);
 	else if (error_type == FILE_IS_DIR)
 		ft_printf(2, "minishell: %s: Is a directory\n", str);
-	//must stop current command and go back to prompt
 }
 
 char	*create_error_str(char *next_token)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_expand_file_name.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:22:08 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/20 14:02:54 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 16:14:01 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*search_and_expand_file_name(t_shell *shell, t_cmd *cmd, t_token *tk)
 {
 	char	*file_name;
 	char	*expanded_file_name;
-	
+
 	if (cmd->redir.file_name)
 		return (cmd->redir.file_name);
 	if (tk->redir == IS_FILE)

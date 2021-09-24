@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 18:10:35 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/24 15:48:03 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:13:16 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	process_input(t_shell *shell, int flag)
 			return ;
 		parse(shell);
 		if (&shell->cmd_array[0])
-			g_exit_status = evaluator(shell, shell->cmds_list, shell->nb_of_cmds);
+			g_exit_status = evaluator(shell, shell->cmds_list, \
+			shell->nb_of_cmds);
 		if (exit_failed(shell->cmds_list) || syntax_error(shell))
 			break ;
 		clear_nonessential_memory(shell);
