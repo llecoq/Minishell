@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_type_char.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 11:06:25 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/12 16:08:54 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:15:48 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,12 @@ void	print_char(t_printf *t_data)
 				ft_putchar('0', t_data);
 		ft_putchar(c, t_data);
 	}
+}
+
+int	print_nb_norm(t_printf *t_data)
+{
+	if (t_data->spec == 'p')
+		return (t_data->width - 2);
+	else
+		return (t_data->width);
 }

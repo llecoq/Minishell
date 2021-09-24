@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 10:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/12 16:08:42 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 15:16:01 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ int				hexa_len(unsigned long long nb);
 char			*ft_itoabase(unsigned long long nb, char *base);
 void			print_perc(t_printf *t_data);
 void			put_0x(t_printf *t_data);
+int				print_nb_norm(t_printf *t_data);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_conversion.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 11:12:42 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/12 16:07:53 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 14:47:00 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void	find_width(t_printf *t_data, int *i, char *format)
 		nb = va_arg(t_data->parg, int);
 		if (nb < 0)
 			t_data->flag = '-';
-		t_data->width = ((nb >= 0) ? nb : (nb * -1));
+		if (nb >= 0)
+			t_data->width = nb;
+		else
+			t_data->width = nb * -1;
 		*i += 1;
 	}
 	else if (ft_isdigit(format[*i]) == 1)
