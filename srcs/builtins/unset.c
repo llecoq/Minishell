@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/28 18:42:24 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/20 14:40:51 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 13:53:32 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,26 @@ static void	unset_variable(t_shell *shell, t_list *env_list, char *name)
 // errno set to indicate the cause of the error.
 int	ft_unset(t_shell *shell, char **argv)
 {
+	int	i;
+
 	if (invalid_args_or_options(argv, "unset", UNSET))
 		return (INVALID_ARGS_OR_OPTIONS);
 	if (!argv[1])
 		return (EXIT_SUCCESS);
-	if (argv[1] && valid_name(argv[1], "unset"))
+	i = 0;
+	while (argv[++i])
 	{
-		unset_variable(shell, shell->env_list, argv[1]);
-		unset_variable(shell, shell->export_list, argv[1]);
-	}
-	else
-	{
-		ft_printf(2, "minishell: unset: `%s': not a valid identifier\n"\
-, argv[1]);
-		return (EXIT_FAILURE);
+		if (valid_name(argv[i], "unset"))
+		{
+			unset_variable(shell, shell->env_list, argv[i]);
+			unset_variable(shell, shell->export_list, argv[i]);
+		}
+		else
+		{
+			ft_printf(2, "minishell: unset: `%s': not a valid identifier\n"\
+, argv[i]);
+			return (EXIT_FAILURE);
+		}
 	}
 	store_environment_tab(shell, shell->env_list, env_size(shell->env_list));
 	return (EXIT_SUCCESS);
