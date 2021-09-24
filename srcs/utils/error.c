@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/23 15:41:09 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 13:32:12 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ happens bc of multiline that we do not have to handle
 */
 void	err_clear(t_shell *shell, int error_type, char *str)
 {
-	if (error_type == NO_CLOSING_QUOTE)
+	if (error_type == -SINGLE_QUOTE || error_type == -DOUBLE_QUOTE)
 	{
 		ft_printf(2, "minishell: unexpected EOF while looking for matching\
- `''\n");
+ `%c'\n", error_type *= -1);
 		ft_printf(2, "minishell: syntax error: unexpected end of file");
 		exit_status = 258;
 	}

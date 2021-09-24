@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/15 16:27:17 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 13:34:46 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//return -closing_quote to print the error message with corresponding quote
 static int	count_commands(const char *input)
 {
 	int		i;
@@ -31,7 +32,7 @@ static int	count_commands(const char *input)
 			while (input[i] != closing_quote && input[i])
 				i++;
 			if (!input[i])
-				return (NO_CLOSING_QUOTE);
+				return (-closing_quote);
 		}
 		i++;
 	}
@@ -145,11 +146,10 @@ void	tokenize(t_shell *shell, const char *input)
 	if (finished_by_spaces(input))
 		return ;
 	nb_of_cmds = count_commands(input);
-	// ft_printf(1, "nb of cmds = %d\n", nb_of_cmds);
 	shell->nb_of_cmds = nb_of_cmds;
-	if (nb_of_cmds == NO_CLOSING_QUOTE)
+	if (nb_of_cmds == -SINGLE_QUOTE || nb_of_cmds == -DOUBLE_QUOTE)
 	{
-		err_clear(shell, NO_CLOSING_QUOTE, NULL);
+		err_clear(shell, nb_of_cmds, NULL);
 		return ;
 	}
 	split_into_tokens(nb_of_cmds, input, shell);
