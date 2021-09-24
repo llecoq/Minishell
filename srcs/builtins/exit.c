@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 15:11:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/24 16:02:27 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:08:13 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	ft_exit(t_shell *shell, char **argv)
 {
 	if (argv && ft_strncmp(argv[0], "exit", 5) == 0)
 	{
-		ft_printf(STDOUT_FILENO, "exit\n");
+		if (shell->execute_minishell_from_str == FALSE)
+			ft_printf(STDOUT_FILENO, "exit\n");
 		if (argv[1] && arg_is_numeric(argv[1]) && process_numeric_arg(argv))
 			return (EXIT_FAILURE);
 		else if (argv[1] && !arg_is_numeric(argv[1]))
