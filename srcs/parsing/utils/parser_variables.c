@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:50:37 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/23 14:58:04 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 13:10:39 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	is_not_a_var(char **str, const int i, int *move_i)
 	if ((*str)[i + 1] == ' ' || (*str)[i + 1] == '\0')
 		*move_i = 1;
 	else if (ft_isdigit((*str)[i + 1]))
-		ft_memmove(*str + i, *str + i + 2, ft_strlen(*str));
+		ft_memmove(*str + i, *str + i + 2, strlen(*str + i) - 1); //OKKKKK
 	else if (is_quote((*str)[i + 1]))
 		*move_i = 1;
 	else if (is_other_spe_char_except_question_mark((*str)[i + 1]))
@@ -115,9 +115,9 @@ static int	insert_var_in_str(char **str, const int i, t_shell *shell)
 		return (j);
 	move_j_to_end_of_var_name(*str, i, &j);
 	value = get_var_value(i, j, *str, shell);
-	if (!value || *value == '\0') //if !var, replace var name by nothing in str
+	if (!value || *value == '\0')
 	{
-		ft_memmove(*str + i, *str + i + j, ft_strlen(*str));
+		ft_memmove(*str + i, *str + i + j, strlen(*str + i) - j + 1);
 		return (0);
 	}
 	//dst len = src_len + diff between var name and var value + 1 for \0
@@ -178,13 +178,9 @@ static void	interpret_string(t_shell *shell, char **tk_cpy, int *i)
 		else
 			(*i)++;
 	}
-	// dprintf(2, "tk_cpy[i] = %c, i = %d\n", (*tk_cpy)[*i], *i);
 	if ((*tk_cpy)[*i])//if we are not yet at the end of string
 		(*i)++;//goes after double quote
 }
-
-			// if ((*tk_cpy)[*i] == SINGLE_QUOTE)
-				// return ;
 				
 static void	do_not_interpret_string(char *tk_cpy, int *i)
 {
@@ -221,20 +217,17 @@ static int	dollar_sign_followed_by_quote(char *tk_cpy, const int i)
 	return (0);
 }
 
-char	*process_variables(char *token, t_shell *shell) 
+char	*process_variables(char *tk_cpy, t_shell *shell) 
 {
 	int			i;
-	char		*tk_cpy;
 	
-	tk_cpy = ft_strdup(token);
 	if (process_tilde(shell, &i, &tk_cpy) == TRUE)
 		return (tk_cpy);
-	//au dessus on peux laisser tel quel, ne fait pas appel a des fonctions que j'ai implemente
 	i = 0;
 	while (tk_cpy[i])
 	{
 		if (dollar_sign_followed_by_quote(tk_cpy, i))
-			ft_memmove(tk_cpy + i, tk_cpy + i + 1, ft_strlen(tk_cpy));
+			ft_memmove(tk_cpy + i, tk_cpy + i + 1, strlen(tk_cpy + i));
 		else if (tk_cpy[i] == '$' && tk_cpy[i + 1])
 			i += insert_var_in_str(&tk_cpy, i, shell);
 		else if (tk_cpy[i] == DOUBLE_QUOTE)
@@ -243,7 +236,6 @@ char	*process_variables(char *token, t_shell *shell)
 			do_not_interpret_string(tk_cpy, &i);
 		else if (tk_cpy[i])
 			i++;
-		// dprintf(1, "ICI\n");
 	}
 	return (tk_cpy);
 }
@@ -252,8 +244,9 @@ void	replace_token_with_var(char **token, t_shell *shell)
 {
 	char		*tk_cpy;
 	
-	tk_cpy = process_variables(*token, shell);
-	free(*token);
+	tk_cpy = ft_strdup(*token);
+	tk_cpy = process_variables(tk_cpy, shell);
+	free_set_null((void **)token);
 	*token = tk_cpy;
 }
 
