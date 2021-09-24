@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 16:16:25 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:23:54 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@
 // pipeline.
 void	error_quit(t_shell *shell, int error_type, char *str)
 {
+	errno = error_type;
 	if (error_type == CMD_NOT_FOUND)
-	{
-		errno = CMD_NOT_FOUND;
 		ft_printf(2, "minishell: %s: command not found\n", str);
-	}
 	else if (error_type == SYSCALL_ERROR && str)
 	{
 		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
@@ -29,17 +27,11 @@ void	error_quit(t_shell *shell, int error_type, char *str)
 			errno = CMD_NOT_FOUND;
 	}
 	else if (error_type == IS_A_DIRECTORY)
-	{
-		errno = IS_A_DIRECTORY;
 		ft_printf(2, "minishell: %s: is a directory\n", str);
-	}
-	if (error_type == FILENAME_ARGUMENT_REQUIRED)
-	{
-		errno = FILENAME_ARGUMENT_REQUIRED;
+	else if (error_type == FILENAME_ARGUMENT_REQUIRED)
 		ft_printf(STDERR_FILENO, "minishell: .: filename argument required\n\
 .: usage: . filename [arguments]\n");
-	}
-	if (error_type == AMBIGUOUS_REDIRECT)
+	else if (error_type == AMBIGUOUS_REDIRECT)
 	{
 		errno = 1;
 		ft_printf(STDERR_FILENO, "minishell: %s: ambiguous redirect\n", str);
@@ -81,21 +73,20 @@ void	err_clear(t_shell *shell, int error_type, char *str)
 void	error(t_shell *shell, int error_type, char *str)
 {
 	(void)shell;
-	if (error_type == SYSCALL_ERROR && str)
+	if (error_type == SYSCALL_ERROR)
 	{
 		g_exit_status = errno;
-		ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
-		return ;
+		if (str)
+		{
+			ft_printf(2, "minishell: %s: %s\n", str, strerror(errno));
+			return ;
+		}
+		ft_printf(2, "%s\n", strerror(errno));
 	}
 	else if (error_type == AMBIGUOUS_REDIRECT)
 	{
 		g_exit_status = 1;
 		ft_printf(2, "minishell: %s: ambiguous redirect\n", str);
-	}
-	else if (error_type == SYSCALL_ERROR)
-	{
-		g_exit_status = errno;
-		ft_printf(2, "%s\n", strerror(errno));
 	}
 	else if (error_type == REDIR_ISNT_1_WORD)
 		ft_printf(2, "minishell: %s: ambiguous redirect\n", str);
