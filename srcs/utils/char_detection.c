@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 10:40:29 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/23 14:33:40 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:06:17 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	is_word_char(int c)
 
 //A word begins with a letter or underscore and consists solely of letters,
 //numbers, and underscores
-
 int	is_word(const char *str)
 {
 	int		i;
@@ -78,12 +77,11 @@ int	is_word(const char *str)
 	return (0);
 }
 
-int is_other_spe_char_except_question_mark(char c)
+int	is_other_spe_char_except_question_mark(char c)
 {
-	if (c == '!' || (c >= '#' && c <= '&') || (c >= '(' && c <= '/')\
-	|| (c >= ':' && c <= '>') || c == '@' || (c >= '[' && c <= '`')\
+	if (c == '!' || (c >= '#' && c <= '&') || (c >= '(' && c <= '/') \
+	|| (c >= ':' && c <= '>') || c == '@' || (c >= '[' && c <= '`') \
 	|| (c >= '{' && c <= '~'))
 		return (1);
 	return (0);
 }
-

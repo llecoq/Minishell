@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 13:34:46 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:09:13 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ static void	split_into_tokens(int nb_of_cmds, const char *input, t_shell *shell)
 		token = return_token(i, input, shell);
 		add_token_tail(&shell->cmd_array[j], create_new_token(token, shell));
 		i += ft_strlen(token);
-		redir_type = is_redirection(return_tail_token(shell->cmd_array[j])->word\
-, 0);
+		redir_type = \
+		is_redirection(return_tail_token(shell->cmd_array[j])->word, 0);
 		if (redir_type == PIPE)
 			j++;
 		free_set_null((void **)&token);
@@ -128,10 +128,10 @@ static void	split_into_tokens(int nb_of_cmds, const char *input, t_shell *shell)
 //Cmd_array is finished by NULL for easier iterations
 //One commands end at \n or at a pipe
 //Tokens are either :
-//		- redirection > >> < << | that does not need to be separated from other
-//		letters by any space to be recognized as such
-//		- words that are separated by space, though spaces do not split a word if
-//		surrounded by "" or ''  ex : ici"la lune"rouge   == one token only
+//	- redirection > >> < << | that does not need to be separated from other
+//	letters by any space to be recognized as such
+//	- words that are separated by space, though spaces do not split a word if
+//	surrounded by "" or ''  ex : ici"la lune"rouge   == one token only
 void	tokenize(t_shell *shell, const char *input)
 {
 	int		nb_of_cmds;
@@ -153,6 +153,4 @@ void	tokenize(t_shell *shell, const char *input)
 		return ;
 	}
 	split_into_tokens(nb_of_cmds, input, shell);
-	// print_cmd_array(shell->cmd_array, 1); // A SUPPRIMER
-	//ft_printf(1, "pointer shell->cmd_array = %p\n", shell->cmd_array);//verify that is null
 }

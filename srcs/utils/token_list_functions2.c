@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 15:40:09 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 15:46:43 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:04:17 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	erase_token(t_token **token, t_token **head, t_shell *shell)
 		prev->next = next;
 	if (next)
 		next->previous = prev;
-	free((*token)->word); // AAAAAAAAAAAAAAAAAAAAAAAAAAH
+	free((*token)->word);
 	(*token)->word = NULL;
 	free_set_null((void **)token);
 	(*token) = next;

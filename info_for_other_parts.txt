@@ -419,3 +419,47 @@ OK	bash-3.2$ cat hoho <txt.txt < $VAR
 		txt.txt
 	montre que les fichiers de redir sont crees avant meme que l'existence de la cmd soit checkee
 */
+
+==============================================================================
+
+void	print_cmd_array(t_token **cmd_array, int flags) //TO DELETE
+{
+	int				i;
+	int				x;
+	char			*redir_type;
+	t_token			*cpy;
+
+	i = 0;
+	ft_printf(1, "===== Print cmd array =====\n");
+	while (cmd_array[i])
+	{
+		cpy = cmd_array[i];
+		x = 0;
+		ft_printf(1, "%d\n", i);
+		while (cpy)
+		{
+			ft_printf(1, "cmd[%d], ", i);
+			if (flags == 1)
+			{
+				if (cpy->cmd)
+					ft_printf(1, "flag : CMD, ");
+				if (cpy->arg)
+					ft_printf(1, "flag : ARG, ");
+				if (cpy->redir)
+				{
+					redir_type = find_redir_type(cpy->redir);
+					ft_printf(1, "flag : %s, ", redir_type);
+				}
+			}
+			if (flags == 2)
+			{
+				ft_printf(2, "%p\n", cpy->word);
+			}
+			ft_printf(1, "token n*%d = |%s|\n", x, cpy->word);
+			cpy = cpy->next;
+			x++;
+		}
+		i++;
+	}
+	ft_printf(1, "====^ Print cmd array ^====\n");
+}

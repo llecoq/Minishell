@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:41:28 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/23 14:19:48 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 16:05:32 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	free_split_cmds_by_semicolons(t_shell *shell)
 	if (shell->split_cmds_by_semicolons)
 		ft_lstclear(&shell->split_cmds_by_semicolons, del);
 }
-
 
 void	free_cmd_array(t_token **cmd_array)
 {
