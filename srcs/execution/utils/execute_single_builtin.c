@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 17:14:39 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/28 15:45:03 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/28 16:20:27 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	execute_builtin_and_exit(t_shell *shell, t_cmd *cmd, char **argv)
 {
 	if (cmd->argv)
+	{
+		cmd->argv[0] = "child_process";
 		cmd->ft_builtin(shell, argv);
+	}
 	ft_exit(shell, argv);
 }
 
