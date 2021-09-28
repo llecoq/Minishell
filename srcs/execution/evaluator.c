@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 17:14:56 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/24 15:48:03 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/28 15:18:55 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	evaluator(t_shell *shell, t_cmd *cmd, int nb_of_cmds)
 	int		i;
 	pid_t	pid;
 
-	if (nb_of_cmds == 1 && find_builtin_function(cmd->argv[0], cmd))
+	if (nb_of_cmds == 1 && find_builtin_function(cmd->argv, cmd))
 		return (execute_single_builtin_cmd(shell, cmd, cmd->argv));
 	i = -1;
 	while (++i < nb_of_cmds && cmd)

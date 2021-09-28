@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 17:39:23 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/18 17:16:35 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/28 15:11:42 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	process_input(t_shell *shell, int flag);
 
 int		execute_single_builtin_cmd(t_shell *shell, t_cmd *cmd, char **argv);
 int		redir_single_builtin_cmd(char *cmd_name, char *argv);
-int		find_builtin_function(char *cmd_name, t_cmd *cmd);
+int		find_builtin_function(char **argv, t_cmd *cmd);
 int		last_child_status(pid_t last_child_pid);
 int		path_is_unset(t_shell *shell, t_list **path_list);
 int		path_is_not_absolute(char **argv, t_list **path_list);

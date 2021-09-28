@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:54:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 17:32:38 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/28 15:46:49 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void	prompt(t_shell *shell)
 		get_user_dir(shell);
 	shell->input = readline(shell->user_dir);
 	if (!shell->input)
+	{
+		shell->flush_stdin = TRUE;
 		ft_exit(shell, NULL);
+	}
 	if (*shell->input)
 		add_history(shell->input);
 }

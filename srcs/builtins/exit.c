@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 15:11:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/24 16:08:13 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/28 15:47:30 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_exit(t_shell *shell, char **argv)
 			g_exit_status = 255;
 		}
 	}
-	if (argv == NULL)
+	if (argv == NULL && shell->flush_stdin == TRUE)
 		ft_printf(STDOUT_FILENO, "exit\n");
 	clear_memory(shell);
 	exit(g_exit_status);

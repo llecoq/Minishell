@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 17:19:59 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/18 18:34:36 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/28 15:38:10 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	execution_child_process(t_shell *shell, t_cmd *cmd)
 	create_redirection(shell, cmd, cmd->token_list, CHILD_PROCESS);
 	dup_input_redirection(shell, cmd);
 	dup_output_redirection(shell, cmd);
-	if (find_builtin_function(cmd->argv[0], cmd))
+	if (find_builtin_function(cmd->argv, cmd))
 		return (execute_builtin_and_exit(shell, cmd, cmd->argv));
 	error_management(shell, argv, &path_list);
 	if (path_is_a_directory(*argv))
