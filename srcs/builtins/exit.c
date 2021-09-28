@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 15:11:47 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/28 16:20:49 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/28 16:43:39 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ static int	process_numeric_arg(char **argv)
 // ft_printf(STDOUT_FILENO, "exit\n"); a enlever si minishell -c
 int	ft_exit(t_shell *shell, char **argv)
 {
-	if (argv)
+	if (argv && ft_strncmp(argv[0], "exit", 5) == 0)
 	{
-		if (ft_strncmp(argv[0], "exit", 5) == 0)
-			if (shell->execute_minishell_from_str == FALSE)
-				ft_printf(STDOUT_FILENO, "exit\n");
+		if (shell->execute_minishell_from_str == FALSE
+			&& shell->child_process == FALSE)
+			ft_printf(STDOUT_FILENO, "exit\n");
 		if (argv[1] && arg_is_numeric(argv[1]) && process_numeric_arg(argv))
 			return (EXIT_FAILURE);
 		else if (argv[1] && !arg_is_numeric(argv[1]))

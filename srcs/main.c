@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:47:25 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/28 15:47:14 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/28 16:42:14 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	set_shell_var_to_null(t_shell *shell)
 	shell->split_cmds_by_semicolons = NULL;
 	shell->execute_minishell_from_str = FALSE;
 	shell->flush_stdin = FALSE;
+	shell->child_process = FALSE;
 	g_exit_status = 0;
 }
 

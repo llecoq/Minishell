@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:14:46 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/28 15:47:00 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/28 16:41:52 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_shell
 	int				nb_of_cmds;
 	int				execute_minishell_from_str;
 	int				flush_stdin;
+	int				child_process;
 }						t_shell;
 
 enum	e_redirections
