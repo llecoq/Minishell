@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 13:48:51 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 16:39:16 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/28 16:10:32 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	tokenize(t_shell *shell, const char *input)
 		return ;
 	if (input[0] == '|' || input[0] == ';')
 	{
+		((char *)input)[1] = '\0';
 		err_clear(shell, NOTHING_BEFORE_REDIR, (char *)input);
 		return ;
 	}

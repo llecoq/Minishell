@@ -6,7 +6,7 @@
 /*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 16:00:50 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 15:45:02 by abonnel          ###   ########.fr       */
+/*   Updated: 2021/09/28 16:09:57 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ static char	*check_after_redir(t_token *cpy, t_token *next_cmd)
 {
 	if (cpy->redir == PIPE && next_cmd == NULL)
 		return (create_error_str("newline"));
+	else if (cpy->redir == PIPE && next_cmd->word[0] == '|')
+		return (create_error_str("|"));
 	else if (cpy->redir == SEMICOLON)
 		return (NULL);
 	else if (cpy->redir != PIPE)
