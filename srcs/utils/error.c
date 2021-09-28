@@ -6,13 +6,12 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 16:23:54 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/24 16:26:37 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// revoir valeur de retour erreur
 // $? should expand to the exit status of the most recently executed foreground
 // pipeline.
 void	error_quit(t_shell *shell, int error_type, char *str)

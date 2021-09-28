@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 15:43:09 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/24 15:53:08 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/28 14:44:10 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	append_value_to_var(t_shell *shell, char **string, char *var, int len)
 	var_len = ft_strlen(var);
 	dst_len = var_len + len - i;
 	(*string) = calloc_sh(shell, dst_len);
-	ft_memmove((*string), var, len);
+	ft_memmove((*string), var, var_len);
 	while (len > i + 1)
 	{
 		(*string)[dst_len - 2] = str_cpy[len - 1];
