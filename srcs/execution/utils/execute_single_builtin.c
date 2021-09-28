@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_single_builtin.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abonnel <abonnel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 17:14:39 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/28 16:45:31 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/28 16:57:57 by abonnel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	execute_builtin_and_exit(t_shell *shell, t_cmd *cmd, char **argv)
 // if (cmd->ft_builtin == NULL) si single builtin et redir failed
 int	execute_single_builtin_cmd(t_shell *shell, t_cmd *cmd, char **argv)
 {
-	// shell->child_process = TRUE;
 	cmd->token_list = *(shell->cmd_array);
 	create_redirection(shell, cmd, cmd->token_list, SINGLE_BUILTIN);
 	if (cmd->ft_builtin == NULL && cmd->argv)
