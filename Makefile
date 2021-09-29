@@ -6,7 +6,7 @@
 #    By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/07 16:11:01 by abonnel           #+#    #+#              #
-#    Updated: 2021/09/28 16:35:22 by llecoq           ###   ########.fr        #
+#    Updated: 2021/09/29 15:26:00 by llecoq           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,6 @@ CC		= gcc
 RM		= rm -rf
 
 CFLAGS	= -Wall -Wextra -Werror  
-# -g3 -fsanitize=address
 
 DIR		=	.objs/parsing\
 			.objs/parsing/utils\
@@ -93,7 +92,9 @@ DIR		=	.objs/parsing\
 			.objs/prompt\
 			.objs/utils
 
-$(OBJSPATH)%.o:		$(SRCSPATH)%.c includes/minishell.h libft/libft.h libft/libft.a
+$(OBJSPATH)%.o:		$(SRCSPATH)%.c includes/minishell.h includes/builtin.h\
+			 includes/evaluator.h includes/prompt.h includes/utils.h\
+			 libft/libft.h libft/libft.a
 			@mkdir -p $(OBJ_PATH) $(DIR)
 			$(CC) $(CFLAGS) -c $< -o $@ -I includes/ -I libft/\
 			-I /Users/$(USER)/.brew/opt/readline/include
