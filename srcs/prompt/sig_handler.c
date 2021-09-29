@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 12:12:40 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/12 18:33:09 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/29 10:22:00 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	sig_handler(int signum)
 	{
 		rl_on_new_line();
 		rl_redisplay();
+		// g_exit_status = 131;
 	}
 }
 

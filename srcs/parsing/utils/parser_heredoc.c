@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 12:55:03 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/17 17:46:18 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/29 15:22:11 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	interpret_and_write_into_fd(int fd, char *input, t_shell *shell)
 	replace_token_with_var(&input, shell);
 	write(fd, input, ft_strlen(input));
 	write(fd, "\n", 1);
+	free(input);
 }
 
 static void	heredoc_prompt(t_shell *shell, char *limiter, int fd)

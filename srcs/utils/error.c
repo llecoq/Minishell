@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:25:16 by abonnel           #+#    #+#             */
-/*   Updated: 2021/09/24 16:26:37 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/29 15:21:05 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 // pipeline.
 void	error_quit(t_shell *shell, int error_type, char *str)
 {
-	errno = error_type;
+	if (error_type != SYSCALL_ERROR)
+		errno = error_type;
 	if (error_type == CMD_NOT_FOUND)
 		ft_printf(2, "minishell: %s: command not found\n", str);
 	else if (error_type == SYSCALL_ERROR && str)

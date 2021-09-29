@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 17:19:59 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/28 15:38:10 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/29 10:06:38 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	execute_file(t_shell *shell, t_list **path_list, char ***argv)
 	execve(file.file, (*argv), envp);
 	if (file.arg_type == IS_PATH)
 	{
+		g_exit_status = CMD_NOT_FOUND;
 		errno = ENOENT;
 		error_quit(shell, SYSCALL_ERROR, (**argv));
 	}
