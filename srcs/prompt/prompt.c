@@ -6,7 +6,7 @@
 /*   By: llecoq <llecoq@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 10:54:12 by llecoq            #+#    #+#             */
-/*   Updated: 2021/09/28 15:46:49 by llecoq           ###   ########.fr       */
+/*   Updated: 2021/09/29 16:36:57 by llecoq           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	prompt(t_shell *shell)
 	if (!shell->input)
 	{
 		shell->flush_stdin = TRUE;
+		g_exit_status = 1;
 		ft_exit(shell, NULL);
 	}
 	if (*shell->input)
