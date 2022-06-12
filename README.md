@@ -30,6 +30,8 @@
 
 Minishell : just use it as your regular bash.
 
+<img src="https://github.com/llecoq/minishell/blob/master/assets/minishell.png" alt="minishell" >
+
 ## What's included
 
 ```
