@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://42lyon.fr/">
-    <img src="https://github.com/llecoq/minishell/blob/master/assets/final%20grade.png" alt="minishell" width=200 height=170>
+    <img src="./assets/final_grade.png" alt="minishell" width=200 height=170>
   </a>
 
   <h2 align="center">minishell</h2>
@@ -14,7 +14,7 @@
     <br>
     /!\ SUBJECT LINKED IS MAY DIFFER FROM THE ONE USED FOR THIS PROGRAM /!\
     <br>
-    <a href="https://github.com/llecoq/pipex/blob/master/assets/en.subject.pdf">English Subject </a>
+    <a href="./assets/en.subject.pdf">English Subject </a>
   </p>
 </p>
 
@@ -41,7 +41,7 @@ run program :
 Minishell : just use it as your regular bash.
 
 
-<img src="https://github.com/llecoq/minishell/blob/master/assets/minishell.png" alt="minishell" >
+<img src="./assets/minishell.png" alt="minishell" >
 
 ## What's included
 
